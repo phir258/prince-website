@@ -6,55 +6,168 @@
   <title>Prince Website</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #111827, #2563eb);
+      background: #0f172a;
       color: white;
+    }
+
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #111827;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0 0 15px;
+      font-size: 32px;
+    }
+
+    nav button {
+      margin: 5px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 20px;
+      background: #2563eb;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      transform: scale(1.05);
+    }
+
+    .page {
+      display: none;
+      min-height: 80vh;
+      padding: 50px 20px;
       text-align: center;
     }
 
-    .box {
-      padding: 80px 20px;
+    .page.active {
+      display: block;
     }
 
-    h1 {
-      font-size: 50px;
-      margin-bottom: 10px;
+    .card {
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 20px;
+      background: #1e293b;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      font-size: 35px;
+      margin-bottom: 15px;
     }
 
     p {
-      font-size: 20px;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 30px;
       font-size: 18px;
-      cursor: pointer;
-      background: white;
-      color: #2563eb;
+      line-height: 1.6;
     }
 
-    button:hover {
-      transform: scale(1.05);
+    .big {
+      font-size: 50px;
+    }
+
+    .contact {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 25px;
+      background: #22c55e;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="box">
+  <header>
     <h1>👑 PRINCE</h1>
-    <p>Welcome to my first website 🚀</p>
-    <p>Gaming • AI • Technology</p>
 
-    <button onclick="alert('Welcome to Prince Website! 👑')">
-      Click Me
-    </button>
-  </div>
+    <nav>
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('about')">About</button>
+      <button onclick="showPage('gaming')">Gaming</button>
+      <button onclick="showPage('ai')">AI</button>
+      <button onclick="showPage('contact')">Contact</button>
+    </nav>
+  </header>
+
+
+  <section id="home" class="page active">
+    <div class="card">
+      <div class="big">👑</div>
+      <h2>Welcome to Prince</h2>
+      <p>Gaming • AI • Technology</p>
+      <p>यह मेरी अपनी वेबसाइट है 🚀</p>
+    </div>
+  </section>
+
+
+  <section id="about" class="page">
+    <div class="card">
+      <h2>👤 About Me</h2>
+      <p>नमस्ते! मेरा नाम Prince है।</p>
+      <p>मुझे Gaming, AI और Technology में रुचि है।</p>
+    </div>
+  </section>
+
+
+  <section id="gaming" class="page">
+    <div class="card">
+      <h2>🎮 Gaming</h2>
+      <p>यहाँ मेरे Gaming से जुड़े कंटेंट और जानकारी दिखाई जाएगी।</p>
+      <p>🔥 Free Fire • Gaming Videos • Gaming Updates</p>
+    </div>
+  </section>
+
+
+  <section id="ai" class="page">
+    <div class="card">
+      <h2>🤖 AI</h2>
+      <p>यहाँ AI से जुड़े मेरे प्रोजेक्ट और जानकारी दिखाई जाएगी।</p>
+      <p>🚀 AI Videos • AI Tools • Technology</p>
+    </div>
+  </section>
+
+
+  <section id="contact" class="page">
+    <div class="card">
+      <h2>📞 Contact</h2>
+      <p>मुझसे संपर्क करने के लिए नीचे दिए गए बटन का इस्तेमाल करें।</p>
+
+      <a class="contact" href="mailto:your@email.com">
+        Contact Me
+      </a>
+    </div>
+  </section>
+
+
+  <script>
+    function showPage(pageId) {
+
+      let pages = document.querySelectorAll(".page");
+
+      pages.forEach(function(page) {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+    }
+  </script>
 
 </body>
-  </html>
+</html>
