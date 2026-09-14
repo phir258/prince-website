@@ -3,171 +3,271 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prince Website</title>
+  <title>Prince Wallet</title>
 
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
+      background: #f2f4f7;
+      color: #222;
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
-      background: #111827;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    header h1 {
-      margin: 0 0 15px;
-      font-size: 32px;
-    }
-
-    nav button {
-      margin: 5px;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 20px;
-      background: #2563eb;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    nav button:hover {
-      transform: scale(1.05);
-    }
-
-    .page {
-      display: none;
-      min-height: 80vh;
-      padding: 50px 20px;
-      text-align: center;
-    }
-
-    .page.active {
-      display: block;
+    .container {
+      max-width: 420px;
+      margin: auto;
+      min-height: 100vh;
+      padding: 25px 18px;
     }
 
     .card {
-      max-width: 600px;
-      margin: auto;
-      padding: 30px;
-      border-radius: 20px;
-      background: #1e293b;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      background: white;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-top: 25px;
     }
 
-    h2 {
-      font-size: 35px;
-      margin-bottom: 15px;
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.6;
+    .welcome {
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
     }
 
-    .big {
-      font-size: 50px;
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
     }
 
-    .contact {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 12px 25px;
-      background: #22c55e;
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
       color: white;
-      text-decoration: none;
-      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .balance {
+      background: #111;
+      color: white;
+      padding: 22px;
+      border-radius: 16px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .balance h2 {
+      font-size: 32px;
+      margin-top: 8px;
+    }
+
+    .bonus {
+      background: #fff4d6;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #666;
+      margin-top: 12px;
+      text-align: center;
+      line-height: 1.5;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>👑 PRINCE</h1>
+  <div class="container">
 
-    <nav>
-      <button onclick="showPage('home')">Home</button>
-      <button onclick="showPage('about')">About</button>
-      <button onclick="showPage('gaming')">Gaming</button>
-      <button onclick="showPage('ai')">AI</button>
-      <button onclick="showPage('contact')">Contact</button>
-    </nav>
-  </header>
+    <!-- LOGIN -->
+    <div id="loginPage" class="card">
+      <h1>Prince Wallet</h1>
+      <p class="welcome">Login / Register</p>
 
+      <input type="text" id="mobile" placeholder="Mobile Number">
+      <input type="password" id="password" placeholder="Password">
 
-  <section id="home" class="page active">
-    <div class="card">
-      <div class="big">👑</div>
-      <h2>Welcome to Prince</h2>
-      <p>Gaming • AI • Technology</p>
-      <p>यह मेरी अपनी वेबसाइट है 🚀</p>
+      <button onclick="login()">Login</button>
+
+      <p class="note">
+        Demo account system — पहली बार login पर ₹300 welcome bonus.
+      </p>
     </div>
-  </section>
 
 
-  <section id="about" class="page">
-    <div class="card">
-      <h2>👤 About Me</h2>
-      <p>नमस्ते! मेरा नाम Prince है।</p>
-      <p>मुझे Gaming, AI और Technology में रुचि है।</p>
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden">
+
+      <h1>Welcome Prince 👋</h1>
+
+      <div class="balance">
+        <p>Wallet Balance</p>
+        <h2>₹<span id="balance">300</span></h2>
+      </div>
+
+      <div class="bonus">
+        🎁 <b>Welcome Bonus</b><br>
+        पहली बार login करने पर आपको ₹300 bonus मिला है।
+      </div>
+
+      <button onclick="showDeposit()">Deposit</button>
+      <button onclick="showWithdrawal()">Withdrawal</button>
+
+      <p class="note">
+        Withdrawal eligibility के लिए कम से कम ₹100 अपना balance add करना आवश्यक है।
+      </p>
+
     </div>
-  </section>
 
 
-  <section id="gaming" class="page">
-    <div class="card">
-      <h2>🎮 Gaming</h2>
-      <p>यहाँ मेरे Gaming से जुड़े कंटेंट और जानकारी दिखाई जाएगी।</p>
-      <p>🔥 Free Fire • Gaming Videos • Gaming Updates</p>
+    <!-- DEPOSIT -->
+    <div id="depositPage" class="card hidden">
+      <h2>Deposit</h2>
+      <p style="margin-top:10px;">
+        यह अभी demo page है।
+      </p>
+
+      <input type="number" id="depositAmount" placeholder="Amount">
+
+      <button onclick="demoDeposit()">Demo Add ₹100</button>
+      <button onclick="backHome()">Back</button>
+
+      <p class="note">
+        असली payment अभी connected नहीं है।
+      </p>
     </div>
-  </section>
 
 
-  <section id="ai" class="page">
-    <div class="card">
-      <h2>🤖 AI</h2>
-      <p>यहाँ AI से जुड़े मेरे प्रोजेक्ट और जानकारी दिखाई जाएगी।</p>
-      <p>🚀 AI Videos • AI Tools • Technology</p>
+    <!-- WITHDRAWAL -->
+    <div id="withdrawalPage" class="card hidden">
+      <h2>Withdrawal</h2>
+
+      <p id="withdrawMessage" style="margin-top:15px; line-height:1.5;"></p>
+
+      <input type="text" placeholder="UPI ID / Payment Details">
+
+      <button onclick="requestWithdrawal()">Withdrawal Request</button>
+      <button onclick="backHome()">Back</button>
+
+      <p class="note">
+        Demo version में वास्तविक payment नहीं भेजी जाएगी।
+      </p>
     </div>
-  </section>
+
+  </div>
 
 
-  <section id="contact" class="page">
-    <div class="card">
-      <h2>📞 Contact</h2>
-      <p>मुझसे संपर्क करने के लिए नीचे दिए गए बटन का इस्तेमाल करें।</p>
+<script>
 
-      <a class="contact" href="mailto:your@email.com">
-        Contact Me
-      </a>
-    </div>
-  </section>
+  let balance = 300;
+  let deposited = false;
 
+  function login() {
 
-  <script>
-    function showPage(pageId) {
+    let mobile = document.getElementById("mobile").value;
+    let password = document.getElementById("password").value;
 
-      let pages = document.querySelectorAll(".page");
-
-      pages.forEach(function(page) {
-        page.classList.remove("active");
-      });
-
-      document.getElementById(pageId).classList.add("active");
+    if (mobile === "" || password === "") {
+      alert("Mobile number और password डालें।");
+      return;
     }
-  </script>
+
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+
+    document.getElementById("balance").innerText = balance;
+  }
+
+
+  function showDeposit() {
+
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("depositPage").classList.remove("hidden");
+  }
+
+
+  function demoDeposit() {
+
+    let amount = Number(document.getElementById("depositAmount").value);
+
+    if (amount < 100) {
+      alert("कम से कम ₹100 डालें।");
+      return;
+    }
+
+    balance += amount;
+    deposited = true;
+
+    document.getElementById("balance").innerText = balance;
+
+    alert("Demo में ₹" + amount + " balance में add हो गया।");
+
+    backHome();
+  }
+
+
+  function showWithdrawal() {
+
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("withdrawalPage").classList.remove("hidden");
+
+    if (deposited) {
+      document.getElementById("withdrawMessage").innerText =
+        "आप withdrawal के लिए eligible हैं।";
+    } else {
+      document.getElementById("withdrawMessage").innerText =
+        "Withdrawal के लिए पहले कम से कम ₹100 अपना balance add करना होगा।";
+    }
+  }
+
+
+  function requestWithdrawal() {
+
+    if (!deposited) {
+      alert("पहले कम से कम ₹100 add करें।");
+      return;
+    }
+
+    alert("Demo withdrawal request submit हो गई। वास्तविक payment नहीं भेजी गई।");
+  }
+
+
+  function backHome() {
+
+    document.getElementById("depositPage").classList.add("hidden");
+    document.getElementById("withdrawalPage").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+
+    document.getElementById("balance").innerText = balance;
+  }
+
+</script>
 
 </body>
 </html>
