@@ -87,6 +87,37 @@
       line-height: 1.5;
     }
 
+    .payment-box {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .qr {
+      width: 250px;
+      max-width: 100%;
+      margin: 15px auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .upi {
+      background: #f2f4f7;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 10px 0;
+      font-weight: bold;
+      word-break: break-all;
+    }
+
+    .pending {
+      background: #fff4d6;
+      padding: 14px;
+      border-radius: 10px;
+      margin-top: 15px;
+      line-height: 1.5;
+      display: none;
+    }
+
     .hidden {
       display: none;
     }
@@ -116,7 +147,7 @@
       <button onclick="login()">Login</button>
 
       <p class="note">
-        Demo account system — पहली बार login पर ₹300 welcome bonus.
+        पहली बार login पर ₹300 welcome bonus.
       </p>
     </div>
 
@@ -140,7 +171,7 @@
       <button onclick="showWithdrawal()">Withdrawal</button>
 
       <p class="note">
-        Withdrawal eligibility के लिए कम से कम ₹100 अपना balance add करना आवश्यक है।
+        Deposit payment verify होने के बाद ही wallet balance में जोड़ा जाएगा।
       </p>
 
     </div>
@@ -148,36 +179,80 @@
 
     <!-- DEPOSIT -->
     <div id="depositPage" class="card hidden">
+
       <h2>Deposit</h2>
+
       <p style="margin-top:10px;">
-        यह अभी demo page है।
+        जितनी राशि जमा करनी है वह नीचे डालें।
       </p>
 
-      <input type="number" id="depositAmount" placeholder="Amount">
+      <input
+        type="number"
+        id="depositAmount"
+        placeholder="Deposit Amount ₹"
+        min="100"
+      >
 
-      <button onclick="demoDeposit()">Demo Add ₹100</button>
+      <div class="payment-box">
+
+        <h3>Pay using UPI</h3>
+
+        <img
+          src="qr-code.jpg"
+          alt="UPI QR Code"
+          class="qr"
+        >
+
+        <div class="upi">
+          UPI ID: 9241771196@ybl
+        </div>
+
+        <button onclick="openUPI()">Open UPI App</button>
+
+        <button onclick="paymentSubmitted()">
+          I Have Paid
+        </button>
+
+        <div id="pendingMessage" class="pending">
+          ⏳ Payment verification pending.<br>
+          Payment verify होने के बाद ही wallet balance update होगा।
+        </div>
+
+      </div>
+
       <button onclick="backHome()">Back</button>
 
       <p class="note">
-        असली payment अभी connected नहीं है।
+        केवल payment करने से balance तुरंत नहीं बढ़ेगा।
+        Payment verification आवश्यक है।
       </p>
+
     </div>
 
 
     <!-- WITHDRAWAL -->
     <div id="withdrawalPage" class="card hidden">
+
       <h2>Withdrawal</h2>
 
       <p id="withdrawMessage" style="margin-top:15px; line-height:1.5;"></p>
 
-      <input type="text" placeholder="UPI ID / Payment Details">
+      <input
+        type="text"
+        id="withdrawUPI"
+        placeholder="UPI ID / Payment Details"
+      >
 
-      <button onclick="requestWithdrawal()">Withdrawal Request</button>
+      <button onclick="requestWithdrawal()">
+        Withdrawal Request
+      </button>
+
       <button onclick="backHome()">Back</button>
 
       <p class="note">
-        Demo version में वास्तविक payment नहीं भेजी जाएगी।
+        Withdrawal वास्तविक payment system से अलग से process होगा।
       </p>
+
     </div>
 
   </div>
@@ -187,6 +262,7 @@
 
   let balance = 300;
   let deposited = false;
+
 
   function login() {
 
@@ -212,23 +288,43 @@
   }
 
 
-  function demoDeposit() {
+  function openUPI() {
 
-    let amount = Number(document.getElementById("depositAmount").value);
+    let amount = Number(
+      document.getElementById("depositAmount").value
+    );
 
     if (amount < 100) {
       alert("कम से कम ₹100 डालें।");
       return;
     }
 
-    balance += amount;
-    deposited = true;
+    let upiLink =
+      "upi://pay?pa=9241771196@ybl&pn=Prince%20Wallet&am="
+      + amount
+      + "&cu=INR";
 
-    document.getElementById("balance").innerText = balance;
+    window.location.href = upiLink;
+  }
 
-    alert("Demo में ₹" + amount + " balance में add हो गया।");
 
-    backHome();
+  function paymentSubmitted() {
+
+    let amount = Number(
+      document.getElementById("depositAmount").value
+    );
+
+    if (amount < 100) {
+      alert("कम से कम ₹100 डालें।");
+      return;
+    }
+
+    document.getElementById("pendingMessage").style.display = "block";
+
+    alert(
+      "Payment verification के लिए भेज दिया गया है। " +
+      "Payment verify होने के बाद ही wallet में balance जोड़ा जाएगा।"
+    );
   }
 
 
@@ -238,11 +334,15 @@
     document.getElementById("withdrawalPage").classList.remove("hidden");
 
     if (deposited) {
+
       document.getElementById("withdrawMessage").innerText =
         "आप withdrawal के लिए eligible हैं।";
+
     } else {
+
       document.getElementById("withdrawMessage").innerText =
-        "Withdrawal के लिए पहले कम से कम ₹100 अपना balance add करना होगा।";
+        "आपका deposit अभी verify नहीं हुआ है।";
+
     }
   }
 
@@ -250,11 +350,15 @@
   function requestWithdrawal() {
 
     if (!deposited) {
-      alert("पहले कम से कम ₹100 add करें।");
+
+      alert(
+        "Withdrawal से पहले आपका वास्तविक deposit verify होना जरूरी है।"
+      );
+
       return;
     }
 
-    alert("Demo withdrawal request submit हो गई। वास्तविक payment नहीं भेजी गई।");
+    alert("Withdrawal request submit हो गई।");
   }
 
 
@@ -262,6 +366,7 @@
 
     document.getElementById("depositPage").classList.add("hidden");
     document.getElementById("withdrawalPage").classList.add("hidden");
+
     document.getElementById("dashboard").classList.remove("hidden");
 
     document.getElementById("balance").innerText = balance;
