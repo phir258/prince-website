@@ -1,162 +1,338 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#080b14">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111827">
-  <link rel="manifest" href="manifest.json">
-  <title>Prince Battle Ground</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:Arial,sans-serif;
-      background:linear-gradient(135deg,#080b14,#172554);
-      color:white;
-      min-height:100vh;
-    }
-    .container{max-width:430px;margin:auto;padding:25px 18px}
-    .logo{text-align:center;font-size:30px;font-weight:bold;margin:20px 0}
-    .card{
-      background:#111827;
-      border:1px solid #334155;
-      border-radius:18px;
-      padding:22px;
-      margin-top:18px;
-      box-shadow:0 10px 30px #0005;
-    }
-    h2{text-align:center;margin-bottom:20px}
-    input{
-      width:100%;
-      padding:14px;
-      margin:8px 0;
-      border:0;
-      border-radius:10px;
-      outline:none;
-    }
-    button{
-      width:100%;
-      padding:14px;
-      margin-top:12px;
-      border:0;
-      border-radius:10px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-    .login{background:#2563eb;color:white}
-    .deposit{background:#16a34a;color:white}
-    .withdraw{background:#dc2626;color:white}
-    .install{background:#f59e0b;color:#111}
-    .hidden{display:none}
-    .bonus{
-      text-align:center;
-      padding:20px;
-      background:#1e293b;
-      border-radius:15px;
-      margin:15px 0;
-    }
-    .bonus strong{font-size:30px;color:#fbbf24}
-    .message{
-      text-align:center;
-      margin-top:15px;
-      color:#fbbf24;
-    }
-  </style>
+<title>Prince 1v1 Tournament</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#080b14;
+  color:white;
+  min-height:100vh;
+}
+
+.container{
+  width:100%;
+  max-width:450px;
+  margin:auto;
+  padding:20px;
+}
+
+.logo{
+  text-align:center;
+  font-size:30px;
+  font-weight:bold;
+  margin:20px 0;
+  color:#ffd700;
+}
+
+.card{
+  background:#121827;
+  border:1px solid #26314a;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:15px;
+}
+
+h2{
+  margin-bottom:15px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border:0;
+  border-radius:10px;
+  background:#202a3d;
+  color:white;
+  outline:none;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:0;
+  border-radius:10px;
+  background:#ffd000;
+  color:#111;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.85;
+}
+
+.tournament{
+  border:1px solid #33415f;
+  border-radius:12px;
+  padding:15px;
+  margin:10px 0;
+  background:#0e1421;
+}
+
+.time{
+  color:#00e5ff;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:6px;
+  background:#26334d;
+  margin:4px 0;
+}
+
+.hidden{
+  display:none;
+}
+
+.room{
+  background:#18243a;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.small{
+  color:#aab4c8;
+  font-size:13px;
+  margin-top:8px;
+}
+</style>
 </head>
 
 <body>
+
 <div class="container">
 
-  <div class="logo">👑 PRINCE BATTLE GROUND</div>
+<div class="logo">👑 PRINCE TOURNAMENT</div>
 
-  <!-- LOGIN -->
-  <div id="loginPage" class="card">
-    <h2>Login</h2>
+<!-- LOGIN -->
+<div id="loginPage" class="card">
 
-    <input id="phone" type="tel" placeholder="Phone Number">
-    <input id="password" type="password" placeholder="Password">
+<h2>🔐 Login</h2>
 
-    <button class="login" onclick="login()">LOGIN</button>
+<input id="phone" type="tel" placeholder="Phone Number">
 
-    <div id="loginMsg" class="message"></div>
-  </div>
+<input id="password" type="password" placeholder="Password">
 
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="hidden">
+<button onclick="login()">LOGIN</button>
 
-    <div class="card">
-      <h2>🎉 Welcome User</h2>
-
-      <div class="bonus">
-        <div>Welcome Bonus</div>
-        <strong>₹300</strong>
-      </div>
-
-      <button class="deposit" onclick="demo('Deposit')">
-        💰 Deposit
-      </button>
-
-      <button class="withdraw" onclick="demo('Withdrawal')">
-        💸 Withdrawal
-      </button>
-
-      <button id="installBtn" class="install hidden">
-        📲 Install App
-      </button>
-
-      <div id="actionMsg" class="message"></div>
-    </div>
-
-  </div>
+<p class="small">
+Demo version — कोई वास्तविक पैसा जमा या withdraw नहीं होता।
+</p>
 
 </div>
 
-<script>
-function login(){
-  const phone=document.getElementById("phone").value;
-  const password=document.getElementById("password").value;
 
-  if(phone.length < 10 || password.length < 4){
-    document.getElementById("loginMsg").innerText =
-      "Phone number और password सही से डालें";
+<!-- APP -->
+<div id="appPage" class="hidden">
+
+<div class="card">
+
+<h2>👤 Welcome Prince</h2>
+
+<p>Wallet: <b id="wallet">₹100 Demo Coins</b></p>
+
+</div>
+
+
+<div class="card">
+
+<h2>🎮 1v1 Tournaments</h2>
+
+<p class="small">
+समय: सुबह 7:30 बजे से शाम 7:30 बजे तक
+</p>
+
+<div id="tournaments"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔐 Room Details</h2>
+
+<div id="roomDetails">
+<p class="small">
+Tournament join करने के बाद Admin द्वारा Room ID और Password यहाँ दिया जाएगा।
+</p>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📋 नियम</h2>
+
+<p>• Match: 1 VS 1</p>
+<p>• Entry: ₹20 Demo Coins</p>
+<p>• Winner: ₹18 Demo Coins</p>
+<p>• हर 15 मिनट में नया slot</p>
+<p>• Room ID/Password Admin देगा</p>
+<p>• Match result Admin verify करेगा</p>
+
+</div>
+
+<button onclick="logout()">LOGOUT</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+let wallet = 100;
+
+
+/* LOGIN */
+
+function login(){
+
+  let phone = document.getElementById("phone").value;
+  let password = document.getElementById("password").value;
+
+  if(phone === "" || password === ""){
+    alert("Phone Number और Password डालें");
     return;
   }
 
   document.getElementById("loginPage").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("appPage").classList.remove("hidden");
+
+  createTournaments();
 }
 
-function demo(action){
-  document.getElementById("actionMsg").innerText =
-    action + " Demo Option Opened";
+
+/* TOURNAMENT SLOTS */
+
+function createTournaments(){
+
+  let box = document.getElementById("tournaments");
+
+  box.innerHTML = "";
+
+  let start = 7 * 60 + 30;
+  let end = 19 * 60 + 30;
+
+  for(let t=start; t<=end; t+=15){
+
+    let hour = Math.floor(t/60);
+    let minute = t%60;
+
+    let displayHour = hour;
+
+    let ampm = "AM";
+
+    if(hour >= 12){
+      ampm = "PM";
+
+      if(hour > 12){
+        displayHour = hour - 12;
+      }
+    }
+
+    let time =
+      String(displayHour).padStart(2,"0")
+      + ":" +
+      String(minute).padStart(2,"0")
+      + " " + ampm;
+
+    let div = document.createElement("div");
+
+    div.className = "tournament";
+
+    div.innerHTML = `
+      <div class="time">${time}</div>
+
+      <div class="badge">⚔️ 1 VS 1</div>
+
+      <p>Entry: ₹20 Demo Coins</p>
+      <p>Winner: ₹18 Demo Coins</p>
+
+      <button onclick="joinTournament('${time}')">
+        JOIN TOURNAMENT
+      </button>
+    `;
+
+    box.appendChild(div);
+  }
 }
 
-/* PWA Install */
-let deferredPrompt;
-const installBtn=document.getElementById("installBtn");
 
-window.addEventListener("beforeinstallprompt",(e)=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  installBtn.classList.remove("hidden");
-});
+/* JOIN */
 
-installBtn.addEventListener("click",async()=>{
-  if(!deferredPrompt)return;
+function joinTournament(time){
 
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt=null;
-  installBtn.classList.add("hidden");
-});
+  if(wallet < 20){
 
-/* Service Worker */
-if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js");
+    alert("Demo Coins कम हैं।");
+
+    return;
+  }
+
+  wallet -= 20;
+
+  document.getElementById("wallet").innerText =
+    "₹" + wallet + " Demo Coins";
+
+  document.getElementById("roomDetails").innerHTML = `
+
+    <div class="room">
+
+      <h3>✅ Tournament Joined</h3>
+
+      <p>Time: <b>${time}</b></p>
+
+      <p>Mode: <b>1 VS 1</b></p>
+
+      <hr><br>
+
+      <p>🔑 Room ID: <b>Admin देगा</b></p>
+
+      <p>🔐 Password: <b>Admin देगा</b></p>
+
+      <p class="small">
+      Admin Room ID और Password डालने के बाद
+      यहाँ दिखाई देगा।
+      </p>
+
+    </div>
+
+  `;
+
+  alert("Tournament Join हो गया!");
 }
+
+
+/* LOGOUT */
+
+function logout(){
+
+  document.getElementById("appPage").classList.add("hidden");
+
+  document.getElementById("loginPage").classList.remove("hidden");
+
+}
+
 </script>
 
 </body>
