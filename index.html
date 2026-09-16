@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prince Wallet</title>
+<title>Prince Battle Ground</title>
 
 <style>
 *{
@@ -15,212 +15,195 @@
 }
 
 body{
-  background:white;
+  background:#080b14;
+  color:white;
+}
+
+.app{
+  max-width:480px;
+  margin:auto;
   min-height:100vh;
+  background:linear-gradient(180deg,#10182d,#080b14);
+}
+
+header{
+  padding:22px 18px;
   display:flex;
-  justify-content:center;
+  justify-content:space-between;
   align-items:center;
-}
-
-.container{
-  width:92%;
-  max-width:400px;
-}
-
-.card{
-  background:white;
-  padding:30px 22px;
-  border-radius:18px;
-  box-shadow:0 5px 25px rgba(0,0,0,0.12);
+  background:#111827;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 .logo{
-  text-align:center;
-  font-size:32px;
+  font-size:22px;
   font-weight:bold;
-  margin-bottom:8px;
+  color:#ffd000;
 }
 
-.subtitle{
-  text-align:center;
-  color:#777;
-  margin-bottom:25px;
-}
-
-label{
-  display:block;
-  margin:12px 0 6px;
-  font-weight:bold;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border:1px solid #ddd;
-  border-radius:10px;
-  font-size:16px;
-  outline:none;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:20px;
-  border:none;
-  border-radius:10px;
+.login-btn{
   background:#2563eb;
   color:white;
-  font-size:17px;
-  font-weight:bold;
+  border:0;
+  padding:10px 16px;
+  border-radius:20px;
 }
 
-.error{
-  color:red;
+.hero{
+  padding:30px 20px;
   text-align:center;
-  margin-top:12px;
 }
 
-#wallet{
-  display:none;
+.hero h1{
+  font-size:32px;
+  margin-bottom:10px;
 }
 
-.bonus{
-  background:#f1f5ff;
+.hero p{
+  color:#b8c0d4;
+  line-height:1.5;
+}
+
+.card{
+  margin:15px;
   padding:20px;
-  border-radius:14px;
-  text-align:center;
-  margin:20px 0;
+  border-radius:18px;
+  background:#151d31;
+  border:1px solid #273452;
 }
 
-.bonus h2{
-  color:#2563eb;
+.card h2{
+  margin-bottom:10px;
 }
 
-.balance{
-  font-size:30px;
+.info{
+  display:flex;
+  justify-content:space-between;
+  margin:12px 0;
+  color:#cbd5e1;
+}
+
+.join{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:12px;
+  background:#16a34a;
+  color:white;
+  font-size:16px;
   font-weight:bold;
-  margin-top:8px;
 }
 
-.demo{
+.timer{
+  color:#ffd000;
+  font-weight:bold;
+}
+
+section{
+  padding-bottom:20px;
+}
+
+footer{
   text-align:center;
-  color:#888;
+  padding:25px;
+  color:#718096;
   font-size:13px;
-  margin-top:18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-  <!-- LOGIN PAGE -->
-  <div class="card" id="login">
+<header>
+  <div class="logo">👑 PRINCE</div>
+  <button class="login-btn" onclick="login()">Login</button>
+</header>
 
-    <div class="logo">PRINCE</div>
+<section class="hero">
+  <h1>🎮 Prince Battle Ground</h1>
+  <p>Free Fire Tournament Platform</p>
+</section>
 
-    <div class="subtitle">
-      Welcome to Prince Wallet
-    </div>
+<section>
 
-    <label>Phone Number</label>
-    <input
-      type="tel"
-      id="phone"
-      placeholder="Enter phone number"
-      maxlength="10"
-    >
+<div class="card">
+  <h2>🏆 Daily Battle</h2>
 
-    <label>Password</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="Enter password"
-    >
-
-    <button onclick="loginUser()">
-      Login
-    </button>
-
-    <div class="error" id="error"></div>
-
+  <div class="info">
+    <span>Players</span>
+    <span>48/50</span>
   </div>
 
-
-  <!-- WALLET PAGE -->
-  <div class="card" id="wallet">
-
-    <div class="logo">PRINCE WALLET</div>
-
-    <div class="bonus">
-      <div>🎁 WELCOME BONUS</div>
-      <h2>₹300</h2>
-
-      <div class="balance" id="balance">
-        ₹300
-      </div>
-    </div>
-
-    <button onclick="demoDeposit()">
-      💰 Deposit
-    </button>
-
-    <button onclick="withdraw()">
-      💸 Withdrawal
-    </button>
-
-    <div class="demo">
-      DEMO VERSION — Real money transaction is not enabled.
-    </div>
-
+  <div class="info">
+    <span>Entry</span>
+    <span>Demo</span>
   </div>
+
+  <div class="info">
+    <span>Starts In</span>
+    <span class="timer" id="timer1">10:00</span>
+  </div>
+
+  <button class="join" onclick="joinTournament()">
+    Join Tournament
+  </button>
+</div>
+
+<div class="card">
+  <h2>🔥 Coming Soon</h2>
+
+  <div class="info">
+    <span>New Tournament</span>
+    <span>Coming Soon</span>
+  </div>
+
+  <button class="join" onclick="details()">
+    View Details
+  </button>
+</div>
+
+</section>
+
+<footer>
+  © 2026 Prince Battle Ground
+</footer>
 
 </div>
 
-
 <script>
 
-let balance = 300;
+function login(){
+  alert("Login/Register system अगले step में जोड़ा जाएगा।");
+}
 
-function loginUser(){
+function joinTournament(){
+  alert("Tournament Join Demo सफल हुआ!");
+}
 
-  let phone = document.getElementById("phone").value;
-  let password = document.getElementById("password").value;
-  let error = document.getElementById("error");
+function details(){
+  alert("Tournament details जल्द उपलब्ध होंगे।");
+}
 
-  if(phone.length !== 10){
-    error.innerText = "सही 10 digit phone number डालें";
-    return;
+let seconds = 600;
+
+setInterval(function(){
+
+  let min = Math.floor(seconds / 60);
+  let sec = seconds % 60;
+
+  document.getElementById("timer1").innerText =
+    String(min).padStart(2,"0") + ":" +
+    String(sec).padStart(2,"0");
+
+  if(seconds > 0){
+    seconds--;
   }
 
-  if(password.length < 4){
-    error.innerText = "Password कम से कम 4 characters का होना चाहिए";
-    return;
-  }
-
-  error.innerText = "";
-
-  document.getElementById("login").style.display = "none";
-  document.getElementById("wallet").style.display = "block";
-}
-
-
-function demoDeposit(){
-
-  balance += 100;
-
-  document.getElementById("balance").innerText =
-    "₹" + balance;
-
-  alert("Demo Deposit सफल हुआ। ₹100 balance में जोड़ा गया।");
-}
-
-
-function withdraw(){
-
-  alert("Withdrawal केवल demo है। Real money withdrawal उपलब्ध नहीं है।");
-}
+},1000);
 
 </script>
 
