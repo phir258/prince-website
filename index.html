@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Prince Demo Wallet</title>
 
 <style>
@@ -23,44 +22,57 @@ body{
   align-items:center;
 }
 
-.box{
+.container{
   width:92%;
   max-width:400px;
+}
+
+.box{
   background:#151a27;
   padding:25px;
   border-radius:20px;
-  text-align:center;
   box-shadow:0 0 25px #000;
 }
 
 h1{
+  text-align:center;
   color:#00eaff;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .demo{
+  text-align:center;
   background:#ffb000;
   color:#111;
-  padding:7px;
+  padding:8px;
   border-radius:8px;
   font-weight:bold;
   margin-bottom:20px;
 }
 
-.balance{
-  font-size:28px;
-  margin:20px 0;
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border:0;
+  border-radius:10px;
+  font-size:16px;
 }
 
 button{
   width:100%;
-  padding:15px;
+  padding:14px;
   margin-top:12px;
   border:0;
   border-radius:10px;
   font-size:17px;
   font-weight:bold;
   cursor:pointer;
+}
+
+.login{
+  background:#00a8ff;
+  color:white;
 }
 
 .deposit{
@@ -73,12 +85,24 @@ button{
   color:white;
 }
 
-#message{
-  margin-top:20px;
-  padding:15px;
-  border-radius:10px;
-  background:#242b3d;
+#wallet{
   display:none;
+}
+
+.balance{
+  text-align:center;
+  font-size:28px;
+  margin:20px 0;
+  color:#00ffb3;
+}
+
+#message{
+  display:none;
+  margin-top:18px;
+  padding:15px;
+  background:#242b3d;
+  border-radius:10px;
+  text-align:center;
   line-height:1.5;
 }
 </style>
@@ -86,33 +110,80 @@ button{
 
 <body>
 
-<div class="box">
+<div class="container">
 
-  <h1>PRINCE WALLET</h1>
+  <!-- LOGIN -->
+  <div class="box" id="login">
 
-  <div class="demo">
-    DEMO — असली पैसे का लेन-देन नहीं
+    <h1>PRINCE WALLET</h1>
+
+    <div class="demo">
+      DEMO — असली पैसे का लेन-देन नहीं
+    </div>
+
+    <input type="tel" id="phone" placeholder="मोबाइल नंबर">
+
+    <input type="password" id="password" placeholder="पासवर्ड">
+
+    <button class="login" onclick="loginUser()">
+      LOGIN
+    </button>
+
+    <div id="loginMsg"></div>
+
   </div>
 
-  <div class="balance">
-    Demo Balance: ₹300
+
+  <!-- WALLET -->
+  <div class="box" id="wallet">
+
+    <h1>WELCOME PRINCE</h1>
+
+    <div class="demo">
+      🎁 WELCOME BONUS ₹300
+    </div>
+
+    <div class="balance">
+      ₹300
+    </div>
+
+    <button class="deposit" onclick="deposit()">
+      💰 DEPOSIT
+    </button>
+
+    <button class="withdraw" onclick="withdraw()">
+      💸 WITHDRAWAL
+    </button>
+
+    <div id="message"></div>
+
   </div>
-
-  <button class="deposit" onclick="deposit()">
-    💰 Deposit
-  </button>
-
-  <button class="withdraw" onclick="withdraw()">
-    💸 Withdrawal
-  </button>
-
-  <div id="message"></div>
 
 </div>
+
 
 <script>
 
 let deposited = false;
+
+function loginUser(){
+
+  let phone = document.getElementById("phone").value;
+  let password = document.getElementById("password").value;
+
+  if(phone === "" || password === ""){
+
+    document.getElementById("loginMsg").style.display = "block";
+    document.getElementById("loginMsg").innerHTML =
+      "⚠️ मोबाइल नंबर और पासवर्ड डालें।";
+
+    return;
+  }
+
+  document.getElementById("login").style.display = "none";
+  document.getElementById("wallet").style.display = "block";
+}
+
 
 function deposit(){
 
@@ -121,10 +192,10 @@ function deposit(){
   document.getElementById("message").style.display = "block";
 
   document.getElementById("message").innerHTML =
-  "✅ Demo Deposit सफल हुआ।<br><br>" +
-  "अब Demo Withdrawal option उपलब्ध है।";
-
+    "✅ Demo Deposit सफल हुआ।<br><br>" +
+    "अब Demo Withdrawal option उपलब्ध है।";
 }
+
 
 function withdraw(){
 
@@ -133,15 +204,15 @@ function withdraw(){
   if(!deposited){
 
     document.getElementById("message").innerHTML =
-    "⚠️ पहले Demo Deposit करें।<br><br>" +
-    "Withdrawal शुरू करने के लिए पहले Demo Deposit पूरा करें।<br><br>" +
-    "<b>DEMO — कोई असली पैसा नहीं।</b>";
+      "⚠️ पहले Demo Deposit करें।<br><br>" +
+      "Withdrawal शुरू करने के लिए पहले Demo Deposit पूरा करें।<br><br>" +
+      "<b>DEMO — कोई असली पैसा नहीं।</b>";
 
   }else{
 
     document.getElementById("message").innerHTML =
-    "✅ Demo Withdrawal option खुल गया।<br><br>" +
-    "यह केवल Demo है। असली पैसे का withdrawal नहीं होता।";
+      "✅ Demo Withdrawal option खुल गया।<br><br>" +
+      "यह केवल Demo है। असली पैसे का withdrawal नहीं होता।";
 
   }
 
