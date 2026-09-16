@@ -909,3 +909,199 @@ button{
 
     <div class="notice">
       Join करने के लिए Wallet
+      Join करने के लिए Wallet Balance पर्याप्त होना चाहिए।
+    </div>
+
+    <button class="mainBtn" onclick="confirmJoin()">
+      Join Confirm करें
+    </button>
+
+  </div>
+</div>
+
+
+<script>
+
+// ================= LOGIN =================
+
+function sendDemoOTP(){
+
+  let phone = document.getElementById("phone").value.trim();
+  let password = document.getElementById("password").value.trim();
+
+  if(phone.length !== 10){
+    alert("कृपया 10 अंकों का मोबाइल नंबर डालें।");
+    return;
+  }
+
+  if(password.length < 4){
+    alert("कृपया कम से कम 4 अंकों का पासवर्ड डालें।");
+    return;
+  }
+
+  document.getElementById("phoneStep").classList.add("hidden");
+  document.getElementById("otpStep").classList.remove("hidden");
+
+  alert("Demo OTP: 123456");
+}
+
+
+function loginUser(){
+
+  let otp = document.getElementById("otp").value.trim();
+
+  if(otp !== "123456"){
+    alert("गलत OTP। Demo OTP 123456 है।");
+    return;
+  }
+
+  let phone = document.getElementById("phone").value;
+
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+
+  document.getElementById("profilePhone").innerText = phone;
+
+  showPage("home");
+}
+
+
+function backToPhone(){
+
+  document.getElementById("otpStep").classList.add("hidden");
+  document.getElementById("phoneStep").classList.remove("hidden");
+
+}
+
+
+// ================= PAGES =================
+
+function showPage(page){
+
+  document.getElementById("homePage").classList.add("hidden");
+  document.getElementById("tournamentPage").classList.add("hidden");
+  document.getElementById("walletPage").classList.add("hidden");
+  document.getElementById("profilePage").classList.add("hidden");
+
+  document.getElementById("navHome").classList.remove("active");
+  document.getElementById("navTournament").classList.remove("active");
+  document.getElementById("navWallet").classList.remove("active");
+  document.getElementById("navProfile").classList.remove("active");
+
+  if(page === "home"){
+    document.getElementById("homePage").classList.remove("hidden");
+    document.getElementById("navHome").classList.add("active");
+  }
+
+  if(page === "tournament"){
+    document.getElementById("tournamentPage").classList.remove("hidden");
+    document.getElementById("navTournament").classList.add("active");
+  }
+
+  if(page === "wallet"){
+    document.getElementById("walletPage").classList.remove("hidden");
+    document.getElementById("navWallet").classList.add("active");
+  }
+
+  if(page === "profile"){
+    document.getElementById("profilePage").classList.remove("hidden");
+    document.getElementById("navProfile").classList.add("active");
+  }
+
+}
+
+
+// ================= TOURNAMENT =================
+
+let selectedTournament = "";
+let selectedFee = "";
+
+function openJoin(name, fee){
+
+  selectedTournament = name;
+  selectedFee = fee;
+
+  document.getElementById("joinName").innerText = name;
+  document.getElementById("joinFee").innerText = fee;
+
+  document.getElementById("joinModal").classList.remove("hidden");
+}
+
+
+function closeModal(){
+
+  document.getElementById("joinModal").classList.add("hidden");
+
+}
+
+
+function confirmJoin(){
+
+  alert(
+    "Demo में Tournament Join request तैयार है।\n\n" +
+    "Tournament: " + selectedTournament + "\n" +
+    "Entry Fee: ₹" + selectedFee
+  );
+
+  closeModal();
+}
+
+
+// ================= WALLET =================
+
+function openDeposit(){
+
+  alert("यह अभी Demo Wallet है। असली Payment अभी जुड़ा नहीं है।");
+
+}
+
+
+// ================= LOGOUT =================
+
+function logoutUser(){
+
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+
+  document.getElementById("otpStep").classList.add("hidden");
+  document.getElementById("phoneStep").classList.remove("hidden");
+
+  document.getElementById("otp").value = "";
+
+}
+
+
+// ================= TIMER =================
+
+function startTimer(id, minutes){
+
+  let seconds = minutes * 60;
+
+  setInterval(function(){
+
+    let min = Math.floor(seconds / 60);
+    let sec = seconds % 60;
+
+    if(sec < 10){
+      sec = "0" + sec;
+    }
+
+    document.getElementById(id).innerText =
+      min + ":" + sec;
+
+    if(seconds > 0){
+      seconds--;
+    }
+
+  },1000);
+
+}
+
+startTimer("timer1",10);
+startTimer("timer2",15);
+startTimer("timer3",20);
+
+</script>
+
+</body>
+</html>
