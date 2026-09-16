@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prince Wallet</title>
+  <title>Prince Battle Ground</title>
 
   <style>
     * {
@@ -14,365 +14,126 @@
     }
 
     body {
-      background: #f2f4f7;
-      color: #222;
+      background: #0b1020;
+      color: white;
+      text-align: center;
     }
 
-    .container {
-      max-width: 420px;
-      margin: auto;
-      min-height: 100vh;
-      padding: 25px 18px;
+    .header {
+      padding: 25px 15px;
+      background: linear-gradient(135deg, #111827, #2563eb);
     }
 
-    .card {
-      background: white;
-      padding: 22px;
-      border-radius: 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      margin-top: 25px;
+    .profile {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin-bottom: 12px;
     }
 
     h1 {
-      text-align: center;
-      margin-bottom: 8px;
+      font-size: 30px;
     }
 
-    .welcome {
-      text-align: center;
-      color: #666;
-      margin-bottom: 20px;
+    .container {
+      padding: 25px 15px;
     }
 
-    input {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
+    .card {
+      background: #151d32;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 15px;
     }
 
     button {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       margin-top: 10px;
       border: none;
       border-radius: 10px;
-      background: #111;
+      background: #2563eb;
       color: white;
-      font-size: 16px;
+      font-size: 17px;
       cursor: pointer;
     }
 
-    .balance {
-      background: #111;
-      color: white;
-      padding: 22px;
-      border-radius: 16px;
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .balance h2 {
-      font-size: 32px;
-      margin-top: 8px;
-    }
-
-    .bonus {
-      background: #fff4d6;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      line-height: 1.5;
-    }
-
-    .payment-box {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .qr {
-      width: 250px;
-      max-width: 100%;
-      margin: 15px auto;
-      display: block;
-      border-radius: 10px;
-    }
-
-    .upi {
-      background: #f2f4f7;
-      padding: 12px;
-      border-radius: 10px;
-      margin: 10px 0;
-      font-weight: bold;
-      word-break: break-all;
-    }
-
-    .pending {
-      background: #fff4d6;
-      padding: 14px;
-      border-radius: 10px;
-      margin-top: 15px;
-      line-height: 1.5;
-      display: none;
+    button:hover {
+      background: #1d4ed8;
     }
 
     .hidden {
       display: none;
-    }
-
-    .note {
-      font-size: 13px;
-      color: #666;
-      margin-top: 12px;
-      text-align: center;
-      line-height: 1.5;
     }
   </style>
 </head>
 
 <body>
 
+  <div class="header">
+    <img src="IMG-20260902-WA0000.jpg" class="profile">
+    <h1>PRINCE BATTLE GROUND</h1>
+    <p>Gaming Tournament App</p>
+  </div>
+
   <div class="container">
 
-    <!-- LOGIN -->
-    <div id="loginPage" class="card">
-      <h1>Prince Wallet</h1>
-      <p class="welcome">Login / Register</p>
-
-      <input type="text" id="mobile" placeholder="Mobile Number">
-      <input type="password" id="password" placeholder="Password">
-
-      <button onclick="login()">Login</button>
-
-      <p class="note">
-        पहली बार login पर ₹300 welcome bonus.
-      </p>
+    <div class="card">
+      <h2>🏆 Tournament</h2>
+      <p>Battle Ground Tournament में आपका स्वागत है।</p>
+      <button onclick="showPage('tournament')">Tournament खोलें</button>
     </div>
 
-
-    <!-- DASHBOARD -->
-    <div id="dashboard" class="hidden">
-
-      <h1>Welcome Prince 👋</h1>
-
-      <div class="balance">
-        <p>Wallet Balance</p>
-        <h2>₹<span id="balance">300</span></h2>
-      </div>
-
-      <div class="bonus">
-        🎁 <b>Welcome Bonus</b><br>
-        पहली बार login करने पर आपको ₹300 bonus मिला है।
-      </div>
-
-      <button onclick="showDeposit()">Deposit</button>
-      <button onclick="showWithdrawal()">Withdrawal</button>
-
-      <p class="note">
-        Deposit payment verify होने के बाद ही wallet balance में जोड़ा जाएगा।
-      </p>
-
+    <div class="card">
+      <h2>👤 Profile</h2>
+      <button onclick="showPage('profile')">Profile खोलें</button>
     </div>
 
-
-    <!-- DEPOSIT -->
-    <div id="depositPage" class="card hidden">
-
-      <h2>Deposit</h2>
-
-      <p style="margin-top:10px;">
-        जितनी राशि जमा करनी है वह नीचे डालें।
-      </p>
-
-      <input
-        type="number"
-        id="depositAmount"
-        placeholder="Deposit Amount ₹"
-        min="100"
-      >
-
-      <div class="payment-box">
-
-        <h3>Pay using UPI</h3>
-
-        <img
-          src="qr-code.jpg"
-          alt="UPI QR Code"
-          class="qr"
-        >
-
-        <div class="upi">
-          UPI ID: 9241771196@ybl
-        </div>
-
-        <button onclick="openUPI()">Open UPI App</button>
-
-        <button onclick="paymentSubmitted()">
-          I Have Paid
-        </button>
-
-        <div id="pendingMessage" class="pending">
-          ⏳ Payment verification pending.<br>
-          Payment verify होने के बाद ही wallet balance update होगा।
-        </div>
-
-      </div>
-
-      <button onclick="backHome()">Back</button>
-
-      <p class="note">
-        केवल payment करने से balance तुरंत नहीं बढ़ेगा।
-        Payment verification आवश्यक है।
-      </p>
-
+    <div class="card">
+      <h2>📞 Contact</h2>
+      <button onclick="showPage('contact')">Contact खोलें</button>
     </div>
 
+    <div id="tournament" class="card hidden">
+      <h2>🏆 Tournament</h2>
+      <p>यहाँ आगे Tournament की जानकारी और Join विकल्प जोड़े जाएंगे।</p>
+      <button onclick="goHome()"> वापस Home</button>
+    </div>
 
-    <!-- WITHDRAWAL -->
-    <div id="withdrawalPage" class="card hidden">
+    <div id="profile" class="card hidden">
+      <h2>👤 Profile</h2>
+      <p>Prince Battle Ground</p>
+      <button onclick="goHome()">वापस Home</button>
+    </div>
 
-      <h2>Withdrawal</h2>
-
-      <p id="withdrawMessage" style="margin-top:15px; line-height:1.5;"></p>
-
-      <input
-        type="text"
-        id="withdrawUPI"
-        placeholder="UPI ID / Payment Details"
-      >
-
-      <button onclick="requestWithdrawal()">
-        Withdrawal Request
-      </button>
-
-      <button onclick="backHome()">Back</button>
-
-      <p class="note">
-        Withdrawal वास्तविक payment system से अलग से process होगा।
-      </p>
-
+    <div id="contact" class="card hidden">
+      <h2>📞 Contact</h2>
+      <p>Contact details यहाँ बाद में जोड़ेंगे।</p>
+      <button onclick="goHome()">वापस Home</button>
     </div>
 
   </div>
 
+  <script>
+    function showPage(page) {
+      document.querySelectorAll('.card').forEach(card => {
+        if (card.id) card.classList.add('hidden');
+      });
 
-<script>
-
-  let balance = 300;
-  let deposited = false;
-
-
-  function login() {
-
-    let mobile = document.getElementById("mobile").value;
-    let password = document.getElementById("password").value;
-
-    if (mobile === "" || password === "") {
-      alert("Mobile number और password डालें।");
-      return;
+      document.getElementById(page).classList.remove('hidden');
+      window.scrollTo(0, document.getElementById(page).offsetTop);
     }
 
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
+    function goHome() {
+      document.querySelectorAll('.card').forEach(card => {
+        if (card.id) card.classList.add('hidden');
+      });
 
-    document.getElementById("balance").innerText = balance;
-  }
-
-
-  function showDeposit() {
-
-    document.getElementById("dashboard").classList.add("hidden");
-    document.getElementById("depositPage").classList.remove("hidden");
-  }
-
-
-  function openUPI() {
-
-    let amount = Number(
-      document.getElementById("depositAmount").value
-    );
-
-    if (amount < 100) {
-      alert("कम से कम ₹100 डालें।");
-      return;
+      window.scrollTo(0, 0);
     }
-
-    let upiLink =
-      "upi://pay?pa=9241771196@ybl&pn=Prince%20Wallet&am="
-      + amount
-      + "&cu=INR";
-
-    window.location.href = upiLink;
-  }
-
-
-  function paymentSubmitted() {
-
-    let amount = Number(
-      document.getElementById("depositAmount").value
-    );
-
-    if (amount < 100) {
-      alert("कम से कम ₹100 डालें।");
-      return;
-    }
-
-    document.getElementById("pendingMessage").style.display = "block";
-
-    alert(
-      "Payment verification के लिए भेज दिया गया है। " +
-      "Payment verify होने के बाद ही wallet में balance जोड़ा जाएगा।"
-    );
-  }
-
-
-  function showWithdrawal() {
-
-    document.getElementById("dashboard").classList.add("hidden");
-    document.getElementById("withdrawalPage").classList.remove("hidden");
-
-    if (deposited) {
-
-      document.getElementById("withdrawMessage").innerText =
-        "आप withdrawal के लिए eligible हैं।";
-
-    } else {
-
-      document.getElementById("withdrawMessage").innerText =
-        "आपका deposit अभी verify नहीं हुआ है।";
-
-    }
-  }
-
-
-  function requestWithdrawal() {
-
-    if (!deposited) {
-
-      alert(
-        "Withdrawal से पहले आपका वास्तविक deposit verify होना जरूरी है।"
-      );
-
-      return;
-    }
-
-    alert("Withdrawal request submit हो गई।");
-  }
-
-
-  function backHome() {
-
-    document.getElementById("depositPage").classList.add("hidden");
-    document.getElementById("withdrawalPage").classList.add("hidden");
-
-    document.getElementById("dashboard").classList.remove("hidden");
-
-    document.getElementById("balance").innerText = balance;
-  }
-
-</script>
+  </script>
 
 </body>
 </html>
