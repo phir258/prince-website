@@ -1,210 +1,160 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <link rel="manifest" href="manifest.json">
+  <title>Prince Battle Ground</title>
 
-<title>Prince Battle Ground</title>
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
-}
-
-body{
-  background:#080b14;
-  color:white;
-}
-
-.app{
-  max-width:480px;
-  margin:auto;
-  min-height:100vh;
-  background:linear-gradient(180deg,#10182d,#080b14);
-}
-
-header{
-  padding:22px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#111827;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.logo{
-  font-size:22px;
-  font-weight:bold;
-  color:#ffd000;
-}
-
-.login-btn{
-  background:#2563eb;
-  color:white;
-  border:0;
-  padding:10px 16px;
-  border-radius:20px;
-}
-
-.hero{
-  padding:30px 20px;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:32px;
-  margin-bottom:10px;
-}
-
-.hero p{
-  color:#b8c0d4;
-  line-height:1.5;
-}
-
-.card{
-  margin:15px;
-  padding:20px;
-  border-radius:18px;
-  background:#151d31;
-  border:1px solid #273452;
-}
-
-.card h2{
-  margin-bottom:10px;
-}
-
-.info{
-  display:flex;
-  justify-content:space-between;
-  margin:12px 0;
-  color:#cbd5e1;
-}
-
-.join{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:12px;
-  background:#16a34a;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-}
-
-.timer{
-  color:#ffd000;
-  font-weight:bold;
-}
-
-section{
-  padding-bottom:20px;
-}
-
-footer{
-  text-align:center;
-  padding:25px;
-  color:#718096;
-  font-size:13px;
-}
-</style>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#080b14,#172554);
+      color:white;
+      min-height:100vh;
+    }
+    .container{max-width:430px;margin:auto;padding:25px 18px}
+    .logo{text-align:center;font-size:30px;font-weight:bold;margin:20px 0}
+    .card{
+      background:#111827;
+      border:1px solid #334155;
+      border-radius:18px;
+      padding:22px;
+      margin-top:18px;
+      box-shadow:0 10px 30px #0005;
+    }
+    h2{text-align:center;margin-bottom:20px}
+    input{
+      width:100%;
+      padding:14px;
+      margin:8px 0;
+      border:0;
+      border-radius:10px;
+      outline:none;
+    }
+    button{
+      width:100%;
+      padding:14px;
+      margin-top:12px;
+      border:0;
+      border-radius:10px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .login{background:#2563eb;color:white}
+    .deposit{background:#16a34a;color:white}
+    .withdraw{background:#dc2626;color:white}
+    .install{background:#f59e0b;color:#111}
+    .hidden{display:none}
+    .bonus{
+      text-align:center;
+      padding:20px;
+      background:#1e293b;
+      border-radius:15px;
+      margin:15px 0;
+    }
+    .bonus strong{font-size:30px;color:#fbbf24}
+    .message{
+      text-align:center;
+      margin-top:15px;
+      color:#fbbf24;
+    }
+  </style>
 </head>
 
 <body>
+<div class="container">
 
-<div class="app">
+  <div class="logo">👑 PRINCE BATTLE GROUND</div>
 
-<header>
-  <div class="logo">👑 PRINCE</div>
-  <button class="login-btn" onclick="login()">Login</button>
-</header>
+  <!-- LOGIN -->
+  <div id="loginPage" class="card">
+    <h2>Login</h2>
 
-<section class="hero">
-  <h1>🎮 Prince Battle Ground</h1>
-  <p>Free Fire Tournament Platform</p>
-</section>
+    <input id="phone" type="tel" placeholder="Phone Number">
+    <input id="password" type="password" placeholder="Password">
 
-<section>
+    <button class="login" onclick="login()">LOGIN</button>
 
-<div class="card">
-  <h2>🏆 Daily Battle</h2>
-
-  <div class="info">
-    <span>Players</span>
-    <span>48/50</span>
+    <div id="loginMsg" class="message"></div>
   </div>
 
-  <div class="info">
-    <span>Entry</span>
-    <span>Demo</span>
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
+
+    <div class="card">
+      <h2>🎉 Welcome User</h2>
+
+      <div class="bonus">
+        <div>Welcome Bonus</div>
+        <strong>₹300</strong>
+      </div>
+
+      <button class="deposit" onclick="demo('Deposit')">
+        💰 Deposit
+      </button>
+
+      <button class="withdraw" onclick="demo('Withdrawal')">
+        💸 Withdrawal
+      </button>
+
+      <button id="installBtn" class="install hidden">
+        📲 Install App
+      </button>
+
+      <div id="actionMsg" class="message"></div>
+    </div>
+
   </div>
-
-  <div class="info">
-    <span>Starts In</span>
-    <span class="timer" id="timer1">10:00</span>
-  </div>
-
-  <button class="join" onclick="joinTournament()">
-    Join Tournament
-  </button>
-</div>
-
-<div class="card">
-  <h2>🔥 Coming Soon</h2>
-
-  <div class="info">
-    <span>New Tournament</span>
-    <span>Coming Soon</span>
-  </div>
-
-  <button class="join" onclick="details()">
-    View Details
-  </button>
-</div>
-
-</section>
-
-<footer>
-  © 2026 Prince Battle Ground
-</footer>
 
 </div>
 
 <script>
-
 function login(){
-  alert("Login/Register system अगले step में जोड़ा जाएगा।");
-}
+  const phone=document.getElementById("phone").value;
+  const password=document.getElementById("password").value;
 
-function joinTournament(){
-  alert("Tournament Join Demo सफल हुआ!");
-}
-
-function details(){
-  alert("Tournament details जल्द उपलब्ध होंगे।");
-}
-
-let seconds = 600;
-
-setInterval(function(){
-
-  let min = Math.floor(seconds / 60);
-  let sec = seconds % 60;
-
-  document.getElementById("timer1").innerText =
-    String(min).padStart(2,"0") + ":" +
-    String(sec).padStart(2,"0");
-
-  if(seconds > 0){
-    seconds--;
+  if(phone.length < 10 || password.length < 4){
+    document.getElementById("loginMsg").innerText =
+      "Phone number और password सही से डालें";
+    return;
   }
 
-},1000);
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+}
 
+function demo(action){
+  document.getElementById("actionMsg").innerText =
+    action + " Demo Option Opened";
+}
+
+/* PWA Install */
+let deferredPrompt;
+const installBtn=document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt",(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  installBtn.classList.remove("hidden");
+});
+
+installBtn.addEventListener("click",async()=>{
+  if(!deferredPrompt)return;
+
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  installBtn.classList.add("hidden");
+});
+
+/* Service Worker */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js");
+}
 </script>
 
 </body>
