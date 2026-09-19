@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>Prince Battle Ground</title>
 
 <style>
@@ -228,11 +227,6 @@ button{
   font-weight:bold;
 }
 
-.joinBtn:hover{
-  background:#6d28d9;
-}
-
-/* TIMER */
 .timer{
   background:#020617;
   border:1px solid #334155;
@@ -451,26 +445,11 @@ button{
 }
 
 @media(max-width:400px){
-
-  .logoTitle{
-    font-size:25px;
-  }
-
-  .banner h1{
-    font-size:24px;
-  }
-
-  .gameName{
-    font-size:18px;
-  }
-
-  .walletBalance{
-    font-size:32px;
-  }
-
-  .brand{
-    font-size:16px;
-  }
+  .logoTitle{font-size:25px;}
+  .banner h1{font-size:24px;}
+  .gameName{font-size:18px;}
+  .walletBalance{font-size:32px;}
+  .brand{font-size:16px;}
 }
 </style>
 </head>
@@ -479,7 +458,6 @@ button{
 
 <!-- LOGIN -->
 <div id="loginPage">
-
   <div class="loginBox">
 
     <img
@@ -508,26 +486,18 @@ button{
       placeholder="पासवर्ड डालें">
 
     <label class="rememberBox">
-
-      <input
-        type="checkbox"
-        id="rememberLogin">
-
+      <input type="checkbox" id="rememberLogin">
       <span>ID और Password याद रखें</span>
-
     </label>
 
     <button
       type="button"
       class="mainBtn"
       onclick="loginUser()">
-
       Login करें
-
     </button>
 
   </div>
-
 </div>
 
 
@@ -535,29 +505,18 @@ button{
 <div id="app" class="hidden">
 
   <div class="topbar">
+    <div class="brand">🎮 Prince Battle Ground</div>
 
-    <div class="brand">
-      🎮 Prince Battle Ground
-    </div>
-
-    <div
-      class="walletTop"
-      onclick="showPage('wallet')">
-
+    <div class="walletTop" onclick="showPage('wallet')">
       💜 ₹<span id="topBalance">0</span>
-
     </div>
-
   </div>
 
 
   <!-- HOME -->
   <div id="homePage" class="page">
 
-    <div
-      class="banner"
-      onclick="showPage('wallet')">
-
+    <div class="banner" onclick="showPage('wallet')">
       <h1>💜 Wallet</h1>
 
       <p>
@@ -568,12 +527,9 @@ button{
       <p style="margin-top:8px;font-size:13px">
         Deposit / Withdrawal के लिए क्लिक करें
       </p>
-
     </div>
 
-    <h2 class="sectionTitle">
-      🏆 Available Tournament
-    </h2>
+    <h2 class="sectionTitle">🏆 Available Tournament</h2>
 
     <div id="tournamentList"></div>
 
@@ -583,16 +539,12 @@ button{
   <!-- BATTLE -->
   <div id="tournamentPage" class="page hidden">
 
-    <h2 class="sectionTitle">
-      🏆 My Battle
-    </h2>
+    <h2 class="sectionTitle">🏆 My Battle</h2>
 
     <div id="myBattle">
-
       <div class="notice">
         आपने अभी कोई Battle Join नहीं किया है।
       </div>
-
     </div>
 
   </div>
@@ -601,15 +553,11 @@ button{
   <!-- WALLET -->
   <div id="walletPage" class="page hidden">
 
-    <h2 class="sectionTitle">
-      💜 My Wallet
-    </h2>
+    <h2 class="sectionTitle">💜 My Wallet</h2>
 
     <div class="walletCard">
 
-      <div class="walletTitle">
-        Available Wallet Balance
-      </div>
+      <div class="walletTitle">Available Wallet Balance</div>
 
       <div class="walletBalance">
         ₹<span id="walletBalance">0</span>
@@ -620,21 +568,16 @@ button{
         <button
           class="walletBtn depositBtn"
           onclick="openDeposit()">
-
           💰 Deposit
-
         </button>
 
         <button
           class="walletBtn withdrawBtn"
           onclick="openWithdraw()">
-
           💸 Withdrawal
-
         </button>
 
       </div>
-
     </div>
 
 
@@ -655,28 +598,20 @@ button{
         placeholder="Amount डालें">
 
       <div class="paymentNumber">
-
         Payment Number
-
         <b>9241771196</b>
-
       </div>
 
       <button
         class="mainBtn"
         style="background:#16a34a"
         onclick="submitDeposit()">
-
         Deposit Request करें
-
       </button>
 
       <div class="notice">
-
-        Payment करने के बाद verification
-        आवश्यक होगा। Balance automatically
-        credit नहीं होगा।
-
+        Payment करने के बाद verification आवश्यक होगा।
+        Balance automatically credit नहीं होगा।
       </div>
 
     </div>
@@ -687,10 +622,8 @@ button{
       <h3>💸 Withdrawal</h3>
 
       <p class="sub" style="margin:8px 0">
-
         Minimum Withdrawal:
         <b style="color:#f87171">₹40</b>
-
       </p>
 
       <input
@@ -712,16 +645,12 @@ button{
         class="mainBtn"
         style="background:#dc2626"
         onclick="submitWithdraw()">
-
         Withdrawal Request करें
-
       </button>
 
       <div class="notice">
-
         Withdrawal request submit होने के बाद
         verification आवश्यक होगा।
-
       </div>
 
     </div>
@@ -742,22 +671,15 @@ button{
       <h2>Prince Player</h2>
 
       <p class="sub">
-
         Mobile:
         <span id="profilePhone"></span>
-
       </p>
 
     </div>
 
     <div class="menuItem">
-
       <span>💜 Wallet Balance</span>
-
-      <span>
-        ₹<span id="profileBalance">0</span>
-      </span>
-
+      <span>₹<span id="profileBalance">0</span></span>
     </div>
 
     <div
@@ -766,7 +688,6 @@ button{
       style="cursor:pointer">
 
       <span>🏆 My Battles</span>
-
       <span>›</span>
 
     </div>
@@ -791,40 +712,32 @@ button{
       class="navBtn active"
       id="navHome"
       onclick="showPage('home')">
-
       <span>🏠</span>
       Home
-
     </button>
 
     <button
       class="navBtn"
       id="navTournament"
       onclick="showPage('tournament')">
-
       <span>🏆</span>
       Battle
-
     </button>
 
     <button
       class="navBtn"
       id="navWallet"
       onclick="showPage('wallet')">
-
       <span>💜</span>
       Wallet
-
     </button>
 
     <button
       class="navBtn"
       id="navProfile"
       onclick="showPage('profile')">
-
       <span>👤</span>
       Profile
-
     </button>
 
   </div>
@@ -837,13 +750,7 @@ button{
 
   <div class="modalBox">
 
-    <button
-      class="close"
-      onclick="closeModal()">
-
-      ×
-
-    </button>
+    <button class="close" onclick="closeModal()">×</button>
 
     <h2>🏆 Join 1v1</h2>
 
@@ -851,40 +758,24 @@ button{
 
     <p>
       Tournament:
-      <b id="selectedTournamentName">
-        1v1 Custom
-      </b>
+      <b id="selectedTournamentName">1v1 Custom</b>
     </p>
 
     <p style="margin-top:10px">
-
       Time:
-      <b
-        style="color:#60a5fa"
-        id="selectedTournamentTime">
-
-        --
-
-      </b>
-
+      <b style="color:#60a5fa" id="selectedTournamentTime">--</b>
     </p>
 
     <p style="margin-top:10px">
-
       Entry:
-      <b style="color:#c084fc">
-        💜 ₹20 Wallet
-      </b>
-
+      <b style="color:#c084fc">💜 ₹20 Wallet</b>
     </p>
 
     <p style="margin-top:10px">
-
       Wallet Balance:
       <b style="color:#c084fc">
         ₹<span id="joinWalletBalance">0</span>
       </b>
-
     </p>
 
     <button
@@ -897,7 +788,6 @@ button{
     </button>
 
   </div>
-
 </div>
 
 
@@ -918,7 +808,6 @@ let selectedTournament = null;
 ========================= */
 
 const roomDetails = {
-
   "09:00":{
     roomId:"12345678",
     password:"PRINCE09"
@@ -938,7 +827,6 @@ const roomDetails = {
     roomId:"12345681",
     password:"PRINCE0945"
   }
-
 };
 
 
@@ -947,9 +835,7 @@ const roomDetails = {
 ========================= */
 
 function getUserKey(phone){
-
   return "prince_user_" + phone;
-
 }
 
 
@@ -959,45 +845,49 @@ function getUserKey(phone){
 
 function saveUser(){
 
+  if(!currentPhone) return;
+
+  const key = getUserKey(currentPhone);
+
+  const data = {
+    password: getSavedPassword(currentPhone),
+    joined: joined,
+    walletBalance: walletBalance,
+    tournament: selectedTournament
+  };
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(data)
+  );
+}
+
+
+/* =========================
+   PASSWORD GET
+========================= */
+
+function getSavedPassword(phone){
+
   try{
 
-    if(!currentPhone){
-      return;
+    const data =
+      localStorage.getItem(
+        getUserKey(phone)
+      );
+
+    if(data){
+
+      const user =
+        JSON.parse(data);
+
+      return user.password || "";
+
     }
 
-    const key = getUserKey(currentPhone);
+  }catch(error){}
 
-    let oldUser = {};
-
-    const oldData = localStorage.getItem(key);
-
-    if(oldData){
-      oldUser = JSON.parse(oldData);
-    }
-
-    const data = {
-
-      password: oldUser.password || "",
-
-      joined: joined,
-
-      walletBalance: walletBalance,
-
-      tournament: selectedTournament
-
-    };
-
-    localStorage.setItem(
-      key,
-      JSON.stringify(data)
-    );
-
-  }catch(error){
-
-    console.log("Save error:",error);
-
-  }
-
+  return "";
 }
 
 
@@ -1009,38 +899,29 @@ function loadRememberedLogin(){
 
   try{
 
-    const savedLogin =
+    const saved =
       localStorage.getItem(
         "prince_remember_login"
       );
 
-    if(!savedLogin){
-      return;
-    }
+    if(!saved) return;
 
     const data =
-      JSON.parse(savedLogin);
+      JSON.parse(saved);
 
-    const phone =
-      document.getElementById("phone");
-
-    const password =
-      document.getElementById("password");
-
-    const remember =
-      document.getElementById("rememberLogin");
-
-    if(phone && data.phone){
-      phone.value = data.phone;
+    if(data.phone){
+      document.getElementById("phone").value =
+        data.phone;
     }
 
-    if(password && data.password){
-      password.value = data.password;
+    if(data.password){
+      document.getElementById("password").value =
+        data.password;
     }
 
-    if(remember){
-      remember.checked = true;
-    }
+    document.getElementById(
+      "rememberLogin"
+    ).checked = true;
 
   }catch(error){
 
@@ -1049,7 +930,6 @@ function loadRememberedLogin(){
     );
 
   }
-
 }
 
 
@@ -1059,236 +939,202 @@ function loadRememberedLogin(){
 
 function loginUser(){
 
-  try{
-
-    const phoneBox =
-      document.getElementById("phone");
-
-    const passwordBox =
-      document.getElementById("password");
-
-    const rememberBox =
-      document.getElementById("rememberLogin");
-
-    if(!phoneBox || !passwordBox){
-
-      alert(
-        "Login fields नहीं मिले।"
-      );
-
-      return;
-
-    }
-
-    const phone =
-      phoneBox.value.trim();
-
-    const password =
-      passwordBox.value.trim();
-
-    const remember =
-      rememberBox ?
-      rememberBox.checked :
-      false;
-
-
-    /* PHONE CHECK */
-
-    if(!/^\d{10}$/.test(phone)){
-
-      alert(
-        "कृपया 10 अंकों का मोबाइल नंबर डालें।"
-      );
-
-      return;
-
-    }
-
-
-    /* PASSWORD CHECK */
-
-    if(password.length < 4){
-
-      alert(
-        "पासवर्ड कम से कम 4 characters का रखें।"
-      );
-
-      return;
-
-    }
-
-
-    const key =
-      getUserKey(phone);
-
-    let savedData = null;
-
-    const saved =
-      localStorage.getItem(key);
-
-
-    /* OLD ACCOUNT */
-
-    if(saved){
-
-      try{
-
-        savedData =
-          JSON.parse(saved);
-
-      }catch(error){
-
-        localStorage.removeItem(key);
-
-        savedData = null;
-
-      }
-
-    }
-
-
-    /* NEW USER */
-
-    if(!savedData){
-
-      savedData = {
-
-        password: password,
-
-        joined: false,
-
-        walletBalance: 0,
-
-        tournament: null
-
-      };
-
-      localStorage.setItem(
-        key,
-        JSON.stringify(savedData)
-      );
-
-    }
-
-
-    /* PASSWORD CHECK */
-
-    else{
-
-      if(
-        savedData.password &&
-        savedData.password !== password
-      ){
-
-        alert(
-          "❌ गलत पासवर्ड!"
-        );
-
-        return;
-
-      }
-
-    }
-
-
-    /* LOAD USER */
-
-    currentPhone =
-      phone;
-
-    joined =
-      Boolean(savedData.joined);
-
-    walletBalance =
-      Number(savedData.walletBalance || 0);
-
-    selectedTournament =
-      savedData.tournament || null;
-
-
-    /* REMEMBER */
-
-    if(remember){
-
-      localStorage.setItem(
-
-        "prince_remember_login",
-
-        JSON.stringify({
-
-          phone:phone,
-
-          password:password
-
-        })
-
-      );
-
-    }else{
-
-      localStorage.removeItem(
-        "prince_remember_login"
-      );
-
-    }
-
-
-    /* OPEN APP */
-
-    const loginPage =
-      document.getElementById("loginPage");
-
-    const app =
-      document.getElementById("app");
-
-    if(!loginPage || !app){
-
-      alert(
-        "App page नहीं मिली।"
-      );
-
-      return;
-
-    }
-
-    loginPage.classList.add("hidden");
-
-    app.classList.remove("hidden");
-
-
-    const profilePhone =
-      document.getElementById("profilePhone");
-
-    if(profilePhone){
-
-      profilePhone.innerText =
-        phone;
-
-    }
-
-
-    updateWallet();
-
-    createTournamentList();
-
-    showPage("home");
-
-    if(joined){
-
-      showBattle();
-
-    }
-
-  }catch(error){
+  const phone =
+    document.getElementById("phone")
+      .value
+      .replace(/\D/g,"");
+
+  const password =
+    document.getElementById("password")
+      .value
+      .trim();
+
+  const remember =
+    document.getElementById(
+      "rememberLogin"
+    ).checked;
+
+
+  if(!/^\d{10}$/.test(phone)){
 
     alert(
-      "Login Error: " +
-      error.message
+      "कृपया 10 अंकों का मोबाइल नंबर डालें।"
     );
 
-    console.log(error);
+    return;
+  }
+
+
+  if(password.length < 4){
+
+    alert(
+      "पासवर्ड कम से कम 4 characters का रखें।"
+    );
+
+    return;
+  }
+
+
+  const key =
+    getUserKey(phone);
+
+  const saved =
+    localStorage.getItem(key);
+
+
+  /* पहली बार Login */
+
+  if(!saved){
+
+    currentPhone = phone;
+    joined = false;
+    walletBalance = 0;
+    selectedTournament = null;
+
+
+    localStorage.setItem(
+
+      key,
+
+      JSON.stringify({
+
+        password: password,
+        joined: false,
+        walletBalance: 0,
+        tournament: null
+
+      })
+
+    );
 
   }
+
+
+  /* पहले से बना Account */
+
+  else{
+
+    let data;
+
+    try{
+
+      data = JSON.parse(saved);
+
+    }catch(error){
+
+      alert(
+        "Account data में समस्या है।"
+      );
+
+      return;
+    }
+
+
+    if(data.password !== password){
+
+      alert("❌ गलत पासवर्ड!");
+
+      return;
+    }
+
+
+    currentPhone = phone;
+
+    joined =
+      Boolean(data.joined);
+
+    walletBalance =
+      Number(data.walletBalance || 0);
+
+    selectedTournament =
+      data.tournament || null;
+
+  }
+
+
+  /* Remember */
+
+  if(remember){
+
+    localStorage.setItem(
+
+      "prince_remember_login",
+
+      JSON.stringify({
+
+        phone: phone,
+        password: password
+
+      })
+
+    );
+
+  }else{
+
+    localStorage.removeItem(
+      "prince_remember_login"
+    );
+
+  }
+
+
+  /* LOGIN HIDE */
+
+  document
+    .getElementById("loginPage")
+    .classList.add("hidden");
+
+
+  /* APP SHOW */
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("profilePhone")
+    .innerText =
+      phone;
+
+
+  updateWallet();
+
+  createTournamentList();
+
+  showPage("home");
+
+  showBattle();
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutUser(){
+
+  saveUser();
+
+  currentPhone = "";
+  joined = false;
+  walletBalance = 0;
+  selectedTournament = null;
+
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("loginPage")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("password")
+    .value = "";
 
 }
 
@@ -1299,46 +1145,38 @@ function loginUser(){
 
 function showPage(page){
 
-  const pages = [
+  document
+    .getElementById("homePage")
+    .classList.add("hidden");
 
-    "homePage",
-    "tournamentPage",
-    "walletPage",
-    "profilePage"
+  document
+    .getElementById("tournamentPage")
+    .classList.add("hidden");
 
-  ];
+  document
+    .getElementById("walletPage")
+    .classList.add("hidden");
 
-  pages.forEach(function(id){
-
-    const el =
-      document.getElementById(id);
-
-    if(el){
-      el.classList.add("hidden");
-    }
-
-  });
+  document
+    .getElementById("profilePage")
+    .classList.add("hidden");
 
 
-  const navs = [
+  document
+    .getElementById("navHome")
+    .classList.remove("active");
 
-    "navHome",
-    "navTournament",
-    "navWallet",
-    "navProfile"
+  document
+    .getElementById("navTournament")
+    .classList.remove("active");
 
-  ];
+  document
+    .getElementById("navWallet")
+    .classList.remove("active");
 
-  navs.forEach(function(id){
-
-    const el =
-      document.getElementById(id);
-
-    if(el){
-      el.classList.remove("active");
-    }
-
-  });
+  document
+    .getElementById("navProfile")
+    .classList.remove("active");
 
 
   if(page === "home"){
@@ -1398,40 +1236,457 @@ function showPage(page){
 
 
 /* =========================
-   WALLET UPDATE
+   WALLET
 ========================= */
 
 function updateWallet(){
 
-  const ids = {
+  document.getElementById(
+    "topBalance"
+  ).innerText = walletBalance;
 
-    topBalance: walletBalance,
+  document.getElementById(
+    "homeBalance"
+  ).innerText = walletBalance;
 
-    homeBalance: walletBalance,
+  document.getElementById(
+    "walletBalance"
+  ).innerText = walletBalance;
 
-    walletBalance: walletBalance,
+  document.getElementById(
+    "profileBalance"
+  ).innerText = walletBalance;
 
-    profileBalance: walletBalance
+  document.getElementById(
+    "joinWalletBalance"
+  ).innerText = walletBalance;
+}
 
-  };
+
+/* =========================
+   DEPOSIT
+========================= */
+
+function openDeposit(){
+
+  document
+    .getElementById("depositBox")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("withdrawBox")
+    .classList.add("hidden");
+}
 
 
-  Object.keys(ids).forEach(function(id){
+function submitDeposit(){
 
-    const el =
-      document.getElementById(id);
+  const amount =
+    Number(
+      document.getElementById(
+        "depositAmount"
+      ).value
+    );
 
-    if(el){
-      el.innerText =
-        ids[id];
-    }
+
+  if(!amount || amount < 20){
+
+    alert("Minimum Deposit ₹20 है।");
+
+    return;
+  }
+
+
+  alert(
+    "Deposit Request भेज दी गई है.\n\n" +
+    "Payment Number: 9241771196\n" +
+    "Verification के बाद Balance update होगा।"
+  );
+
+
+  document.getElementById(
+    "depositAmount"
+  ).value = "";
+}
+
+
+/* =========================
+   WITHDRAW
+========================= */
+
+function openWithdraw(){
+
+  document
+    .getElementById("withdrawBox")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("depositBox")
+    .classList.add("hidden");
+}
+
+
+function submitWithdraw(){
+
+  const amount =
+    Number(
+      document.getElementById(
+        "withdrawAmount"
+      ).value
+    );
+
+  const number =
+    document.getElementById(
+      "withdrawNumber"
+    ).value
+    .replace(/\D/g,"");
+
+
+  if(!amount || amount < 40){
+
+    alert(
+      "Minimum Withdrawal ₹40 है।"
+    );
+
+    return;
+  }
+
+
+  if(!/^\d{10}$/.test(number)){
+
+    alert(
+      "कृपया सही 10 digit Mobile Number डालें।"
+    );
+
+    return;
+  }
+
+
+  if(amount > walletBalance){
+
+    alert(
+      "Wallet में इतना Balance नहीं है।"
+    );
+
+    return;
+  }
+
+
+  alert(
+    "Withdrawal Request submit हो गई है।\n\n" +
+    "Amount: ₹" + amount +
+    "\nMobile: " + number
+  );
+
+
+  document.getElementById(
+    "withdrawAmount"
+  ).value = "";
+
+  document.getElementById(
+    "withdrawNumber"
+  ).value = "";
+}
+
+
+/* =========================
+   TOURNAMENT LIST
+========================= */
+
+function createTournamentList(){
+
+  const list =
+    document.getElementById(
+      "tournamentList"
+    );
+
+  list.innerHTML = "";
+
+
+  const times = [
+    "09:00",
+    "09:15",
+    "09:30",
+    "09:45"
+  ];
+
+
+  times.forEach(function(time){
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "gameCard";
+
+
+    card.innerHTML = `
+
+      <div class="gameTop">
+
+        <div class="gameName">
+          🎮 1v1 Custom
+        </div>
+
+        <div class="badge">
+          LIVE
+        </div>
+
+      </div>
+
+      <div class="infoGrid">
+
+        <div class="info">
+          <small>Time</small>
+          ${time}
+        </div>
+
+        <div class="info">
+          <small>Entry</small>
+          ₹20
+        </div>
+
+        <div class="info">
+          <small>Mode</small>
+          1v1
+        </div>
+
+        <div class="info">
+          <small>Prize</small>
+          ₹35
+        </div>
+
+      </div>
+
+      <div class="timer">
+        <div>Battle Time</div>
+        <div
+          class="timerValue"
+          id="timer-${time.replace(":","")}"
+        >
+          Ready
+        </div>
+      </div>
+
+      <button
+        class="joinBtn"
+        onclick="openJoin('${time}')">
+
+        🏆 Join Battle ₹20
+
+      </button>
+
+    `;
+
+
+    list.appendChild(card);
 
   });
 
+}
 
-  const joinBalance =
-    document.getElementById(
-      "joinWalletBalance"
+
+/* =========================
+   JOIN
+========================= */
+
+function openJoin(time){
+
+  selectedTournament = time;
+
+
+  document.getElementById(
+    "selectedTournamentName"
+  ).innerText =
+    "1v1 Custom";
+
+
+  document.getElementById(
+    "selectedTournamentTime"
+  ).innerText =
+    time;
+
+
+  document.getElementById(
+    "joinWalletBalance"
+  ).innerText =
+    walletBalance;
+
+
+  document
+    .getElementById("joinModal")
+    .classList.remove("hidden");
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("joinModal")
+    .classList.add("hidden");
+}
+
+
+/* =========================
+   CONFIRM JOIN
+========================= */
+
+function confirmJoin(){
+
+  if(walletBalance < 20){
+
+    alert(
+      "❌ Wallet Balance कम है।\n\n" +
+      "Join करने के लिए कम से कम ₹20 चाहिए।"
     );
 
-  if(joi
+    closeModal();
+
+    showPage("wallet");
+
+    return;
+  }
+
+
+  walletBalance -= 20;
+
+  joined = true;
+
+  saveUser();
+
+  updateWallet();
+
+  closeModal();
+
+  showBattle();
+
+  showPage("tournament");
+
+  alert(
+    "🎉 Battle Join हो गया!\n\n" +
+    "Time: " + selectedTournament
+  );
+}
+
+
+/* =========================
+   MY BATTLE
+========================= */
+
+function showBattle(){
+
+  const box =
+    document.getElementById(
+      "myBattle"
+    );
+
+
+  if(!joined || !selectedTournament){
+
+    box.innerHTML = `
+
+      <div class="notice">
+        आपने अभी कोई Battle Join नहीं किया है।
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  const room =
+    roomDetails[selectedTournament];
+
+
+  if(!room){
+
+    box.innerHTML = `
+
+      <div class="notice">
+        Battle Room details अभी उपलब्ध नहीं हैं।
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  box.innerHTML = `
+
+    <div class="gameCard">
+
+      <div class="gameTop">
+
+        <div class="gameName">
+          🏆 1v1 Custom
+        </div>
+
+        <div class="badge">
+          JOINED
+        </div>
+
+      </div>
+
+      <div class="info">
+        <small>Battle Time</small>
+        ${selectedTournament}
+      </div>
+
+      <div class="roomBox">
+
+        <div class="roomRow">
+
+          <div class="roomLabel">
+            Room ID
+          </div>
+
+          <div class="roomValue">
+            ${room.roomId}
+          </div>
+
+        </div>
+
+        <div class="roomRow">
+
+          <div class="roomLabel">
+            Room Password
+          </div>
+
+          <div class="roomValue">
+            ${room.password}
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="notice">
+        ⚠️ Room ID और Password सिर्फ Battle
+        के समय इस्तेमाल करें।
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    loadRememberedLogin();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
