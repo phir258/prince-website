@@ -411,12 +411,6 @@ button{
 
     <h2>Login करें</h2>
 
-    <!-- नया छोटा मैसेज -->
-    <p style="font-size:13px; color:#9ca3af; line-height:1.5; margin:10px 0 15px;">
-      🔐 कृपया अपना मोबाइल नंबर और पासवर्ड याद रखें।<br>
-      लॉगिन करने के लिए इनकी आवश्यकता होगी।
-    </p>
-
     <input
       id="phone"
       class="input"
@@ -744,8 +738,7 @@ function getUserKey(phone){
 
 function loadUser(phone){
 
-  let key =
-    getUserKey(phone);
+  let key = getUserKey(phone);
 
   let savedData =
     localStorage.getItem(key);
@@ -756,7 +749,7 @@ function loadUser(phone){
       JSON.parse(savedData);
 
     coins =
-      Number(data.coins ?? 100);
+      Number(data.coins);
 
     joined =
       Boolean(data.joined);
@@ -765,6 +758,8 @@ function loadUser(phone){
 
     coins = 100;
     joined = false;
+
+    saveUser();
 
   }
 
@@ -784,22 +779,10 @@ function saveUser(){
   let key =
     getUserKey(currentPhone);
 
-  let oldData =
-    localStorage.getItem(key);
-
-  let oldUser =
-    oldData ? JSON.parse(oldData) : {};
-
   let data = {
 
-    password:
-      oldUser.password || "",
-
-    coins:
-      coins,
-
-    joined:
-      joined
+    coins: coins,
+    joined: joined
 
   };
 
@@ -812,7 +795,7 @@ function saveUser(){
 
 
 /* =========================
-   LOGIN + PASSWORD
+   LOGIN
 ========================= */
 
 function loginUser(){
@@ -821,7 +804,7 @@ function loginUser(){
     document.getElementById("phone").value.trim();
 
   let password =
-    document.getElementById("password").value;
+    document.getElementById("password").value.trim();
 
   if(phone.length !== 10){
 
@@ -838,85 +821,15 @@ function loginUser(){
   }
 
 
-  let key =
-    getUserKey(phone);
-
-  let savedData =
-    localStorage.getItem(key);
-
-
-  /* Account पहले से मौजूद है */
-
-  if(savedData){
-
-    let data =
-      JSON.parse(savedData);
-
-
-    /* अगर password पहले से save है */
-
-    if(data.password){
-
-      if(data.password !== password){
-
-        alert("गलत Password है।");
-        return;
-
-      }
-
-    }else{
-
-      /*
-       पुराने account में password नहीं था।
-       अभी वाला password save कर देंगे।
-      */
-
-      data.password = password;
-
-      localStorage.setItem(
-        key,
-        JSON.stringify(data)
-      );
-
-    }
-
-  }else{
-
-    /*
-     नया phone number है,
-     इसलिए नया account बनेगा।
-    */
-
-    let newUser = {
-
-      password: password,
-
-      coins: 100,
-
-      joined: false
-
-    };
-
-    localStorage.setItem(
-      key,
-      JSON.stringify(newUser)
-    );
-
-  }
-
-
   /* Current user set */
 
-  currentPhone =
-    phone;
+  currentPhone = phone;
 
 
-  /* User data load */
+  /* Saved coins load */
 
   loadUser(phone);
 
-
-  /* Main App खोलें */
 
   document
     .getElementById("loginPage")
@@ -929,8 +842,7 @@ function loginUser(){
 
   document
     .getElementById("profilePhone")
-    .innerText =
-      phone;
+    .innerText = phone;
 
 
   updateCoins();
@@ -949,4 +861,354 @@ function loginUser(){
    PAGES
 ========================= */
 
-fun
+function showPage(page){
+
+  document
+    .getElementById("homePage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("tournamentPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("walletPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("profilePage")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("navHome")
+    .classList.remove("active");
+
+  document
+    .getElementById("navTournament")
+    .classList.remove("active");
+
+  document
+    .getElementById("navWallet")
+    .classList.remove("active");
+
+  document
+    .getElementById("navProfile")
+    .classList.remove("active");
+
+
+  if(page === "home"){
+
+    document
+      .getElementById("homePage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navHome")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "tournament"){
+
+    document
+      .getElementById("tournamentPage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navTournament")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "wallet"){
+
+    document
+      .getElementById("walletPage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navWallet")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "profile"){
+
+    document
+      .getElementById("profilePage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navProfile")
+      .classList.add("active");
+
+  }
+
+}
+
+
+/* =========================
+   JOIN
+========================= */
+
+function openJoin(){
+
+  document
+    .getElementById("joinCoins")
+    .innerText = coins;
+
+  document
+    .getElementById("joinModal")
+    .classList.remove("hidden");
+
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("joinModal")
+    .classList.add("hidden");
+
+}
+
+
+function confirmJoin(){
+
+  if(coins < 20){
+
+    alert("आपके पास 20 Coins नहीं हैं।");
+
+    closeModal();
+
+    return;
+
+  }
+
+
+  /* 20 Coins कटेंगे */
+
+  coins -= 20;
+
+
+  joined = true;
+
+
+  /* IMPORTANT:
+     नया balance save होगा */
+
+  saveUser();
+
+
+  updateCoins();
+
+
+  closeModal();
+
+
+  showBattle();
+
+
+  alert(
+    "1v1 Custom में Join हो गया!\n\n" +
+    "20 Coins काटे गए।\n" +
+    "बाकी Balance: " +
+    coins +
+    " Coins"
+  );
+
+}
+
+
+/* =========================
+   BATTLE
+========================= */
+
+function showBattle(){
+
+  document
+    .getElementById("myBattle")
+    .innerHTML = `
+
+      <div class="gameCard">
+
+        <div class="gameTop">
+
+          <div class="gameName">
+            ⚔️ 1v1 Custom
+          </div>
+
+          <div class="badge">
+            JOINED
+          </div>
+
+        </div>
+
+        <p class="sub">
+          आपका Battle successfully join हो गया है।
+        </p>
+
+        <div class="roomBox">
+
+          <b>🎮 Room Details</b>
+
+          <div class="roomRow">
+
+            <div class="roomLabel">
+              Room ID
+            </div>
+
+            <div class="roomValue">
+              अभी उपलब्ध नहीं
+            </div>
+
+          </div>
+
+          <div class="roomRow">
+
+            <div class="roomLabel">
+              Password
+            </div>
+
+            <div class="roomValue">
+              अभी उपलब्ध नहीं
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="notice">
+
+          Room ID और Password admin द्वारा
+          match शुरू होने से पहले दिया जाएगा।
+
+        </div>
+
+      </div>
+
+    `;
+
+}
+
+
+/* =========================
+   COINS
+========================= */
+
+function updateCoins(){
+
+  document
+    .getElementById("topCoins")
+    .innerText = coins;
+
+  document
+    .getElementById("walletCoins")
+    .innerText = coins;
+
+  document
+    .getElementById("profileCoins")
+    .innerText = coins;
+
+}
+
+
+/* =========================
+   FREE COINS
+========================= */
+
+function freeCoins(){
+
+  coins += 10;
+
+  saveUser();
+
+  updateCoins();
+
+  alert(
+    "🎁 आपको 10 Free Coins मिले!\n\n" +
+    "अब Balance: " +
+    coins +
+    " Coins"
+  );
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutUser(){
+
+  /* Logout से पहले save */
+
+  saveUser();
+
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginPage")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("password")
+    .value = "";
+
+
+  document
+    .getElementById("phone")
+    .value = "";
+
+
+  currentPhone = "";
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+let seconds = 600;
+
+setInterval(function(){
+
+  let min =
+    Math.floor(seconds / 60);
+
+  let sec =
+    seconds % 60;
+
+  if(sec < 10){
+
+    sec = "0" + sec;
+
+  }
+
+  document
+    .getElementById("timer")
+    .innerText =
+      min + ":" + sec;
+
+
+  if(seconds > 0){
+
+    seconds--;
+
+  }
+
+},1000);
+
+</script>
+
+</body>
+</html>
