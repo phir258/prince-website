@@ -108,12 +108,6 @@ button{
   margin-top:10px;
 }
 
-.smallText{
-  color:#9ca3af;
-  font-size:13px;
-  margin-top:15px;
-}
-
 /* APP */
 #app{
   min-height:100vh;
@@ -223,14 +217,14 @@ button{
   width:100%;
   padding:13px;
   border-radius:10px;
-  background:#2563eb;
+  background:#7c3aed;
   color:white;
   font-size:16px;
   font-weight:bold;
 }
 
 .joinBtn:hover{
-  background:#1d4ed8;
+  background:#6d28d9;
 }
 
 /* TIMER */
@@ -326,32 +320,6 @@ button{
   font-size:22px;
   color:#c084fc;
   margin-top:5px;
-}
-
-/* COINS */
-.balanceBox{
-  background:linear-gradient(135deg,#854d0e,#164e63);
-  padding:25px;
-  border-radius:20px;
-  margin-bottom:15px;
-}
-
-.balance{
-  font-size:35px;
-  font-weight:bold;
-  margin-top:8px;
-  color:#facc15;
-}
-
-.coinBtn{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  background:#ca8a04;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  margin-top:10px;
 }
 
 .notice{
@@ -569,10 +537,6 @@ button{
 
     </button>
 
-    <p class="smallText">
-      Free Coins से खेलें
-    </p>
-
   </div>
 </div>
 
@@ -622,7 +586,6 @@ button{
       🏆 Available Tournament
     </h2>
 
-    <!-- CURRENT TOURNAMENT -->
     <div id="tournamentList"></div>
 
   </div>
@@ -775,41 +738,6 @@ button{
   </div>
 
 
-  <!-- COINS -->
-  <div id="coinsPage" class="page hidden">
-
-    <h2 class="sectionTitle">
-      🪙 My Coins
-    </h2>
-
-    <div class="balanceBox">
-
-      <div>Available Coins</div>
-
-      <div class="balance">
-        🪙 <span id="walletCoins">100</span>
-      </div>
-
-    </div>
-
-    <button
-      class="coinBtn"
-      onclick="freeCoins()">
-
-      + Free Coins
-
-    </button>
-
-    <div class="notice">
-
-      ये Coins केवल app के अंदर इस्तेमाल होने वाले
-      non-cash points हैं।
-
-    </div>
-
-  </div>
-
-
   <!-- PROFILE -->
   <div id="profilePage" class="page hidden">
 
@@ -835,14 +763,6 @@ button{
       <span>💜 Wallet Balance</span>
 
       <span>₹<span id="profileBalance">0</span></span>
-
-    </div>
-
-    <div class="menuItem">
-
-      <span>🪙 My Coins</span>
-
-      <span id="profileCoins">100</span>
 
     </div>
 
@@ -901,16 +821,6 @@ button{
 
     <button
       class="navBtn"
-      id="navCoins"
-      onclick="showPage('coins')">
-
-      <span>🪙</span>
-      Coins
-
-    </button>
-
-    <button
-      class="navBtn"
       id="navProfile"
       onclick="showPage('profile')">
 
@@ -947,37 +857,40 @@ button{
     </p>
 
     <p style="margin-top:10px">
+
       Time:
       <b style="color:#60a5fa" id="selectedTournamentTime">
         --
       </b>
+
     </p>
 
     <p style="margin-top:10px">
 
       Entry:
 
-      <b style="color:#facc15">
-        🪙 20 Coins
+      <b style="color:#c084fc">
+        💜 ₹20 Wallet
       </b>
 
     </p>
 
     <p style="margin-top:10px">
 
-      आपका Balance:
+      आपका Wallet Balance:
 
-      <b style="color:#60a5fa">
-        🪙 <span id="joinCoins">100</span>
+      <b style="color:#c084fc">
+        ₹<span id="joinWalletBalance">0</span>
       </b>
 
     </p>
 
     <button
       class="mainBtn"
+      style="background:#7c3aed"
       onclick="confirmJoin()">
 
-      Join Confirm करें
+      ₹20 देकर Join करें
 
     </button>
 
@@ -994,8 +907,6 @@ button{
 
 let currentPhone = "";
 
-let coins = 100;
-
 let joined = false;
 
 let walletBalance = 0;
@@ -1008,12 +919,9 @@ let walletBalance = 0;
 let selectedTournament = null;
 
 
-/*
-  यहां हर Tournament का
-  Room ID और Password डाल सकते हैं।
-
-  अभी example दिया गया है।
-*/
+/* =========================
+   ROOM DETAILS
+========================= */
 
 const roomDetails = {
 
@@ -1068,14 +976,14 @@ function loadUser(phone){
     let data =
       JSON.parse(savedData);
 
-    coins =
-      Number(data.coins || 100);
-
     joined =
       Boolean(data.joined);
 
     walletBalance =
       Number(data.walletBalance || 0);
+
+    selectedTournament =
+      data.tournament || null;
 
     return data;
 
@@ -1111,9 +1019,6 @@ function saveUser(){
 
     password:
       oldUser.password || "",
-
-    coins:
-      coins,
 
     joined:
       joined,
@@ -1244,9 +1149,6 @@ function loginUser(){
     currentPhone =
       phone;
 
-    coins =
-      100;
-
     joined =
       false;
 
@@ -1264,9 +1166,6 @@ function loginUser(){
 
         password:
           password,
-
-        coins:
-          100,
 
         joined:
           false,
@@ -1304,9 +1203,6 @@ function loginUser(){
 
     currentPhone =
       phone;
-
-    coins =
-      Number(data.coins || 100);
 
     joined =
       Boolean(data.joined);
@@ -1366,8 +1262,6 @@ function loginUser(){
     .innerText =
       phone;
 
-  updateCoins();
-
   updateWallet();
 
   showPage("home");
@@ -1402,10 +1296,6 @@ function showPage(page){
     .classList.add("hidden");
 
   document
-    .getElementById("coinsPage")
-    .classList.add("hidden");
-
-  document
     .getElementById("profilePage")
     .classList.add("hidden");
 
@@ -1420,10 +1310,6 @@ function showPage(page){
 
   document
     .getElementById("navWallet")
-    .classList.remove("active");
-
-  document
-    .getElementById("navCoins")
     .classList.remove("active");
 
   document
@@ -1465,19 +1351,6 @@ function showPage(page){
 
     document
       .getElementById("navWallet")
-      .classList.add("active");
-
-  }
-
-
-  if(page === "coins"){
-
-    document
-      .getElementById("coinsPage")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("navCoins")
       .classList.add("active");
 
   }
@@ -1548,625 +1421,4 @@ function openDeposit(){
    WITHDRAW BOX
 ========================= */
 
-function openWithdraw(){
-
-  document
-    .getElementById("withdrawBox")
-    .classList.remove("hidden");
-
-  document
-    .getElementById("depositBox")
-    .classList.add("hidden");
-
-}
-
-
-/* =========================
-   DEPOSIT REQUEST
-========================= */
-
-function submitDeposit(){
-
-  let amount =
-    Number(
-      document
-        .getElementById("depositAmount")
-        .value
-    );
-
-  if(!amount || amount < 20){
-
-    alert(
-      "❌ Minimum Deposit ₹20 है।"
-    );
-
-    return;
-
-  }
-
-  alert(
-
-    "💰 Deposit Request\n\n" +
-
-    "Amount: ₹" +
-    amount +
-    "\n\n" +
-
-    "Payment Number:\n" +
-    "9241771196\n\n" +
-
-    "Payment करने के बाद verification " +
-    "के लिए request submit करें।"
-
-  );
-
-}
-
-
-/* =========================
-   WITHDRAW REQUEST
-========================= */
-
-function submitWithdraw(){
-
-  let amount =
-    Number(
-      document
-        .getElementById("withdrawAmount")
-        .value
-    );
-
-  let number =
-    document
-      .getElementById("withdrawNumber")
-      .value
-      .trim();
-
-
-  if(!amount || amount < 40){
-
-    alert(
-      "❌ Minimum Withdrawal ₹40 है।"
-    );
-
-    return;
-
-  }
-
-
-  if(number.length !== 10){
-
-    alert(
-      "❌ कृपया 10 अंकों का Mobile Number डालें।"
-    );
-
-    return;
-
-  }
-
-
-  if(amount > walletBalance){
-
-    alert(
-      "❌ आपके Wallet में इतना Balance नहीं है।"
-    );
-
-    return;
-
-  }
-
-
-  alert(
-
-    "💸 Withdrawal Request भेज दी गई है।\n\n" +
-
-    "Amount: ₹" +
-    amount +
-    "\n\n" +
-
-    "Number: " +
-    number +
-    "\n\n" +
-
-    "Request verification के बाद process होगी।"
-
-  );
-
-}
-
-
-/* =========================
-   TOURNAMENT TIME
-========================= */
-
-function formatTime(hour, minute){
-
-  let h = hour;
-
-  let suffix = h >= 12 ? "PM" : "AM";
-
-  let displayHour = h % 12;
-
-  if(displayHour === 0){
-    displayHour = 12;
-  }
-
-  let min =
-    minute.toString().padStart(2,"0");
-
-  return displayHour + ":" + min + " " + suffix;
-
-}
-
-
-/* =========================
-   CREATE 15 MIN TOURNAMENTS
-========================= */
-
-function createTournamentList(){
-
-  let box =
-    document.getElementById("tournamentList");
-
-  if(!box){
-    return;
-  }
-
-  let html = "";
-
-  for(
-    let total = 9 * 60;
-    total <= 19 * 60;
-    total += 15
-  ){
-
-    let hour =
-      Math.floor(total / 60);
-
-    let minute =
-      total % 60;
-
-    let time24 =
-      hour.toString().padStart(2,"0") +
-      ":" +
-      minute.toString().padStart(2,"0");
-
-    let displayTime =
-      formatTime(hour,minute);
-
-    let room =
-      roomDetails[time24];
-
-    let roomText =
-      room
-        ? "Room Ready"
-        : "Room बाद में मिलेगा";
-
-    html += `
-
-      <div class="gameCard">
-
-        <div class="gameTop">
-
-          <div class="gameName">
-            ⚔️ 1v1 Custom
-          </div>
-
-          <div class="badge">
-            OPEN
-          </div>
-
-        </div>
-
-        <div class="infoGrid">
-
-          <div class="info">
-
-            <small>Time</small>
-
-            🕐 ${displayTime}
-
-          </div>
-
-          <div class="info">
-
-            <small>Entry</small>
-
-            🪙 20 Coins
-
-          </div>
-
-          <div class="info">
-
-            <small>Players</small>
-
-            1 vs 1
-
-          </div>
-
-          <div class="info">
-
-            <small>Room</small>
-
-            ${roomText}
-
-          </div>
-
-        </div>
-
-        <div class="timer">
-
-          Tournament Time
-
-          <div class="timerValue">
-
-            ${displayTime}
-
-          </div>
-
-        </div>
-
-        <button
-          class="joinBtn"
-          onclick="openJoin('${time24}','${displayTime}')">
-
-          🏆 20 Coins में Join करें
-
-        </button>
-
-      </div>
-
-    `;
-
-  }
-
-  box.innerHTML = html;
-
-}
-
-
-/* =========================
-   JOIN
-========================= */
-
-function openJoin(time24, displayTime){
-
-  selectedTournament = {
-
-    time:
-      time24,
-
-    displayTime:
-      displayTime,
-
-    name:
-      "1v1 Custom"
-
-  };
-
-  document
-    .getElementById("selectedTournamentName")
-    .innerText =
-      "1v1 Custom";
-
-  document
-    .getElementById("selectedTournamentTime")
-    .innerText =
-      displayTime;
-
-  document
-    .getElementById("joinCoins")
-    .innerText =
-      coins;
-
-  document
-    .getElementById("joinModal")
-    .classList.remove("hidden");
-
-}
-
-
-function closeModal(){
-
-  document
-    .getElementById("joinModal")
-    .classList.add("hidden");
-
-}
-
-
-/* =========================
-   CONFIRM JOIN
-========================= */
-
-function confirmJoin(){
-
-  if(!selectedTournament){
-
-    alert(
-      "कृपया पहले Tournament चुनें।"
-    );
-
-    return;
-
-  }
-
-  if(coins < 20){
-
-    alert(
-      "आपके पास 20 Coins नहीं हैं।"
-    );
-
-    closeModal();
-
-    return;
-
-  }
-
-  coins -= 20;
-
-  joined = true;
-
-  saveUser();
-
-  updateCoins();
-
-  closeModal();
-
-  showBattle();
-
-  showPage("tournament");
-
-  alert(
-
-    "🏆 Tournament में Join हो गया!\n\n" +
-
-    "Time: " +
-    selectedTournament.displayTime +
-    "\n\n" +
-
-    "20 Coins काटे गए।\n" +
-
-    "बाकी Balance: " +
-
-    coins +
-
-    " Coins"
-
-  );
-
-}
-
-
-/* =========================
-   BATTLE
-========================= */
-
-function showBattle(){
-
-  let tournament =
-    selectedTournament;
-
-  if(!tournament){
-
-    document
-      .getElementById("myBattle")
-      .innerHTML = `
-
-        <div class="notice">
-          आपने अभी कोई Battle Join नहीं किया है।
-        </div>
-
-      `;
-
-    return;
-
-  }
-
-
-  let room =
-    roomDetails[tournament.time];
-
-
-  let roomId =
-    room
-      ? room.roomId
-      : "Admin द्वारा बाद में दिया जाएगा";
-
-
-  let password =
-    room
-      ? room.password
-      : "Admin द्वारा बाद में दिया जाएगा";
-
-
-  document
-    .getElementById("myBattle")
-    .innerHTML = `
-
-      <div class="gameCard">
-
-        <div class="gameTop">
-
-          <div class="gameName">
-            ⚔️ 1v1 Custom
-          </div>
-
-          <div class="badge">
-            JOINED
-          </div>
-
-        </div>
-
-        <p class="sub">
-
-          आपका Battle successfully
-          join हो गया है।
-
-        </p>
-
-        <div class="info">
-
-          <small>
-            Tournament Time
-          </small>
-
-          🕐 ${tournament.displayTime}
-
-        </div>
-
-        <div class="roomBox">
-
-          <b>🎮 Room Details</b>
-
-          <div class="roomRow">
-
-            <div class="roomLabel">
-              Room ID
-            </div>
-
-            <div class="roomValue">
-              ${roomId}
-            </div>
-
-          </div>
-
-          <div class="roomRow">
-
-            <div class="roomLabel">
-              Password
-            </div>
-
-            <div class="roomValue">
-              ${password}
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="notice">
-
-          Room ID और Password इसी
-          Tournament के लिए दिखाया जा रहा है।
-
-        </div>
-
-      </div>
-
-    `;
-
-}
-
-
-/* =========================
-   COINS
-========================= */
-
-function updateCoins(){
-
-  document
-    .getElementById("walletCoins")
-    .innerText =
-      coins;
-
-  document
-    .getElementById("profileCoins")
-    .innerText =
-      coins;
-
-}
-
-
-/* =========================
-   FREE COINS
-========================= */
-
-function freeCoins(){
-
-  coins += 10;
-
-  saveUser();
-
-  updateCoins();
-
-  alert(
-
-    "🎁 आपको 10 Free Coins मिले!\n\n" +
-
-    "अब Balance: " +
-
-    coins +
-
-    " Coins"
-
-  );
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logoutUser(){
-
-  saveUser();
-
-  document
-    .getElementById("app")
-    .classList.add("hidden");
-
-  document
-    .getElementById("loginPage")
-    .classList.remove("hidden");
-
-
-  if(
-    !document
-      .getElementById("rememberLogin")
-      .checked
-  ){
-
-    document
-      .getElementById("password")
-      .value = "";
-
-    document
-      .getElementById("phone")
-      .value = "";
-
-  }
-
-  currentPhone = "";
-
-}
-
-
-/* =========================
-   PAGE LOAD
-========================= */
-
-window.addEventListener(
-
-  "load",
-
-  function(){
-
-    loadRememberedLogin();
-
-  }
-
-);
-
-
-/* =========================
-   REFRESH TOURNAMENTS
-========================= */
-
-createTournamentList();
-
-</script>
-
-</body>
-</html>
+function op
