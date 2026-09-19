@@ -81,6 +81,10 @@ button{
   font-size:16px;
 }
 
+.input:focus{
+  border-color:#3b82f6;
+}
+
 .rememberBox{
   display:flex;
   align-items:center;
@@ -106,12 +110,6 @@ button{
   font-size:17px;
   font-weight:bold;
   margin-top:10px;
-}
-
-.smallText{
-  color:#9ca3af;
-  font-size:13px;
-  margin-top:15px;
 }
 
 /* APP */
@@ -156,6 +154,7 @@ button{
   border-radius:20px;
   padding:24px;
   margin-bottom:18px;
+  cursor:pointer;
 }
 
 .banner h1{
@@ -223,14 +222,14 @@ button{
   width:100%;
   padding:13px;
   border-radius:10px;
-  background:#2563eb;
+  background:#7c3aed;
   color:white;
   font-size:16px;
   font-weight:bold;
 }
 
 .joinBtn:hover{
-  background:#1d4ed8;
+  background:#6d28d9;
 }
 
 /* TIMER */
@@ -326,32 +325,6 @@ button{
   font-size:22px;
   color:#c084fc;
   margin-top:5px;
-}
-
-/* COINS */
-.balanceBox{
-  background:linear-gradient(135deg,#854d0e,#164e63);
-  padding:25px;
-  border-radius:20px;
-  margin-bottom:15px;
-}
-
-.balance{
-  font-size:35px;
-  font-weight:bold;
-  margin-top:8px;
-  color:#facc15;
-}
-
-.coinBtn{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  background:#ca8a04;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  margin-top:10px;
 }
 
 .notice{
@@ -495,6 +468,9 @@ button{
     font-size:32px;
   }
 
+  .brand{
+    font-size:16px;
+  }
 }
 </style>
 </head>
@@ -506,9 +482,13 @@ button{
 
   <div class="loginBox">
 
-    <img src="IMG-20260902-WA0000.jpg" class="logo">
+    <img
+      src="IMG-20260902-WA0000.jpg"
+      class="logo"
+      onerror="this.style.display='none'">
 
     <div class="logoTitle">PRINCE</div>
+
     <div class="sub">BATTLE GROUND</div>
 
     <h2>Login करें</h2>
@@ -525,7 +505,6 @@ button{
       id="password"
       class="input"
       type="password"
-      minlength="4"
       placeholder="पासवर्ड डालें">
 
     <label class="rememberBox">
@@ -539,16 +518,13 @@ button{
     </label>
 
     <button
+      type="button"
       class="mainBtn"
       onclick="loginUser()">
 
       Login करें
 
     </button>
-
-    <p class="smallText">
-      Free Coins से खेलें
-    </p>
 
   </div>
 
@@ -580,8 +556,7 @@ button{
 
     <div
       class="banner"
-      onclick="showPage('wallet')"
-      style="cursor:pointer">
+      onclick="showPage('wallet')">
 
       <h1>💜 Wallet</h1>
 
@@ -605,7 +580,7 @@ button{
   </div>
 
 
-  <!-- TOURNAMENT -->
+  <!-- BATTLE -->
   <div id="tournamentPage" class="page hidden">
 
     <h2 class="sectionTitle">
@@ -677,7 +652,7 @@ button{
         class="walletInput"
         type="number"
         min="20"
-        placeholder="Amount डालें (Minimum ₹20)">
+        placeholder="Amount डालें">
 
       <div class="paymentNumber">
 
@@ -698,10 +673,9 @@ button{
 
       <div class="notice">
 
-        Payment करने के बाद आपका Deposit
-        verification के लिए जाएगा। Balance को
-        बिना payment verification के automatically
-        credit नहीं किया जाएगा।
+        Payment करने के बाद verification
+        आवश्यक होगा। Balance automatically
+        credit नहीं होगा।
 
       </div>
 
@@ -724,7 +698,7 @@ button{
         class="walletInput"
         type="number"
         min="40"
-        placeholder="Amount डालें (Minimum ₹40)">
+        placeholder="Amount डालें">
 
       <input
         id="withdrawNumber"
@@ -732,7 +706,7 @@ button{
         type="tel"
         inputmode="numeric"
         maxlength="10"
-        placeholder="अपना 10 digit Mobile Number">
+        placeholder="10 digit Mobile Number">
 
       <button
         class="mainBtn"
@@ -755,41 +729,6 @@ button{
   </div>
 
 
-  <!-- COINS -->
-  <div id="coinsPage" class="page hidden">
-
-    <h2 class="sectionTitle">
-      🪙 My Coins
-    </h2>
-
-    <div class="balanceBox">
-
-      <div>Available Coins</div>
-
-      <div class="balance">
-        🪙 <span id="walletCoins">100</span>
-      </div>
-
-    </div>
-
-    <button
-      class="coinBtn"
-      onclick="freeCoins()">
-
-      + Free Coins
-
-    </button>
-
-    <div class="notice">
-
-      ये Coins केवल app के अंदर इस्तेमाल होने वाले
-      non-cash points हैं।
-
-    </div>
-
-  </div>
-
-
   <!-- PROFILE -->
   <div id="profilePage" class="page hidden">
 
@@ -797,7 +736,8 @@ button{
 
       <img
         src="IMG-20260902-WA0000.jpg"
-        class="profileImg">
+        class="profileImg"
+        onerror="this.style.display='none'">
 
       <h2>Prince Player</h2>
 
@@ -820,15 +760,10 @@ button{
 
     </div>
 
-    <div class="menuItem">
-
-      <span>🪙 My Coins</span>
-
-      <span id="profileCoins">100</span>
-
-    </div>
-
-    <div class="menuItem">
+    <div
+      class="menuItem"
+      onclick="showPage('tournament')"
+      style="cursor:pointer">
 
       <span>🏆 My Battles</span>
 
@@ -837,6 +772,7 @@ button{
     </div>
 
     <button
+      type="button"
       class="mainBtn"
       style="background:#dc2626"
       onclick="logoutUser()">
@@ -883,16 +819,6 @@ button{
 
     <button
       class="navBtn"
-      id="navCoins"
-      onclick="showPage('coins')">
-
-      <span>🪙</span>
-      Coins
-
-    </button>
-
-    <button
-      class="navBtn"
       id="navProfile"
       onclick="showPage('profile')">
 
@@ -933,7 +859,6 @@ button{
     <p style="margin-top:10px">
 
       Time:
-
       <b
         style="color:#60a5fa"
         id="selectedTournamentTime">
@@ -947,31 +872,27 @@ button{
     <p style="margin-top:10px">
 
       Entry:
-
-      <b style="color:#facc15">
-        🪙 20 Coins
+      <b style="color:#c084fc">
+        💜 ₹20 Wallet
       </b>
 
     </p>
 
     <p style="margin-top:10px">
 
-      आपका Balance:
-
-      <b style="color:#60a5fa">
-
-        🪙
-        <span id="joinCoins">100</span>
-
+      Wallet Balance:
+      <b style="color:#c084fc">
+        ₹<span id="joinWalletBalance">0</span>
       </b>
 
     </p>
 
     <button
       class="mainBtn"
+      style="background:#7c3aed"
       onclick="confirmJoin()">
 
-      Join Confirm करें
+      ₹20 देकर Join करें
 
     </button>
 
@@ -987,7 +908,6 @@ button{
 ========================= */
 
 let currentPhone = "";
-let coins = 100;
 let joined = false;
 let walletBalance = 0;
 let selectedTournament = null;
@@ -1039,55 +959,44 @@ function getUserKey(phone){
 
 function saveUser(){
 
-  if(!currentPhone){
-    return;
-  }
-
-  const key =
-    getUserKey(currentPhone);
-
-  let oldUser = {};
-
   try{
 
-    const oldData =
-      localStorage.getItem(key);
+    if(!currentPhone){
+      return;
+    }
+
+    const key = getUserKey(currentPhone);
+
+    let oldUser = {};
+
+    const oldData = localStorage.getItem(key);
 
     if(oldData){
       oldUser = JSON.parse(oldData);
     }
 
+    const data = {
+
+      password: oldUser.password || "",
+
+      joined: joined,
+
+      walletBalance: walletBalance,
+
+      tournament: selectedTournament
+
+    };
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(data)
+    );
+
   }catch(error){
 
-    oldUser = {};
+    console.log("Save error:",error);
 
   }
-
-
-  const data = {
-
-    password:
-      oldUser.password || "",
-
-    coins:
-      coins,
-
-    joined:
-      joined,
-
-    walletBalance:
-      walletBalance,
-
-    tournament:
-      selectedTournament
-
-  };
-
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(data)
-  );
 
 }
 
@@ -1098,47 +1007,42 @@ function saveUser(){
 
 function loadRememberedLogin(){
 
-  const savedLogin =
-    localStorage.getItem(
-      "prince_remember_login"
-    );
-
-  if(!savedLogin){
-    return;
-  }
-
-
   try{
+
+    const savedLogin =
+      localStorage.getItem(
+        "prince_remember_login"
+      );
+
+    if(!savedLogin){
+      return;
+    }
 
     const data =
       JSON.parse(savedLogin);
 
+    const phone =
+      document.getElementById("phone");
 
-    if(data.phone){
+    const password =
+      document.getElementById("password");
 
-      document
-        .getElementById("phone")
-        .value = data.phone;
+    const remember =
+      document.getElementById("rememberLogin");
 
+    if(phone && data.phone){
+      phone.value = data.phone;
     }
 
-
-    if(data.password){
-
-      document
-        .getElementById("password")
-        .value = data.password;
-
+    if(password && data.password){
+      password.value = data.password;
     }
 
+    if(remember){
+      remember.checked = true;
+    }
 
-    document
-      .getElementById("rememberLogin")
-      .checked = true;
-
-  }
-
-  catch(error){
+  }catch(error){
 
     localStorage.removeItem(
       "prince_remember_login"
@@ -1151,132 +1055,49 @@ function loadRememberedLogin(){
 
 /* =========================
    LOGIN
-   MOBILE + PASSWORD
-   NO OTP
 ========================= */
 
 function loginUser(){
 
-  const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim();
+  try{
 
-  const password =
-    document
-      .getElementById("password")
-      .value
-      .trim();
+    const phoneBox =
+      document.getElementById("phone");
 
-  const remember =
-    document
-      .getElementById("rememberLogin")
-      .checked;
+    const passwordBox =
+      document.getElementById("password");
 
+    const rememberBox =
+      document.getElementById("rememberLogin");
 
-  /* MOBILE CHECK */
+    if(!phoneBox || !passwordBox){
 
-  if(!/^\d{10}$/.test(phone)){
+      alert(
+        "Login fields नहीं मिले।"
+      );
 
-    alert(
-      "❌ कृपया 10 अंकों का सही Mobile Number डालें।"
-    );
+      return;
 
-    return;
+    }
 
-  }
+    const phone =
+      phoneBox.value.trim();
 
+    const password =
+      passwordBox.value.trim();
 
-  /* PASSWORD CHECK */
-
-  if(password.length < 4){
-
-    alert(
-      "❌ पासवर्ड कम से कम 4 characters का रखें।"
-    );
-
-    return;
-
-  }
-
-
-  const key =
-    getUserKey(phone);
-
-  const savedData =
-    localStorage.getItem(key);
-
-
-  /* =====================
-     NEW USER
-  ===================== */
-
-  if(!savedData){
-
-    currentPhone =
-      phone;
-
-    coins =
-      100;
-
-    joined =
+    const remember =
+      rememberBox ?
+      rememberBox.checked :
       false;
 
-    walletBalance =
-      0;
 
-    selectedTournament =
-      null;
+    /* PHONE CHECK */
 
-
-    localStorage.setItem(
-
-      key,
-
-      JSON.stringify({
-
-        password:
-          password,
-
-        coins:
-          100,
-
-        joined:
-          false,
-
-        walletBalance:
-          0,
-
-        tournament:
-          null
-
-      })
-
-    );
-
-  }
-
-
-  /* =====================
-     EXISTING USER
-  ===================== */
-
-  else{
-
-    let data;
-
-    try{
-
-      data =
-        JSON.parse(savedData);
-
-    }
-
-    catch(error){
+    if(!/^\d{10}$/.test(phone)){
 
       alert(
-        "❌ Account data में समस्या है।"
+        "कृपया 10 अंकों का मोबाइल नंबर डालें।"
       );
 
       return;
@@ -1284,100 +1105,188 @@ function loginUser(){
     }
 
 
-    if(data.password !== password){
+    /* PASSWORD CHECK */
+
+    if(password.length < 4){
 
       alert(
-        "❌ गलत पासवर्ड!\n\n" +
-        "इस Mobile Number का सही Password डालें।"
+        "पासवर्ड कम से कम 4 characters का रखें।"
       );
 
       return;
 
     }
 
+
+    const key =
+      getUserKey(phone);
+
+    let savedData = null;
+
+    const saved =
+      localStorage.getItem(key);
+
+
+    /* OLD ACCOUNT */
+
+    if(saved){
+
+      try{
+
+        savedData =
+          JSON.parse(saved);
+
+      }catch(error){
+
+        localStorage.removeItem(key);
+
+        savedData = null;
+
+      }
+
+    }
+
+
+    /* NEW USER */
+
+    if(!savedData){
+
+      savedData = {
+
+        password: password,
+
+        joined: false,
+
+        walletBalance: 0,
+
+        tournament: null
+
+      };
+
+      localStorage.setItem(
+        key,
+        JSON.stringify(savedData)
+      );
+
+    }
+
+
+    /* PASSWORD CHECK */
+
+    else{
+
+      if(
+        savedData.password &&
+        savedData.password !== password
+      ){
+
+        alert(
+          "❌ गलत पासवर्ड!"
+        );
+
+        return;
+
+      }
+
+    }
+
+
+    /* LOAD USER */
 
     currentPhone =
       phone;
 
-    coins =
-      Number(data.coins ?? 100);
-
     joined =
-      Boolean(data.joined);
+      Boolean(savedData.joined);
 
     walletBalance =
-      Number(data.walletBalance ?? 0);
+      Number(savedData.walletBalance || 0);
 
     selectedTournament =
-      data.tournament || null;
-
-  }
+      savedData.tournament || null;
 
 
-  /* =====================
-     REMEMBER
-  ===================== */
+    /* REMEMBER */
 
-  if(remember){
+    if(remember){
 
-    localStorage.setItem(
+      localStorage.setItem(
 
-      "prince_remember_login",
+        "prince_remember_login",
 
-      JSON.stringify({
+        JSON.stringify({
 
-        phone:
-          phone,
+          phone:phone,
 
-        password:
-          password
+          password:password
 
-      })
+        })
 
+      );
+
+    }else{
+
+      localStorage.removeItem(
+        "prince_remember_login"
+      );
+
+    }
+
+
+    /* OPEN APP */
+
+    const loginPage =
+      document.getElementById("loginPage");
+
+    const app =
+      document.getElementById("app");
+
+    if(!loginPage || !app){
+
+      alert(
+        "App page नहीं मिली।"
+      );
+
+      return;
+
+    }
+
+    loginPage.classList.add("hidden");
+
+    app.classList.remove("hidden");
+
+
+    const profilePhone =
+      document.getElementById("profilePhone");
+
+    if(profilePhone){
+
+      profilePhone.innerText =
+        phone;
+
+    }
+
+
+    updateWallet();
+
+    createTournamentList();
+
+    showPage("home");
+
+    if(joined){
+
+      showBattle();
+
+    }
+
+  }catch(error){
+
+    alert(
+      "Login Error: " +
+      error.message
     );
 
-  }
-
-  else{
-
-    localStorage.removeItem(
-      "prince_remember_login"
-    );
-
-  }
-
-
-  /* =====================
-     OPEN APP
-  ===================== */
-
-  document
-    .getElementById("loginPage")
-    .classList.add("hidden");
-
-  document
-    .getElementById("app")
-    .classList.remove("hidden");
-
-
-  document
-    .getElementById("profilePhone")
-    .innerText =
-      phone;
-
-
-  updateCoins();
-
-  updateWallet();
-
-  createTournamentList();
-
-  showPage("home");
-
-
-  if(joined){
-
-    showBattle();
+    console.log(error);
 
   }
 
@@ -1385,7 +1294,7 @@ function loginUser(){
 
 
 /* =========================
-   PAGE NAVIGATION
+   PAGE
 ========================= */
 
 function showPage(page){
@@ -1395,10 +1304,20 @@ function showPage(page){
     "homePage",
     "tournamentPage",
     "walletPage",
-    "coinsPage",
     "profilePage"
 
   ];
+
+  pages.forEach(function(id){
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.classList.add("hidden");
+    }
+
+  });
 
 
   const navs = [
@@ -1406,26 +1325,18 @@ function showPage(page){
     "navHome",
     "navTournament",
     "navWallet",
-    "navCoins",
     "navProfile"
 
   ];
 
-
-  pages.forEach(function(id){
-
-    document
-      .getElementById(id)
-      .classList.add("hidden");
-
-  });
-
-
   navs.forEach(function(id){
 
-    document
-      .getElementById(id)
-      .classList.remove("active");
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.classList.remove("active");
+    }
 
   });
 
@@ -1453,6 +1364,8 @@ function showPage(page){
       .getElementById("navTournament")
       .classList.add("active");
 
+    showBattle();
+
   }
 
 
@@ -1464,4 +1377,61 @@ function showPage(page){
 
     document
       .getElementById("navWallet")
-      .class
+      .classList.add("active");
+
+  }
+
+
+  if(page === "profile"){
+
+    document
+      .getElementById("profilePage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navProfile")
+      .classList.add("active");
+
+  }
+
+}
+
+
+/* =========================
+   WALLET UPDATE
+========================= */
+
+function updateWallet(){
+
+  const ids = {
+
+    topBalance: walletBalance,
+
+    homeBalance: walletBalance,
+
+    walletBalance: walletBalance,
+
+    profileBalance: walletBalance
+
+  };
+
+
+  Object.keys(ids).forEach(function(id){
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.innerText =
+        ids[id];
+    }
+
+  });
+
+
+  const joinBalance =
+    document.getElementById(
+      "joinWalletBalance"
+    );
+
+  if(joi
