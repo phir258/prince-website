@@ -81,6 +81,22 @@ button{
   font-size:16px;
 }
 
+.rememberBox{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  text-align:left;
+  margin:10px 2px;
+  color:#d1d5db;
+  font-size:14px;
+}
+
+.rememberBox input{
+  width:18px;
+  height:18px;
+  accent-color:#2563eb;
+}
+
 .mainBtn{
   width:100%;
   padding:15px;
@@ -424,8 +440,24 @@ button{
       type="password"
       placeholder="पासवर्ड डालें">
 
-    <button class="mainBtn" onclick="loginUser()">
+    <label class="rememberBox">
+
+      <input
+        type="checkbox"
+        id="rememberLogin">
+
+      <span>
+        ID और Password याद रखें
+      </span>
+
+    </label>
+
+    <button
+      class="mainBtn"
+      onclick="loginUser()">
+
       Login करें
+
     </button>
 
     <p class="smallText">
@@ -599,13 +631,19 @@ button{
     </div>
 
     <div class="menuItem">
+
       <span>🪙 My Coins</span>
+
       <span id="profileCoins">100</span>
+
     </div>
 
     <div class="menuItem">
+
       <span>🏆 My Battles</span>
+
       <span>›</span>
+
     </div>
 
     <button
@@ -673,7 +711,13 @@ button{
 
   <div class="modalBox">
 
-    <button class="close" onclick="closeModal()">×</button>
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ×
+
+    </button>
 
     <h2>🏆 Join 1v1</h2>
 
@@ -685,17 +729,23 @@ button{
     </p>
 
     <p style="margin-top:10px">
+
       Entry:
+
       <b style="color:#facc15">
         🪙 20 Coins
       </b>
+
     </p>
 
     <p style="margin-top:10px">
+
       आपका Balance:
+
       <b style="color:#60a5fa">
         🪙 <span id="joinCoins">100</span>
       </b>
+
     </p>
 
     <button
@@ -707,6 +757,7 @@ button{
     </button>
 
   </div>
+
 </div>
 
 
@@ -717,7 +768,9 @@ button{
 ========================= */
 
 let currentPhone = "";
+
 let coins = 100;
+
 let joined = false;
 
 
@@ -738,30 +791,33 @@ function getUserKey(phone){
 
 function loadUser(phone){
 
-  let key = getUserKey(phone);
+  let key =
+    getUserKey(phone);
 
   let savedData =
     localStorage.getItem(key);
+
 
   if(savedData){
 
     let data =
       JSON.parse(savedData);
 
+
     coins =
       Number(data.coins);
+
 
     joined =
       Boolean(data.joined);
 
-  }else{
 
-    coins = 100;
-    joined = false;
-
-    saveUser();
+    return data;
 
   }
+
+
+  return null;
 
 }
 
@@ -773,23 +829,103 @@ function loadUser(phone){
 function saveUser(){
 
   if(!currentPhone){
+
     return;
+
   }
+
 
   let key =
     getUserKey(currentPhone);
 
+
+  let oldData =
+    localStorage.getItem(key);
+
+
+  let oldUser =
+    oldData
+      ? JSON.parse(oldData)
+      : {};
+
+
   let data = {
 
-    coins: coins,
-    joined: joined
+    password:
+      oldUser.password || "",
+
+    coins:
+      coins,
+
+    joined:
+      joined
 
   };
+
 
   localStorage.setItem(
     key,
     JSON.stringify(data)
   );
+
+}
+
+
+/* =========================
+   REMEMBER LOGIN
+========================= */
+
+function loadRememberedLogin(){
+
+  let savedLogin =
+    localStorage.getItem(
+      "prince_remember_login"
+    );
+
+
+  if(!savedLogin){
+
+    return;
+
+  }
+
+
+  try{
+
+    let data =
+      JSON.parse(savedLogin);
+
+
+    if(data.phone){
+
+      document
+        .getElementById("phone")
+        .value = data.phone;
+
+    }
+
+
+    if(data.password){
+
+      document
+        .getElementById("password")
+        .value = data.password;
+
+    }
+
+
+    document
+      .getElementById("rememberLogin")
+      .checked = true;
+
+
+  }catch(error){
+
+    localStorage.removeItem(
+      "prince_remember_login"
+    );
+
+  }
 
 }
 
@@ -801,39 +937,178 @@ function saveUser(){
 function loginUser(){
 
   let phone =
-    document.getElementById("phone").value.trim();
+    document
+      .getElementById("phone")
+      .value
+      .trim();
+
 
   let password =
-    document.getElementById("password").value.trim();
+    document
+      .getElementById("password")
+      .value
+      .trim();
+
+
+  let remember =
+    document
+      .getElementById("rememberLogin")
+      .checked;
+
+
+  /* PHONE CHECK */
 
   if(phone.length !== 10){
 
-    alert("कृपया 10 अंकों का मोबाइल नंबर डालें।");
+    alert(
+      "कृपया 10 अंकों का मोबाइल नंबर डालें।"
+    );
+
     return;
 
   }
+
+
+  /* PASSWORD CHECK */
 
   if(password.length < 4){
 
-    alert("पासवर्ड कम से कम 4 characters का रखें।");
+    alert(
+      "पासवर्ड कम से कम 4 characters का रखें।"
+    );
+
     return;
 
   }
 
 
-  /* Current user set */
+  let key =
+    getUserKey(phone);
 
-  currentPhone = phone;
+
+  let savedData =
+    localStorage.getItem(key);
 
 
-  /* Saved coins load */
+  /* =========================
+     NEW ACCOUNT
+  ========================= */
 
-  loadUser(phone);
+  if(!savedData){
 
+    currentPhone =
+      phone;
+
+
+    coins =
+      100;
+
+
+    joined =
+      false;
+
+
+    localStorage.setItem(
+
+      key,
+
+      JSON.stringify({
+
+        password:
+          password,
+
+        coins:
+          100,
+
+        joined:
+          false
+
+      })
+
+    );
+
+  }
+
+
+  /* =========================
+     OLD ACCOUNT
+  ========================= */
+
+  else{
+
+    let data =
+      JSON.parse(savedData);
+
+
+    /* PASSWORD MATCH */
+
+    if(data.password !== password){
+
+      alert(
+        "❌ गलत पासवर्ड!\n\n" +
+        "इस मोबाइल नंबर का सही पासवर्ड डालें।"
+      );
+
+      return;
+
+    }
+
+
+    currentPhone =
+      phone;
+
+
+    coins =
+      Number(data.coins);
+
+
+    joined =
+      Boolean(data.joined);
+
+  }
+
+
+  /* =========================
+     REMEMBER LOGIN
+  ========================= */
+
+  if(remember){
+
+    localStorage.setItem(
+
+      "prince_remember_login",
+
+      JSON.stringify({
+
+        phone:
+          phone,
+
+        password:
+          password
+
+      })
+
+    );
+
+  }
+
+  else{
+
+    localStorage.removeItem(
+      "prince_remember_login"
+    );
+
+  }
+
+
+  /* =========================
+     OPEN APP
+  ========================= */
 
   document
     .getElementById("loginPage")
     .classList.add("hidden");
+
 
   document
     .getElementById("app")
@@ -842,7 +1117,8 @@ function loginUser(){
 
   document
     .getElementById("profilePhone")
-    .innerText = phone;
+    .innerText =
+      phone;
 
 
   updateCoins();
@@ -959,7 +1235,9 @@ function openJoin(){
 
   document
     .getElementById("joinCoins")
-    .innerText = coins;
+    .innerText =
+      coins;
+
 
   document
     .getElementById("joinModal")
@@ -981,7 +1259,9 @@ function confirmJoin(){
 
   if(coins < 20){
 
-    alert("आपके पास 20 Coins नहीं हैं।");
+    alert(
+      "आपके पास 20 Coins नहीं हैं।"
+    );
 
     closeModal();
 
@@ -990,16 +1270,11 @@ function confirmJoin(){
   }
 
 
-  /* 20 Coins कटेंगे */
-
   coins -= 20;
 
 
   joined = true;
 
-
-  /* IMPORTANT:
-     नया balance save होगा */
 
   saveUser();
 
@@ -1014,11 +1289,17 @@ function confirmJoin(){
 
 
   alert(
+
     "1v1 Custom में Join हो गया!\n\n" +
+
     "20 Coins काटे गए।\n" +
+
     "बाकी Balance: " +
+
     coins +
+
     " Coins"
+
   );
 
 }
@@ -1104,15 +1385,20 @@ function updateCoins(){
 
   document
     .getElementById("topCoins")
-    .innerText = coins;
+    .innerText =
+      coins;
+
 
   document
     .getElementById("walletCoins")
-    .innerText = coins;
+    .innerText =
+      coins;
+
 
   document
     .getElementById("profileCoins")
-    .innerText = coins;
+    .innerText =
+      coins;
 
 }
 
@@ -1125,15 +1411,23 @@ function freeCoins(){
 
   coins += 10;
 
+
   saveUser();
+
 
   updateCoins();
 
+
   alert(
+
     "🎁 आपको 10 Free Coins मिले!\n\n" +
+
     "अब Balance: " +
+
     coins +
+
     " Coins"
+
   );
 
 }
@@ -1145,8 +1439,6 @@ function freeCoins(){
 
 function logoutUser(){
 
-  /* Logout से पहले save */
-
   saveUser();
 
 
@@ -1154,61 +1446,107 @@ function logoutUser(){
     .getElementById("app")
     .classList.add("hidden");
 
+
   document
     .getElementById("loginPage")
     .classList.remove("hidden");
 
 
-  document
-    .getElementById("password")
-    .value = "";
+  /*
+     अगर Remember Login बंद है
+     तो fields खाली होंगे।
+  */
+
+  if(
+    !document
+      .getElementById("rememberLogin")
+      .checked
+  ){
+
+    document
+      .getElementById("password")
+      .value = "";
 
 
-  document
-    .getElementById("phone")
-    .value = "";
+    document
+      .getElementById("phone")
+      .value = "";
+
+  }
 
 
-  currentPhone = "";
+  currentPhone =
+    "";
 
 }
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+window.addEventListener(
+
+  "load",
+
+  function(){
+
+    loadRememberedLogin();
+
+  }
+
+);
 
 
 /* =========================
    TIMER
 ========================= */
 
-let seconds = 600;
-
-setInterval(function(){
-
-  let min =
-    Math.floor(seconds / 60);
-
-  let sec =
-    seconds % 60;
-
-  if(sec < 10){
-
-    sec = "0" + sec;
-
-  }
-
-  document
-    .getElementById("timer")
-    .innerText =
-      min + ":" + sec;
+let seconds =
+  600;
 
 
-  if(seconds > 0){
+setInterval(
 
-    seconds--;
+  function(){
 
-  }
+    let min =
+      Math.floor(
+        seconds / 60
+      );
 
-},1000);
+
+    let sec =
+      seconds % 60;
+
+
+    if(sec < 10){
+
+      sec =
+        "0" + sec;
+
+    }
+
+
+    document
+      .getElementById("timer")
+      .innerText =
+        min + ":" + sec;
+
+
+    if(seconds > 0){
+
+      seconds--;
+
+    }
+
+  },
+
+  1000
+
+);
 
 </script>
 
 </body>
-        </html>
+  </html>
