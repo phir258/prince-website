@@ -1,929 +1,1214 @@
-<!DOCTYPE html>  <html lang="hi">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width,initial-scale=1.0">  <title>Prince Battle Ground</title>  <style>  
-*{  
-  margin:0;  
-  padding:0;  
-  box-sizing:border-box;  
-  font-family:Arial,sans-serif;  
-}  
-  
-body{  
-  background:#080b14;  
-  color:white;  
-  min-height:100vh;  
-}  
-  
-button{  
-  border:0;  
-  cursor:pointer;  
-}  
-  
-.hidden{  
-  display:none !important;  
-}  
-  
-/* LOGIN */  
-#loginPage{  
-  min-height:100vh;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  padding:20px;  
-  background:radial-gradient(circle at top,#253b80,#080b14 55%);  
-}  
-  
-.loginBox{  
-  width:100%;  
-  max-width:420px;  
-  background:#111827;  
-  border:1px solid #26324d;  
-  border-radius:24px;  
-  padding:28px 22px;  
-  text-align:center;  
-  box-shadow:0 20px 60px #000;  
-}  
-  
-.logo{  
-  width:90px;  
-  height:90px;  
-  border-radius:50%;  
-  object-fit:cover;  
-  border:3px solid #3b82f6;  
-  margin-bottom:15px;  
-}  
-  
-.logoTitle{  
-  font-size:30px;  
-  font-weight:bold;  
-}  
-  
-.sub{  
-  color:#9ca3af;  
-  margin:8px 0 20px;  
-}  
-  
-.input{  
-  width:100%;  
-  padding:15px;  
-  margin:8px 0;  
-  border-radius:12px;  
-  border:1px solid #374151;  
-  background:#0b1220;  
-  color:white;  
-  outline:none;  
-  font-size:16px;  
-}  
-  
-.mainBtn{  
-  width:100%;  
-  padding:15px;  
-  border-radius:12px;  
-  background:#2563eb;  
-  color:white;  
-  font-size:17px;  
-  font-weight:bold;  
-  margin-top:10px;  
-}  
-  
-.rememberBox{  
-  display:flex;  
-  align-items:center;  
-  gap:8px;  
-  text-align:left;  
-  margin:10px 2px;  
-  color:#d1d5db;  
-  font-size:14px;  
-}  
-  
-.rememberBox input{  
-  width:18px;  
-  height:18px;  
-}  
-  
-.smallText{  
-  color:#9ca3af;  
-  font-size:13px;  
-  margin-top:15px;  
-}  
-  
-/* APP */  
-#app{  
-  min-height:100vh;  
-  padding-bottom:75px;  
-}  
-  
-.topbar{  
-  padding:16px;  
-  background:linear-gradient(135deg,#111827,#172554);  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  position:sticky;  
-  top:0;  
-  z-index:10;  
-}  
-  
-.brand{  
-  font-size:20px;  
-  font-weight:bold;  
-}  
-  
-.coinTop{  
-  background:#0b1220;  
-  padding:9px 13px;  
-  border-radius:20px;  
-  color:#facc15;  
-  font-weight:bold;  
-}  
-  
-.page{  
-  padding:18px 14px;  
-  max-width:650px;  
-  margin:auto;  
-}  
-  
-/* HOME BANNER */  
-.banner{  
-  background:linear-gradient(135deg,#1d4ed8,#7c3aed);  
-  border-radius:20px;  
-  padding:24px;  
-  margin-bottom:18px;  
-}  
-  
-.banner h1{  
-  font-size:28px;  
-  margin-bottom:8px;  
-}  
-  
-.banner p{  
-  color:#dbeafe;  
-}  
-  
-/* WALLET CARD */  
-.walletHome{  
-  background:linear-gradient(135deg,#6d28d9,#9333ea);  
-  border-radius:20px;  
-  padding:20px;  
-  margin-bottom:20px;  
-  cursor:pointer;  
-}  
-  
-.walletHomeTop{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-}  
-  
-.walletHomeTitle{  
-  font-size:22px;  
-  font-weight:bold;  
-}  
-  
-.walletHomeBalance{  
-  font-size:26px;  
-  color:#facc15;  
-  font-weight:bold;  
-  margin-top:12px;  
-}  
-  
-/* GAME */  
-.sectionTitle{  
-  font-size:21px;  
-  margin:20px 0 12px;  
-}  
-  
-.gameCard{  
-  background:#111827;  
-  border:1px solid #25304a;  
-  border-radius:18px;  
-  padding:18px;  
-  margin-bottom:13px;  
-}  
-  
-.gameTop{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  margin-bottom:14px;  
-}  
-  
-.gameName{  
-  font-size:20px;  
-  font-weight:bold;  
-}  
-  
-.badge{  
-  background:#14532d;  
-  color:#86efac;  
-  padding:6px 10px;  
-  border-radius:20px;  
-  font-size:12px;  
-}  
-  
-.infoGrid{  
-  display:grid;  
-  grid-template-columns:1fr 1fr;  
-  gap:10px;  
-  margin-bottom:13px;  
-}  
-  
-.info{  
-  background:#0b1220;  
-  padding:10px;  
-  border-radius:10px;  
-}  
-  
-.info small{  
-  display:block;  
-  color:#9ca3af;  
-  margin-bottom:4px;  
-}  
-  
-.joinBtn{  
-  width:100%;  
-  padding:13px;  
-  border-radius:10px;  
-  background:#2563eb;  
-  color:white;  
-  font-size:16px;  
-  font-weight:bold;  
-}  
-  
-/* TIMER */  
-.timer{  
-  background:#020617;  
-  border:1px solid #334155;  
-  border-radius:12px;  
-  padding:12px;  
-  text-align:center;  
-  margin:12px 0;  
-}  
-  
-.timerValue{  
-  color:#60a5fa;  
-  font-size:22px;  
-  font-weight:bold;  
-}  
-  
-/* WALLET */  
-.balanceBox{  
-  background:linear-gradient(135deg,#854d0e,#164e63);  
-  padding:25px;  
-  border-radius:20px;  
-  margin-bottom:15px;  
-}  
-  
-.balance{  
-  font-size:35px;  
-  font-weight:bold;  
-  margin-top:8px;  
-  color:#facc15;  
-}  
-  
-.walletButtons{  
-  display:grid;  
-  grid-template-columns:1fr 1fr;  
-  gap:12px;  
-}  
-  
-.walletBtn{  
-  padding:15px 8px;  
-  border-radius:13px;  
-  color:white;  
-  font-size:16px;  
-  font-weight:bold;  
-}  
-  
-.depositBtn{  
-  background:#16a34a;  
-}  
-  
-.withdrawBtn{  
-  background:#dc2626;  
-}  
-  
-.coinBtn{  
-  width:100%;  
-  padding:14px;  
-  border-radius:12px;  
-  background:#ca8a04;  
-  color:white;  
-  font-size:17px;  
-  font-weight:bold;  
-  margin-top:12px;  
-}  
-  
-.notice{  
-  background:#172554;  
-  border:1px solid #1d4ed8;  
-  padding:12px;  
-  border-radius:10px;  
-  margin:10px 0;  
-  color:#bfdbfe;  
-}  
-  
-/* PROFILE */  
-.profileCard{  
-  background:#111827;  
-  border-radius:20px;  
-  padding:25px;  
-  text-align:center;  
-}  
-  
-.profileImg{  
-  width:100px;  
-  height:100px;  
-  border-radius:50%;  
-  object-fit:cover;  
-  border:3px solid #2563eb;  
-  margin-bottom:10px;  
-}  
-  
-.menuItem{  
-  background:#111827;  
-  padding:17px;  
-  border-radius:13px;  
-  margin-top:10px;  
-  display:flex;  
-  justify-content:space-between;  
-}  
-  
-/* ROOM */  
-.roomBox{  
-  background:#020617;  
-  border:1px solid #2563eb;  
-  border-radius:15px;  
-  padding:16px;  
-  margin-top:15px;  
-}  
-  
-.roomRow{  
-  background:#111827;  
-  padding:12px;  
-  border-radius:10px;  
-  margin-top:8px;  
-}  
-  
-.roomLabel{  
-  color:#9ca3af;  
-  font-size:13px;  
-}  
-  
-.roomValue{  
-  color:#60a5fa;  
-  font-size:20px;  
-  font-weight:bold;  
-  margin-top:4px;  
-}  
-  
-/* NAV */  
-.bottomNav{  
-  position:fixed;  
-  bottom:0;  
-  left:0;  
-  right:0;  
-  height:68px;  
-  background:#0b1220;  
-  border-top:1px solid #26324d;  
-  display:flex;  
-  justify-content:space-around;  
-  align-items:center;  
-  z-index:20;  
-}  
-  
-.navBtn{  
-  background:none;  
-  color:#9ca3af;  
-  font-size:12px;  
-  text-align:center;  
-}  
-  
-.navBtn span{  
-  display:block;  
-  font-size:23px;  
-  margin-bottom:3px;  
-}  
-  
-.navBtn.active{  
-  color:#60a5fa;  
-}  
-  
-/* MODAL */  
-.modal{  
-  position:fixed;  
-  inset:0;  
-  background:#000b;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  padding:18px;  
-  z-index:100;  
-}  
-  
-.modalBox{  
-  width:100%;  
-  max-width:400px;  
-  background:#111827;  
-  border-radius:20px;  
-  padding:22px;  
-  border:1px solid #334155;  
-  max-height:90vh;  
-  overflow:auto;  
-}  
-  
-.close{  
-  float:right;  
-  background:none;  
-  color:white;  
-  font-size:26px;  
-}  
-  
-.amountInput{  
-  width:100%;  
-  padding:15px;  
-  margin:10px 0;  
-  border-radius:12px;  
-  border:1px solid #374151;  
-  background:#0b1220;  
-  color:white;  
-  outline:none;  
-  font-size:16px;  
-}  
-  
-.cancelBtn{  
-  width:100%;  
-  padding:13px;  
-  border-radius:12px;  
-  background:#374151;  
-  color:white;  
-  font-size:16px;  
-  margin-top:8px;  
-}  
-  
-.qrImage{  
-  width:230px;  
-  max-width:100%;  
-  background:white;  
-  padding:8px;  
-  border-radius:12px;  
-  display:block;  
-  margin:15px auto;  
-}  
-  
-.qrBox{  
-  text-align:center;  
-  background:#020617;  
-  border-radius:15px;  
-  padding:15px;  
-  margin-top:15px;  
-}  
-  
-.upiNumber{  
-  color:#60a5fa;  
-  font-weight:bold;  
-  font-size:18px;  
-  margin-top:8px;  
-}  
-  
-@media(max-width:400px){  
-  
-  .logoTitle{  
-    font-size:25px;  
-  }  
-  
-  .banner h1{  
-    font-size:24px;  
-  }  
-  
-  .gameName{  
-    font-size:18px;  
-  }  
-  
-}  
-</style>  </head>  <body>  <!-- ================= LOGIN ================= -->  <div id="loginPage">    <div class="loginBox">  <img  
-  src="IMG-20260902-WA0000.jpg"  
-  class="logo"  
-  onerror="this.style.display='none';">  
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<div class="logoTitle">  
-  PRINCE  
-</div>  
+<title>Prince Battle Ground</title>
 
-<div class="sub">  
-  BATTLE GROUND  
-</div>  
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
 
-<h2>  
-  Login करें  
-</h2>  
+body{
+  background:#080b14;
+  color:white;
+  min-height:100vh;
+}
 
-<input  
-  id="phone"  
-  class="input"  
-  type="tel"  
-  inputmode="numeric"  
-  maxlength="10"  
-  placeholder="मोबाइल नंबर डालें">  
+button{
+  border:0;
+  cursor:pointer;
+}
 
-<input  
-  id="password"  
-  class="input"  
-  type="password"  
-  placeholder="पासवर्ड डालें">  
+.hidden{
+  display:none!important;
+}
 
-<label class="rememberBox">  
+/* LOGIN */
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:radial-gradient(circle at top,#253b80,#080b14 50%);
+}
 
-  <input  
-    id="rememberMe"  
-    type="checkbox">  
+.loginBox{
+  width:100%;
+  max-width:420px;
+  background:#111827;
+  border:1px solid #26324d;
+  border-radius:24px;
+  padding:28px 22px;
+  text-align:center;
+  box-shadow:0 20px 60px #000;
+}
 
-  <span>  
-    मोबाइल नंबर और पासवर्ड याद रखें  
-  </span>  
+.logo{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #3b82f6;
+  margin-bottom:15px;
+}
 
-</label>  
+.logoTitle{
+  font-size:30px;
+  font-weight:bold;
+}
 
-<button  
-  class="mainBtn"  
-  onclick="loginUser()">  
+.sub{
+  color:#9ca3af;
+  margin:8px 0 25px;
+}
 
-  Login करें  
+.input{
+  width:100%;
+  padding:15px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid #374151;
+  background:#0b1220;
+  color:white;
+  outline:none;
+  font-size:16px;
+}
 
-</button>  
+.mainBtn{
+  width:100%;
+  padding:15px;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:10px;
+}
 
-<p class="smallText">  
-  Free Coins से खेलें  
-</p>
+.smallText{
+  color:#9ca3af;
+  font-size:13px;
+  margin-top:15px;
+}
 
-  </div>  </div>  <!-- ================= APP ================= -->  <div id="app" class="hidden">    <div class="topbar">  <div class="brand">  
-  🎮 Prince Battle Ground  
-</div>  
+/* APP */
+#app{
+  min-height:100vh;
+  padding-bottom:75px;
+}
 
-<div class="coinTop">  
-  🪙 <span id="topCoins">100</span>  
+.topbar{
+  padding:16px;
+  background:linear-gradient(135deg,#111827,#172554);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.brand{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.coinTop{
+  background:#0b1220;
+  padding:9px 13px;
+  border-radius:20px;
+  color:#facc15;
+  font-weight:bold;
+}
+
+.page{
+  padding:18px 14px;
+  max-width:650px;
+  margin:auto;
+}
+
+.banner{
+  background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+  border-radius:20px;
+  padding:24px;
+  margin-bottom:18px;
+}
+
+.banner h1{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.banner p{
+  color:#dbeafe;
+}
+
+.sectionTitle{
+  font-size:21px;
+  margin:20px 0 12px;
+}
+
+.gameCard{
+  background:#111827;
+  border:1px solid #25304a;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:13px;
+}
+
+.gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.gameName{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.badge{
+  background:#14532d;
+  color:#86efac;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.infoGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:13px;
+}
+
+.info{
+  background:#0b1220;
+  padding:10px;
+  border-radius:10px;
+}
+
+.info small{
+  display:block;
+  color:#9ca3af;
+  margin-bottom:4px;
+}
+
+.joinBtn{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.joinBtn:hover{
+  background:#1d4ed8;
+}
+
+/* TIMER */
+.timer{
+  background:#020617;
+  border:1px solid #334155;
+  border-radius:12px;
+  padding:12px;
+  text-align:center;
+  margin:12px 0;
+}
+
+.timerValue{
+  color:#60a5fa;
+  font-size:22px;
+  font-weight:bold;
+}
+
+/* COINS */
+.balanceBox{
+  background:linear-gradient(135deg,#854d0e,#164e63);
+  padding:25px;
+  border-radius:20px;
+  margin-bottom:15px;
+}
+
+.balance{
+  font-size:35px;
+  font-weight:bold;
+  margin-top:8px;
+  color:#facc15;
+}
+
+.coinBtn{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  background:#ca8a04;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.notice{
+  background:#172554;
+  border:1px solid #1d4ed8;
+  padding:12px;
+  border-radius:10px;
+  margin:10px 0;
+  color:#bfdbfe;
+}
+
+/* PROFILE */
+.profileCard{
+  background:#111827;
+  border-radius:20px;
+  padding:25px;
+  text-align:center;
+}
+
+.profileImg{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #2563eb;
+  margin-bottom:10px;
+}
+
+.menuItem{
+  background:#111827;
+  padding:17px;
+  border-radius:13px;
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+}
+
+/* ROOM */
+.roomBox{
+  background:#020617;
+  border:1px solid #2563eb;
+  border-radius:15px;
+  padding:16px;
+  margin-top:15px;
+}
+
+.roomRow{
+  background:#111827;
+  padding:12px;
+  border-radius:10px;
+  margin-top:8px;
+}
+
+.roomLabel{
+  color:#9ca3af;
+  font-size:13px;
+}
+
+.roomValue{
+  color:#60a5fa;
+  font-size:20px;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+/* NAV */
+.bottomNav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:68px;
+  background:#0b1220;
+  border-top:1px solid #26324d;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:20;
+}
+
+.navBtn{
+  background:none;
+  color:#9ca3af;
+  font-size:12px;
+  text-align:center;
+}
+
+.navBtn span{
+  display:block;
+  font-size:23px;
+  margin-bottom:3px;
+}
+
+.navBtn.active{
+  color:#60a5fa;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:50;
+}
+
+.modalBox{
+  width:100%;
+  max-width:400px;
+  background:#111827;
+  border-radius:20px;
+  padding:22px;
+  border:1px solid #334155;
+}
+
+.close{
+  float:right;
+  background:none;
+  color:white;
+  font-size:25px;
+}
+
+@media(max-width:400px){
+  .logoTitle{
+    font-size:25px;
+  }
+
+  .banner h1{
+    font-size:24px;
+  }
+
+  .gameName{
+    font-size:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+
+  <div class="loginBox">
+
+    <img src="IMG-20260902-WA0000.jpg" class="logo">
+
+    <div class="logoTitle">PRINCE</div>
+    <div class="sub">BATTLE GROUND</div>
+
+    <h2>Login करें</h2>
+
+    <input
+      id="phone"
+      class="input"
+      type="tel"
+      maxlength="10"
+      placeholder="मोबाइल नंबर डालें">
+
+    <input
+      id="password"
+      class="input"
+      type="password"
+      placeholder="पासवर्ड डालें">
+
+    <button class="mainBtn" onclick="loginUser()">
+      Login करें
+    </button>
+
+    <p class="smallText">
+      Free Coins से खेलें
+    </p>
+
+  </div>
 </div>
 
-  </div>    <!-- HOME -->    <div id="homePage" class="page">  <div class="banner">  
 
-  <h1>  
-    🔥 1v1 Battle  
-  </h1>  
+<!-- APP -->
+<div id="app" class="hidden">
 
-  <p>  
-    Custom room में अपने opponent के साथ Battle करें।  
-  </p>  
+  <div class="topbar">
 
-</div>  
+    <div class="brand">
+      🎮 Prince Battle Ground
+    </div>
 
+    <div class="coinTop">
+      🪙 <span id="topCoins">100</span>
+    </div>
 
-<!-- WALLET -->  
-
-<div  
-  class="walletHome"  
-  onclick="showPage('wallet')">  
-
-  <div class="walletHomeTop">  
-
-    <div class="walletHomeTitle">  
-      💰 Wallet  
-    </div>  
-
-    <div>  
-      ›  
-    </div>  
-
-  </div>  
-
-  <div class="walletHomeBalance">  
-    ₹<span id="homeBalance">0.00</span>  
-  </div>  
-
-  <p style="margin-top:5px;color:#e9d5ff;">  
-    Deposit / Withdrawal के लिए यहाँ क्लिक करें  
-  </p>  
-
-</div>  
+  </div>
 
 
-<h2 class="sectionTitle">  
-  🏆 Available Tournament  
-</h2>  
+  <!-- HOME -->
+  <div id="homePage" class="page">
+
+    <div class="banner">
+
+      <h1>🔥 1v1 Battle</h1>
+
+      <p>
+        Custom room में अपने opponent के साथ Battle करें।
+      </p>
+
+    </div>
+
+    <h2 class="sectionTitle">
+      🏆 Available Tournament
+    </h2>
+
+    <div class="gameCard">
+
+      <div class="gameTop">
+
+        <div class="gameName">
+          ⚔️ 1v1 Custom
+        </div>
+
+        <div class="badge">
+          OPEN
+        </div>
+
+      </div>
+
+      <div class="infoGrid">
+
+        <div class="info">
+          <small>Entry</small>
+          🪙 20 Coins
+        </div>
+
+        <div class="info">
+          <small>Players</small>
+          1 vs 1
+        </div>
+
+        <div class="info">
+          <small>Mode</small>
+          Custom
+        </div>
+
+        <div class="info">
+          <small>Type</small>
+          Free Coins
+        </div>
+
+      </div>
+
+      <div class="timer">
+
+        शुरू होने में
+
+        <div class="timerValue" id="timer">
+          10:00
+        </div>
+
+      </div>
+
+      <button
+        class="joinBtn"
+        onclick="openJoin()">
+
+        🏆 20 Coins में Join करें
+
+      </button>
+
+    </div>
+
+  </div>
 
 
-<div class="gameCard">  
+  <!-- TOURNAMENT -->
+  <div id="tournamentPage" class="page hidden">
 
-  <div class="gameTop">  
+    <h2 class="sectionTitle">
+      🏆 My Battle
+    </h2>
 
-    <div class="gameName">  
-      ⚔️ 1v1 Custom  
-    </div>  
+    <div id="myBattle">
 
-    <div class="badge">  
-      OPEN  
-    </div>  
+      <div class="notice">
+        आपने अभी कोई Battle Join नहीं किया है।
+      </div>
 
-  </div>  
+    </div>
 
-
-  <div class="infoGrid">  
-
-    <div class="info">  
-      <small>Entry</small>  
-      🪙 20 Coins  
-    </div>  
-
-    <div class="info">  
-      <small>Players</small>  
-      1 vs 1  
-    </div>  
-
-    <div class="info">  
-      <small>Mode</small>  
-      Custom  
-    </div>  
-
-    <div class="info">  
-      <small>Type</small>  
-      Free Coins  
-    </div>  
-
-  </div>  
+  </div>
 
 
-  <div class="timer">  
+  <!-- COINS -->
+  <div id="walletPage" class="page hidden">
 
-    शुरू होने में  
+    <h2 class="sectionTitle">
+      🪙 My Coins
+    </h2>
 
-    <div  
-      class="timerValue"  
-      id="timer">  
+    <div class="balanceBox">
 
-      10:00  
+      <div>Available Coins</div>
 
-    </div>  
+      <div class="balance">
+        🪙 <span id="walletCoins">100</span>
+      </div>
 
-  </div>  
+    </div>
+
+    <button
+      class="coinBtn"
+      onclick="freeCoins()">
+
+      + Free Coins
+
+    </button>
+
+    <div class="notice">
+      ये Coins केवल app के अंदर इस्तेमाल होने वाले
+      non-cash points हैं। इन्हें पैसे में बदला या withdraw नहीं किया जा सकता।
+    </div>
+
+  </div>
 
 
-  <button  
-    class="joinBtn"  
-    onclick="openJoin()">  
+  <!-- PROFILE -->
+  <div id="profilePage" class="page hidden">
 
-    🏆 20 Coins में Join करें  
+    <div class="profileCard">
 
-  </button>  
+      <img
+        src="IMG-20260902-WA0000.jpg"
+        class="profileImg">
+
+      <h2>Prince Player</h2>
+
+      <p class="sub">
+        Mobile: <span id="profilePhone"></span>
+      </p>
+
+    </div>
+
+    <div class="menuItem">
+      <span>🪙 My Coins</span>
+      <span id="profileCoins">100</span>
+    </div>
+
+    <div class="menuItem">
+      <span>🏆 My Battles</span>
+      <span>›</span>
+    </div>
+
+    <button
+      class="mainBtn"
+      style="background:#dc2626"
+      onclick="logoutUser()">
+
+      Logout
+
+    </button>
+
+  </div>
+
+
+  <!-- NAV -->
+  <div class="bottomNav">
+
+    <button
+      class="navBtn active"
+      id="navHome"
+      onclick="showPage('home')">
+
+      <span>🏠</span>
+      Home
+
+    </button>
+
+    <button
+      class="navBtn"
+      id="navTournament"
+      onclick="showPage('tournament')">
+
+      <span>🏆</span>
+      Battle
+
+    </button>
+
+    <button
+      class="navBtn"
+      id="navWallet"
+      onclick="showPage('wallet')">
+
+      <span>🪙</span>
+      Coins
+
+    </button>
+
+    <button
+      class="navBtn"
+      id="navProfile"
+      onclick="showPage('profile')">
+
+      <span>👤</span>
+      Profile
+
+    </button>
+
+  </div>
 
 </div>
 
-  </div>    <!-- BATTLE -->    <div  
-    id="tournamentPage"  
-    class="page hidden">  <h2 class="sectionTitle">  
-  🏆 My Battle  
-</h2>  
 
-<div id="myBattle">  
+<!-- JOIN MODAL -->
+<div id="joinModal" class="modal hidden">
 
-  <div class="notice">  
-    आपने अभी कोई Battle Join नहीं किया है।  
-  </div>  
+  <div class="modalBox">
 
+    <button class="close" onclick="closeModal()">×</button>
+
+    <h2>🏆 Join 1v1</h2>
+
+    <br>
+
+    <p>
+      Tournament:
+      <b>1v1 Custom</b>
+    </p>
+
+    <p style="margin-top:10px">
+      Entry:
+      <b style="color:#facc15">
+        🪙 20 Coins
+      </b>
+    </p>
+
+    <p style="margin-top:10px">
+      आपका Balance:
+      <b style="color:#60a5fa">
+        🪙 <span id="joinCoins">100</span>
+      </b>
+    </p>
+
+    <button
+      class="mainBtn"
+      onclick="confirmJoin()">
+
+      Join Confirm करें
+
+    </button>
+
+  </div>
 </div>
 
-  </div>    <!-- WALLET PAGE -->    <div  
-    id="walletPage"  
-    class="page hidden">  <h2 class="sectionTitle">  
-  💰 My Wallet  
-</h2>  
 
+<script>
 
-<div class="balanceBox">  
+/* =========================
+   USER DATA
+========================= */
 
-  <div>  
-    Available Wallet Balance  
-  </div>  
+let currentPhone = "";
+let coins = 100;
+let joined = false;
 
-  <div class="balance">  
 
-    ₹<span id="walletBalance">  
-      0.00  
-    </span>  
+/* =========================
+   GET USER KEY
+========================= */
 
-  </div>  
+function getUserKey(phone){
 
-</div>  
+  return "prince_user_" + phone;
 
+}
 
-<div class="walletButtons">  
 
-  <button  
-    class="walletBtn depositBtn"  
-    onclick="openDeposit()">  
+/* =========================
+   LOAD USER DATA
+========================= */
 
-    ➕ Deposit  
+function loadUser(phone){
 
-  </button>  
+  let key = getUserKey(phone);
 
+  let savedData =
+    localStorage.getItem(key);
 
-  <button  
-    class="walletBtn withdrawBtn"  
-    onclick="openWithdraw()">  
+  if(savedData){
 
-    💸 Withdrawal  
+    let data =
+      JSON.parse(savedData);
 
-  </button>  
+    coins =
+      Number(data.coins);
 
-</div>  
+    joined =
+      Boolean(data.joined);
 
+  }else{
 
-<button  
-  class="coinBtn"  
-  onclick="freeCoins()">  
+    coins = 100;
+    joined = false;
 
-  🪙 + Free Coins  
+    saveUser();
 
-</button>  
+  }
 
+}
 
-<div class="notice">  
 
-  <b>Minimum Deposit:</b> ₹20  
+/* =========================
+   SAVE USER DATA
+========================= */
 
-  <br><br>  
+function saveUser(){
 
-  <b>Minimum Withdrawal:</b> ₹40  
+  if(!currentPhone){
+    return;
+  }
 
-</div>
+  let key =
+    getUserKey(currentPhone);
 
-  </div>    <!-- PROFILE -->    <div  
-    id="profilePage"  
-    class="page hidden">  <div class="profileCard">  
+  let data = {
 
-  <img  
-    src="IMG-20260902-WA0000.jpg"  
-    class="profileImg"  
-    onerror="this.style.display='none';">  
+    coins: coins,
+    joined: joined
 
-  <h2>  
-    Prince Player  
-  </h2>  
+  };
 
-  <p class="sub">  
+  localStorage.setItem(
+    key,
+    JSON.stringify(data)
+  );
 
-    Mobile:  
-    <span id="profilePhone"></span>  
+}
 
-  </p>  
 
-</div>  
+/* =========================
+   LOGIN
+========================= */
 
+function loginUser(){
 
-<div class="menuItem">  
+  let phone =
+    document.getElementById("phone").value.trim();
 
-  <span>  
-    🪙 My Coins  
-  </span>  
+  let password =
+    document.getElementById("password").value.trim();
 
-  <span id="profileCoins">  
-    100  
-  </span>  
+  if(phone.length !== 10){
 
-</div>  
+    alert("कृपया 10 अंकों का मोबाइल नंबर डालें।");
+    return;
 
+  }
 
-<div  
-  class="menuItem"  
-  onclick="showPage('wallet')"  
-  style="cursor:pointer;">  
+  if(password.length < 4){
 
-  <span>  
-    💰 Wallet  
-  </span>  
+    alert("पासवर्ड कम से कम 4 characters का रखें।");
+    return;
 
-  <span>  
-    ›  
-  </span>  
+  }
 
-</div>  
 
+  /* Current user set */
 
-<div class="menuItem">  
+  currentPhone = phone;
 
-  <span>  
-    🏆 My Battles  
-  </span>  
 
-  <span>  
-    ›  
-  </span>  
+  /* Saved coins load */
 
-</div>  
+  loadUser(phone);
 
 
-<button  
-  class="mainBtn"  
-  style="background:#dc2626"  
-  onclick="logoutUser()">  
+  document
+    .getElementById("loginPage")
+    .classList.add("hidden");
 
-  Logout  
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
 
-</button>
 
-  </div>    <!-- BOTTOM NAV -->    <div class="bottomNav">  <button  
-  class="navBtn active"  
-  id="navHome"  
-  onclick="showPage('home')">  
+  document
+    .getElementById("profilePhone")
+    .innerText = phone;
 
-  <span>🏠</span>  
-  Home  
 
-</button>  
+  updateCoins();
 
 
-<button  
-  class="navBtn"  
-  id="navTournament"  
-  onclick="showPage('tournament')">  
+  if(joined){
 
-  <span>🏆</span>  
-  Battle  
+    showBattle();
 
-</button>  
+  }
 
+}
 
-<button  
-  class="navBtn"  
-  id="navWallet"  
-  onclick="showPage('wallet')">  
 
-  <span>💰</span>  
-  Wallet  
+/* =========================
+   PAGES
+========================= */
 
-</button>  
+function showPage(page){
 
+  document
+    .getElementById("homePage")
+    .classList.add("hidden");
 
-<button  
-  class="navBtn"  
-  id="navProfile"  
-  onclick="showPage('profile')">  
+  document
+    .getElementById("tournamentPage")
+    .classList.add("hidden");
 
-  <span>👤</span>  
-  Profile  
+  document
+    .getElementById("walletPage")
+    .classList.add("hidden");
 
-</button>
+  document
+    .getElementById("profilePage")
+    .classList.add("hidden");
 
-  </div>  </div>  <!-- ================= JOIN MODAL ================= -->  <div  
-  id="joinModal"  
-  class="modal hidden">    <div class="modalBox">  <button  
-  class="close"  
-  onclick="closeModal()">  
 
-  ×  
+  document
+    .getElementById("navHome")
+    .classList.remove("active");
 
-</button>  
+  document
+    .getElementById("navTournament")
+    .classList.remove("active");
 
-<h2>  
-  🏆 Join 1v1  
-</h2>  
+  document
+    .getElementById("navWallet")
+    .classList.remove("active");
 
-<br>  
+  document
+    .getElementById("navProfile")
+    .classList.remove("active");
 
-<p>  
-  Tournament:  
-  <b>1v1 Custom</b>  
-</p>  
 
-<p style="margin-top:10px">  
+  if(page === "home"){
 
-  Entry:  
-  <b style="color:#facc15;">  
-    🪙 20 Coins  
-  </b>  
+    document
+      .getElementById("homePage")
+      .classList.remove("hidden");
 
-</p>  
+    document
+      .getElementById("navHome")
+      .classList.add("active");
 
-<p style="margin-top:10px">  
+  }
 
-  आपका Balance:  
-  <b style="color:#60a5fa;">  
 
-    🪙  
-    <span id="joinCoins">  
-      100  
-    </span>  
+  if(page === "tournament"){
 
-  </b>  
+    document
+      .getElementById("tournamentPage")
+      .classList.remove("hidden");
 
-</p>  
+    document
+      .getElementById("navTournament")
+      .classList.add("active");
 
-<button  
-  class="mainBtn"  
-  onclick="confirmJoin()">  
+  }
 
-  Join Confirm करें  
 
-</button>
+  if(page === "wallet"){
 
-  </div>  </div>  <!-- ================= DEPOSIT MODAL ================= -->  <div  
-  id
+    document
+      .getElementById("walletPage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navWallet")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "profile"){
+
+    document
+      .getElementById("profilePage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("navProfile")
+      .classList.add("active");
+
+  }
+
+}
+
+
+/* =========================
+   JOIN
+========================= */
+
+function openJoin(){
+
+  document
+    .getElementById("joinCoins")
+    .innerText = coins;
+
+  document
+    .getElementById("joinModal")
+    .classList.remove("hidden");
+
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("joinModal")
+    .classList.add("hidden");
+
+}
+
+
+function confirmJoin(){
+
+  if(coins < 20){
+
+    alert("आपके पास 20 Coins नहीं हैं।");
+
+    closeModal();
+
+    return;
+
+  }
+
+
+  /* 20 Coins कटेंगे */
+
+  coins -= 20;
+
+
+  joined = true;
+
+
+  /* IMPORTANT:
+     नया balance save होगा */
+
+  saveUser();
+
+
+  updateCoins();
+
+
+  closeModal();
+
+
+  showBattle();
+
+
+  alert(
+    "1v1 Custom में Join हो गया!\n\n" +
+    "20 Coins काटे गए।\n" +
+    "बाकी Balance: " +
+    coins +
+    " Coins"
+  );
+
+}
+
+
+/* =========================
+   BATTLE
+========================= */
+
+function showBattle(){
+
+  document
+    .getElementById("myBattle")
+    .innerHTML = `
+
+      <div class="gameCard">
+
+        <div class="gameTop">
+
+          <div class="gameName">
+            ⚔️ 1v1 Custom
+          </div>
+
+          <div class="badge">
+            JOINED
+          </div>
+
+        </div>
+
+        <p class="sub">
+          आपका Battle successfully join हो गया है।
+        </p>
+
+        <div class="roomBox">
+
+          <b>🎮 Room Details</b>
+
+          <div class="roomRow">
+
+            <div class="roomLabel">
+              Room ID
+            </div>
+
+            <div class="roomValue">
+              अभी उपलब्ध नहीं
+            </div>
+
+          </div>
+
+          <div class="roomRow">
+
+            <div class="roomLabel">
+              Password
+            </div>
+
+            <div class="roomValue">
+              अभी उपलब्ध नहीं
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="notice">
+
+          Room ID और Password admin द्वारा
+          match शुरू होने से पहले दिया जाएगा।
+
+        </div>
+
+      </div>
+
+    `;
+
+}
+
+
+/* =========================
+   COINS
+========================= */
+
+function updateCoins(){
+
+  document
+    .getElementById("topCoins")
+    .innerText = coins;
+
+  document
+    .getElementById("walletCoins")
+    .innerText = coins;
+
+  document
+    .getElementById("profileCoins")
+    .innerText = coins;
+
+}
+
+
+/* =========================
+   FREE COINS
+========================= */
+
+function freeCoins(){
+
+  coins += 10;
+
+  saveUser();
+
+  updateCoins();
+
+  alert(
+    "🎁 आपको 10 Free Coins मिले!\n\n" +
+    "अब Balance: " +
+    coins +
+    " Coins"
+  );
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutUser(){
+
+  /* Logout से पहले save */
+
+  saveUser();
+
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginPage")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("password")
+    .value = "";
+
+
+  document
+    .getElementById("phone")
+    .value = "";
+
+
+  currentPhone = "";
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+let seconds = 600;
+
+setInterval(function(){
+
+  let min =
+    Math.floor(seconds / 60);
+
+  let sec =
+    seconds % 60;
+
+  if(sec < 10){
+
+    sec = "0" + sec;
+
+  }
+
+  document
+    .getElementById("timer")
+    .innerText =
+      min + ":" + sec;
+
+
+  if(seconds > 0){
+
+    seconds--;
+
+  }
+
+},1000);
+
+</script>
+
+</body>
+        </html>
