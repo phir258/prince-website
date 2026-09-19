@@ -108,6 +108,12 @@ button{
   margin-top:10px;
 }
 
+.smallText{
+  color:#9ca3af;
+  font-size:13px;
+  margin-top:15px;
+}
+
 /* APP */
 #app{
   min-height:100vh;
@@ -217,14 +223,14 @@ button{
   width:100%;
   padding:13px;
   border-radius:10px;
-  background:#7c3aed;
+  background:#2563eb;
   color:white;
   font-size:16px;
   font-weight:bold;
 }
 
 .joinBtn:hover{
-  background:#6d28d9;
+  background:#1d4ed8;
 }
 
 /* TIMER */
@@ -320,6 +326,32 @@ button{
   font-size:22px;
   color:#c084fc;
   margin-top:5px;
+}
+
+/* COINS */
+.balanceBox{
+  background:linear-gradient(135deg,#854d0e,#164e63);
+  padding:25px;
+  border-radius:20px;
+  margin-bottom:15px;
+}
+
+.balance{
+  font-size:35px;
+  font-weight:bold;
+  margin-top:8px;
+  color:#facc15;
+}
+
+.coinBtn{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  background:#ca8a04;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:10px;
 }
 
 .notice{
@@ -445,31 +477,6 @@ button{
   font-size:25px;
 }
 
-.timeList{
-  max-height:300px;
-  overflow-y:auto;
-  margin-top:10px;
-}
-
-.timeItem{
-  background:#0b1220;
-  border:1px solid #26324d;
-  padding:12px;
-  border-radius:10px;
-  margin-top:8px;
-  display:flex;
-  justify-content:space-between;
-}
-
-.timeItem.activeTime{
-  border-color:#2563eb;
-  background:#172554;
-}
-
-.timeItem small{
-  color:#9ca3af;
-}
-
 @media(max-width:400px){
 
   .logoTitle{
@@ -510,6 +517,7 @@ button{
       id="phone"
       class="input"
       type="tel"
+      inputmode="numeric"
       maxlength="10"
       placeholder="मोबाइल नंबर डालें">
 
@@ -517,6 +525,7 @@ button{
       id="password"
       class="input"
       type="password"
+      minlength="4"
       placeholder="पासवर्ड डालें">
 
     <label class="rememberBox">
@@ -537,7 +546,12 @@ button{
 
     </button>
 
+    <p class="smallText">
+      Free Coins से खेलें
+    </p>
+
   </div>
+
 </div>
 
 
@@ -648,12 +662,14 @@ button{
 
     </div>
 
+
     <div id="depositBox" class="walletInfo hidden">
 
       <h3>💰 Deposit</h3>
 
       <p class="sub" style="margin:8px 0">
-        Minimum Deposit: <b style="color:#4ade80">₹20</b>
+        Minimum Deposit:
+        <b style="color:#4ade80">₹20</b>
       </p>
 
       <input
@@ -714,6 +730,7 @@ button{
         id="withdrawNumber"
         class="walletInput"
         type="tel"
+        inputmode="numeric"
         maxlength="10"
         placeholder="अपना 10 digit Mobile Number">
 
@@ -732,6 +749,41 @@ button{
         verification आवश्यक होगा।
 
       </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- COINS -->
+  <div id="coinsPage" class="page hidden">
+
+    <h2 class="sectionTitle">
+      🪙 My Coins
+    </h2>
+
+    <div class="balanceBox">
+
+      <div>Available Coins</div>
+
+      <div class="balance">
+        🪙 <span id="walletCoins">100</span>
+      </div>
+
+    </div>
+
+    <button
+      class="coinBtn"
+      onclick="freeCoins()">
+
+      + Free Coins
+
+    </button>
+
+    <div class="notice">
+
+      ये Coins केवल app के अंदर इस्तेमाल होने वाले
+      non-cash points हैं।
 
     </div>
 
@@ -762,7 +814,17 @@ button{
 
       <span>💜 Wallet Balance</span>
 
-      <span>₹<span id="profileBalance">0</span></span>
+      <span>
+        ₹<span id="profileBalance">0</span>
+      </span>
+
+    </div>
+
+    <div class="menuItem">
+
+      <span>🪙 My Coins</span>
+
+      <span id="profileCoins">100</span>
 
     </div>
 
@@ -821,6 +883,16 @@ button{
 
     <button
       class="navBtn"
+      id="navCoins"
+      onclick="showPage('coins')">
+
+      <span>🪙</span>
+      Coins
+
+    </button>
+
+    <button
+      class="navBtn"
       id="navProfile"
       onclick="showPage('profile')">
 
@@ -853,14 +925,21 @@ button{
 
     <p>
       Tournament:
-      <b id="selectedTournamentName">1v1 Custom</b>
+      <b id="selectedTournamentName">
+        1v1 Custom
+      </b>
     </p>
 
     <p style="margin-top:10px">
 
       Time:
-      <b style="color:#60a5fa" id="selectedTournamentTime">
+
+      <b
+        style="color:#60a5fa"
+        id="selectedTournamentTime">
+
         --
+
       </b>
 
     </p>
@@ -869,28 +948,30 @@ button{
 
       Entry:
 
-      <b style="color:#c084fc">
-        💜 ₹20 Wallet
+      <b style="color:#facc15">
+        🪙 20 Coins
       </b>
 
     </p>
 
     <p style="margin-top:10px">
 
-      आपका Wallet Balance:
+      आपका Balance:
 
-      <b style="color:#c084fc">
-        ₹<span id="joinWalletBalance">0</span>
+      <b style="color:#60a5fa">
+
+        🪙
+        <span id="joinCoins">100</span>
+
       </b>
 
     </p>
 
     <button
       class="mainBtn"
-      style="background:#7c3aed"
       onclick="confirmJoin()">
 
-      ₹20 देकर Join करें
+      Join Confirm करें
 
     </button>
 
@@ -906,16 +987,9 @@ button{
 ========================= */
 
 let currentPhone = "";
-
+let coins = 100;
 let joined = false;
-
 let walletBalance = 0;
-
-
-/* =========================
-   CURRENT TOURNAMENT
-========================= */
-
 let selectedTournament = null;
 
 
@@ -925,24 +999,24 @@ let selectedTournament = null;
 
 const roomDetails = {
 
-  "09:00": {
-    roomId: "12345678",
-    password: "PRINCE09"
+  "09:00":{
+    roomId:"12345678",
+    password:"PRINCE09"
   },
 
-  "09:15": {
-    roomId: "12345679",
-    password: "PRINCE0915"
+  "09:15":{
+    roomId:"12345679",
+    password:"PRINCE0915"
   },
 
-  "09:30": {
-    roomId: "12345680",
-    password: "PRINCE0930"
+  "09:30":{
+    roomId:"12345680",
+    password:"PRINCE0930"
   },
 
-  "09:45": {
-    roomId: "12345681",
-    password: "PRINCE0945"
+  "09:45":{
+    roomId:"12345681",
+    password:"PRINCE0945"
   }
 
 };
@@ -960,41 +1034,6 @@ function getUserKey(phone){
 
 
 /* =========================
-   LOAD USER
-========================= */
-
-function loadUser(phone){
-
-  let key =
-    getUserKey(phone);
-
-  let savedData =
-    localStorage.getItem(key);
-
-  if(savedData){
-
-    let data =
-      JSON.parse(savedData);
-
-    joined =
-      Boolean(data.joined);
-
-    walletBalance =
-      Number(data.walletBalance || 0);
-
-    selectedTournament =
-      data.tournament || null;
-
-    return data;
-
-  }
-
-  return null;
-
-}
-
-
-/* =========================
    SAVE USER
 ========================= */
 
@@ -1004,21 +1043,34 @@ function saveUser(){
     return;
   }
 
-  let key =
+  const key =
     getUserKey(currentPhone);
 
-  let oldData =
-    localStorage.getItem(key);
+  let oldUser = {};
 
-  let oldUser =
-    oldData
-      ? JSON.parse(oldData)
-      : {};
+  try{
 
-  let data = {
+    const oldData =
+      localStorage.getItem(key);
+
+    if(oldData){
+      oldUser = JSON.parse(oldData);
+    }
+
+  }catch(error){
+
+    oldUser = {};
+
+  }
+
+
+  const data = {
 
     password:
       oldUser.password || "",
+
+    coins:
+      coins,
 
     joined:
       joined,
@@ -1030,6 +1082,7 @@ function saveUser(){
       selectedTournament
 
   };
+
 
   localStorage.setItem(
     key,
@@ -1045,7 +1098,7 @@ function saveUser(){
 
 function loadRememberedLogin(){
 
-  let savedLogin =
+  const savedLogin =
     localStorage.getItem(
       "prince_remember_login"
     );
@@ -1054,10 +1107,12 @@ function loadRememberedLogin(){
     return;
   }
 
+
   try{
 
-    let data =
+    const data =
       JSON.parse(savedLogin);
+
 
     if(data.phone){
 
@@ -1067,6 +1122,7 @@ function loadRememberedLogin(){
 
     }
 
+
     if(data.password){
 
       document
@@ -1074,6 +1130,7 @@ function loadRememberedLogin(){
         .value = data.password;
 
     }
+
 
     document
       .getElementById("rememberLogin")
@@ -1094,60 +1151,74 @@ function loadRememberedLogin(){
 
 /* =========================
    LOGIN
+   MOBILE + PASSWORD
+   NO OTP
 ========================= */
 
 function loginUser(){
 
-  let phone =
+  const phone =
     document
       .getElementById("phone")
       .value
       .trim();
 
-  let password =
+  const password =
     document
       .getElementById("password")
       .value
       .trim();
 
-  let remember =
+  const remember =
     document
       .getElementById("rememberLogin")
       .checked;
 
-  if(phone.length !== 10){
+
+  /* MOBILE CHECK */
+
+  if(!/^\d{10}$/.test(phone)){
 
     alert(
-      "कृपया 10 अंकों का मोबाइल नंबर डालें।"
+      "❌ कृपया 10 अंकों का सही Mobile Number डालें।"
     );
 
     return;
 
   }
+
+
+  /* PASSWORD CHECK */
 
   if(password.length < 4){
 
     alert(
-      "पासवर्ड कम से कम 4 characters का रखें।"
+      "❌ पासवर्ड कम से कम 4 characters का रखें।"
     );
 
     return;
 
   }
 
-  let key =
+
+  const key =
     getUserKey(phone);
 
-  let savedData =
+  const savedData =
     localStorage.getItem(key);
 
 
-  /* NEW ACCOUNT */
+  /* =====================
+     NEW USER
+  ===================== */
 
   if(!savedData){
 
     currentPhone =
       phone;
+
+    coins =
+      100;
 
     joined =
       false;
@@ -1158,6 +1229,7 @@ function loginUser(){
     selectedTournament =
       null;
 
+
     localStorage.setItem(
 
       key,
@@ -1166,6 +1238,9 @@ function loginUser(){
 
         password:
           password,
+
+        coins:
+          100,
 
         joined:
           false,
@@ -1183,32 +1258,55 @@ function loginUser(){
   }
 
 
-  /* OLD ACCOUNT */
+  /* =====================
+     EXISTING USER
+  ===================== */
 
   else{
 
-    let data =
-      JSON.parse(savedData);
+    let data;
 
-    if(data.password !== password){
+    try{
+
+      data =
+        JSON.parse(savedData);
+
+    }
+
+    catch(error){
 
       alert(
-        "❌ गलत पासवर्ड!\n\n" +
-        "इस मोबाइल नंबर का सही पासवर्ड डालें।"
+        "❌ Account data में समस्या है।"
       );
 
       return;
 
     }
 
+
+    if(data.password !== password){
+
+      alert(
+        "❌ गलत पासवर्ड!\n\n" +
+        "इस Mobile Number का सही Password डालें।"
+      );
+
+      return;
+
+    }
+
+
     currentPhone =
       phone;
+
+    coins =
+      Number(data.coins ?? 100);
 
     joined =
       Boolean(data.joined);
 
     walletBalance =
-      Number(data.walletBalance || 0);
+      Number(data.walletBalance ?? 0);
 
     selectedTournament =
       data.tournament || null;
@@ -1216,7 +1314,9 @@ function loginUser(){
   }
 
 
-  /* REMEMBER */
+  /* =====================
+     REMEMBER
+  ===================== */
 
   if(remember){
 
@@ -1247,7 +1347,9 @@ function loginUser(){
   }
 
 
-  /* OPEN APP */
+  /* =====================
+     OPEN APP
+  ===================== */
 
   document
     .getElementById("loginPage")
@@ -1257,16 +1359,21 @@ function loginUser(){
     .getElementById("app")
     .classList.remove("hidden");
 
+
   document
     .getElementById("profilePhone")
     .innerText =
       phone;
 
+
+  updateCoins();
+
   updateWallet();
+
+  createTournamentList();
 
   showPage("home");
 
-  createTournamentList();
 
   if(joined){
 
@@ -1278,43 +1385,49 @@ function loginUser(){
 
 
 /* =========================
-   PAGES
+   PAGE NAVIGATION
 ========================= */
 
 function showPage(page){
 
-  document
-    .getElementById("homePage")
-    .classList.add("hidden");
+  const pages = [
 
-  document
-    .getElementById("tournamentPage")
-    .classList.add("hidden");
+    "homePage",
+    "tournamentPage",
+    "walletPage",
+    "coinsPage",
+    "profilePage"
 
-  document
-    .getElementById("walletPage")
-    .classList.add("hidden");
-
-  document
-    .getElementById("profilePage")
-    .classList.add("hidden");
+  ];
 
 
-  document
-    .getElementById("navHome")
-    .classList.remove("active");
+  const navs = [
 
-  document
-    .getElementById("navTournament")
-    .classList.remove("active");
+    "navHome",
+    "navTournament",
+    "navWallet",
+    "navCoins",
+    "navProfile"
 
-  document
-    .getElementById("navWallet")
-    .classList.remove("active");
+  ];
 
-  document
-    .getElementById("navProfile")
-    .classList.remove("active");
+
+  pages.forEach(function(id){
+
+    document
+      .getElementById(id)
+      .classList.add("hidden");
+
+  });
+
+
+  navs.forEach(function(id){
+
+    document
+      .getElementById(id)
+      .classList.remove("active");
+
+  });
 
 
   if(page === "home"){
@@ -1351,74 +1464,4 @@ function showPage(page){
 
     document
       .getElementById("navWallet")
-      .classList.add("active");
-
-  }
-
-
-  if(page === "profile"){
-
-    document
-      .getElementById("profilePage")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("navProfile")
-      .classList.add("active");
-
-  }
-
-}
-
-
-/* =========================
-   WALLET
-========================= */
-
-function updateWallet(){
-
-  document
-    .getElementById("topBalance")
-    .innerText =
-      walletBalance;
-
-  document
-    .getElementById("homeBalance")
-    .innerText =
-      walletBalance;
-
-  document
-    .getElementById("walletBalance")
-    .innerText =
-      walletBalance;
-
-  document
-    .getElementById("profileBalance")
-    .innerText =
-      walletBalance;
-
-}
-
-
-/* =========================
-   DEPOSIT BOX
-========================= */
-
-function openDeposit(){
-
-  document
-    .getElementById("depositBox")
-    .classList.remove("hidden");
-
-  document
-    .getElementById("withdrawBox")
-    .classList.add("hidden");
-
-}
-
-
-/* =========================
-   WITHDRAW BOX
-========================= */
-
-function op
+      .class
