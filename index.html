@@ -477,6 +477,31 @@ button{
   font-size:25px;
 }
 
+.timeList{
+  max-height:300px;
+  overflow-y:auto;
+  margin-top:10px;
+}
+
+.timeItem{
+  background:#0b1220;
+  border:1px solid #26324d;
+  padding:12px;
+  border-radius:10px;
+  margin-top:8px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.timeItem.activeTime{
+  border-color:#2563eb;
+  background:#172554;
+}
+
+.timeItem small{
+  color:#9ca3af;
+}
+
 @media(max-width:400px){
 
   .logoTitle{
@@ -597,63 +622,8 @@ button{
       🏆 Available Tournament
     </h2>
 
-    <div class="gameCard">
-
-      <div class="gameTop">
-
-        <div class="gameName">
-          ⚔️ 1v1 Custom
-        </div>
-
-        <div class="badge">
-          OPEN
-        </div>
-
-      </div>
-
-      <div class="infoGrid">
-
-        <div class="info">
-          <small>Entry</small>
-          🪙 20 Coins
-        </div>
-
-        <div class="info">
-          <small>Players</small>
-          1 vs 1
-        </div>
-
-        <div class="info">
-          <small>Mode</small>
-          Custom
-        </div>
-
-        <div class="info">
-          <small>Type</small>
-          Free Coins
-        </div>
-
-      </div>
-
-      <div class="timer">
-
-        शुरू होने में
-
-        <div class="timerValue" id="timer">
-          10:00
-        </div>
-
-      </div>
-
-      <button
-        class="joinBtn"
-        onclick="openJoin()">
-
-        🏆 20 Coins में Join करें
-
-      </button>
-
-    </div>
+    <!-- CURRENT TOURNAMENT -->
+    <div id="tournamentList"></div>
 
   </div>
 
@@ -973,7 +943,14 @@ button{
 
     <p>
       Tournament:
-      <b>1v1 Custom</b>
+      <b id="selectedTournamentName">1v1 Custom</b>
+    </p>
+
+    <p style="margin-top:10px">
+      Time:
+      <b style="color:#60a5fa" id="selectedTournamentTime">
+        --
+      </b>
     </p>
 
     <p style="margin-top:10px">
@@ -1022,6 +999,45 @@ let coins = 100;
 let joined = false;
 
 let walletBalance = 0;
+
+
+/* =========================
+   CURRENT TOURNAMENT
+========================= */
+
+let selectedTournament = null;
+
+
+/*
+  यहां हर Tournament का
+  Room ID और Password डाल सकते हैं।
+
+  अभी example दिया गया है।
+*/
+
+const roomDetails = {
+
+  "09:00": {
+    roomId: "12345678",
+    password: "PRINCE09"
+  },
+
+  "09:15": {
+    roomId: "12345679",
+    password: "PRINCE0915"
+  },
+
+  "09:30": {
+    roomId: "12345680",
+    password: "PRINCE0930"
+  },
+
+  "09:45": {
+    roomId: "12345681",
+    password: "PRINCE0945"
+  }
+
+};
 
 
 /* =========================
@@ -1103,7 +1119,10 @@ function saveUser(){
       joined,
 
     walletBalance:
-      walletBalance
+      walletBalance,
+
+    tournament:
+      selectedTournament
 
   };
 
@@ -1234,6 +1253,9 @@ function loginUser(){
     walletBalance =
       0;
 
+    selectedTournament =
+      null;
+
     localStorage.setItem(
 
       key,
@@ -1250,7 +1272,10 @@ function loginUser(){
           false,
 
         walletBalance:
-          0
+          0,
+
+        tournament:
+          null
 
       })
 
@@ -1288,6 +1313,9 @@ function loginUser(){
 
     walletBalance =
       Number(data.walletBalance || 0);
+
+    selectedTournament =
+      data.tournament || null;
 
   }
 
@@ -1343,6 +1371,8 @@ function loginUser(){
   updateWallet();
 
   showPage("home");
+
+  createTournamentList();
 
   if(joined){
 
@@ -1646,10 +1676,183 @@ function submitWithdraw(){
 
 
 /* =========================
+   TOURNAMENT TIME
+========================= */
+
+function formatTime(hour, minute){
+
+  let h = hour;
+
+  let suffix = h >= 12 ? "PM" : "AM";
+
+  let displayHour = h % 12;
+
+  if(displayHour === 0){
+    displayHour = 12;
+  }
+
+  let min =
+    minute.toString().padStart(2,"0");
+
+  return displayHour + ":" + min + " " + suffix;
+
+}
+
+
+/* =========================
+   CREATE 15 MIN TOURNAMENTS
+========================= */
+
+function createTournamentList(){
+
+  let box =
+    document.getElementById("tournamentList");
+
+  if(!box){
+    return;
+  }
+
+  let html = "";
+
+  for(
+    let total = 9 * 60;
+    total <= 19 * 60;
+    total += 15
+  ){
+
+    let hour =
+      Math.floor(total / 60);
+
+    let minute =
+      total % 60;
+
+    let time24 =
+      hour.toString().padStart(2,"0") +
+      ":" +
+      minute.toString().padStart(2,"0");
+
+    let displayTime =
+      formatTime(hour,minute);
+
+    let room =
+      roomDetails[time24];
+
+    let roomText =
+      room
+        ? "Room Ready"
+        : "Room बाद में मिलेगा";
+
+    html += `
+
+      <div class="gameCard">
+
+        <div class="gameTop">
+
+          <div class="gameName">
+            ⚔️ 1v1 Custom
+          </div>
+
+          <div class="badge">
+            OPEN
+          </div>
+
+        </div>
+
+        <div class="infoGrid">
+
+          <div class="info">
+
+            <small>Time</small>
+
+            🕐 ${displayTime}
+
+          </div>
+
+          <div class="info">
+
+            <small>Entry</small>
+
+            🪙 20 Coins
+
+          </div>
+
+          <div class="info">
+
+            <small>Players</small>
+
+            1 vs 1
+
+          </div>
+
+          <div class="info">
+
+            <small>Room</small>
+
+            ${roomText}
+
+          </div>
+
+        </div>
+
+        <div class="timer">
+
+          Tournament Time
+
+          <div class="timerValue">
+
+            ${displayTime}
+
+          </div>
+
+        </div>
+
+        <button
+          class="joinBtn"
+          onclick="openJoin('${time24}','${displayTime}')">
+
+          🏆 20 Coins में Join करें
+
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  box.innerHTML = html;
+
+}
+
+
+/* =========================
    JOIN
 ========================= */
 
-function openJoin(){
+function openJoin(time24, displayTime){
+
+  selectedTournament = {
+
+    time:
+      time24,
+
+    displayTime:
+      displayTime,
+
+    name:
+      "1v1 Custom"
+
+  };
+
+  document
+    .getElementById("selectedTournamentName")
+    .innerText =
+      "1v1 Custom";
+
+  document
+    .getElementById("selectedTournamentTime")
+    .innerText =
+      displayTime;
 
   document
     .getElementById("joinCoins")
@@ -1672,7 +1875,21 @@ function closeModal(){
 }
 
 
+/* =========================
+   CONFIRM JOIN
+========================= */
+
 function confirmJoin(){
+
+  if(!selectedTournament){
+
+    alert(
+      "कृपया पहले Tournament चुनें।"
+    );
+
+    return;
+
+  }
 
   if(coins < 20){
 
@@ -1698,9 +1915,15 @@ function confirmJoin(){
 
   showBattle();
 
+  showPage("tournament");
+
   alert(
 
-    "1v1 Custom में Join हो गया!\n\n" +
+    "🏆 Tournament में Join हो गया!\n\n" +
+
+    "Time: " +
+    selectedTournament.displayTime +
+    "\n\n" +
 
     "20 Coins काटे गए।\n" +
 
@@ -1721,6 +1944,42 @@ function confirmJoin(){
 
 function showBattle(){
 
+  let tournament =
+    selectedTournament;
+
+  if(!tournament){
+
+    document
+      .getElementById("myBattle")
+      .innerHTML = `
+
+        <div class="notice">
+          आपने अभी कोई Battle Join नहीं किया है।
+        </div>
+
+      `;
+
+    return;
+
+  }
+
+
+  let room =
+    roomDetails[tournament.time];
+
+
+  let roomId =
+    room
+      ? room.roomId
+      : "Admin द्वारा बाद में दिया जाएगा";
+
+
+  let password =
+    room
+      ? room.password
+      : "Admin द्वारा बाद में दिया जाएगा";
+
+
   document
     .getElementById("myBattle")
     .innerHTML = `
@@ -1740,8 +1999,21 @@ function showBattle(){
         </div>
 
         <p class="sub">
-          आपका Battle successfully join हो गया है।
+
+          आपका Battle successfully
+          join हो गया है।
+
         </p>
+
+        <div class="info">
+
+          <small>
+            Tournament Time
+          </small>
+
+          🕐 ${tournament.displayTime}
+
+        </div>
 
         <div class="roomBox">
 
@@ -1754,7 +2026,7 @@ function showBattle(){
             </div>
 
             <div class="roomValue">
-              अभी उपलब्ध नहीं
+              ${roomId}
             </div>
 
           </div>
@@ -1766,7 +2038,7 @@ function showBattle(){
             </div>
 
             <div class="roomValue">
-              अभी उपलब्ध नहीं
+              ${password}
             </div>
 
           </div>
@@ -1775,8 +2047,8 @@ function showBattle(){
 
         <div class="notice">
 
-          Room ID और Password admin द्वारा
-          match शुरू होने से पहले दिया जाएगा।
+          Room ID और Password इसी
+          Tournament के लिए दिखाया जा रहा है।
 
         </div>
 
@@ -1889,46 +2161,10 @@ window.addEventListener(
 
 
 /* =========================
-   TIMER
+   REFRESH TOURNAMENTS
 ========================= */
 
-let seconds = 600;
-
-setInterval(
-
-  function(){
-
-    let min =
-      Math.floor(
-        seconds / 60
-      );
-
-    let sec =
-      seconds % 60;
-
-    if(sec < 10){
-
-      sec =
-        "0" + sec;
-
-    }
-
-    document
-      .getElementById("timer")
-      .innerText =
-        min + ":" + sec;
-
-    if(seconds > 0){
-
-      seconds--;
-
-    }
-
-  },
-
-  1000
-
-);
+createTournamentList();
 
 </script>
 
