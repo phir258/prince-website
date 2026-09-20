@@ -307,9 +307,7 @@ button{
   color:white;
   font-size:16px;
   outline:none;
-}
-
-.paymentNumber{
+}.paymentNumber{
   background:#0b1220;
   border:1px dashed #a855f7;
   padding:15px;
@@ -442,26 +440,6 @@ button{
   background:none;
   color:white;
   font-size:25px;
-}
-
-.adminBox{
-  background:#111827;
-  border:1px solid #334155;
-  border-radius:18px;
-  padding:20px;
-  margin-top:20px;
-}
-
-.adminTitle{
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.adminSub{
-  color:#9ca3af;
-  font-size:14px;
-  margin-bottom:12px;
 }
 
 .adminBtn{
@@ -640,10 +618,7 @@ button{
 
       </div>
 
-    </div>
-
-
-    <div id="depositBox" class="walletInfo hidden">
+    </div><div id="depositBox" class="walletInfo hidden">
 
       <h3>💰 Deposit</h3>
 
@@ -731,7 +706,10 @@ button{
 
     </div>
 
-  </div><div id="profilePage" class="page hidden">
+  </div>
+
+
+  <div id="profilePage" class="page hidden">
 
     <div class="profileCard">
 
@@ -774,8 +752,11 @@ button{
     </div>
 
 
+    <!-- सिर्फ 3333333333 Admin ID को दिखेगा -->
+
     <div
-      class="menuItem"
+      id="adminWalletMenu"
+      class="menuItem hidden"
       onclick="openAdminWallet()"
       style="cursor:pointer">
 
@@ -972,15 +953,19 @@ button{
 
   </div>
 
-</div>
-
-
-<script>
+  </div><script>
 
 let currentPhone = "";
 let joined = false;
 let walletBalance = 0;
 let selectedTournament = null;
+
+
+/* =========================
+   ADMIN ID
+   ========================= */
+
+const ADMIN_ID = "3333333333";
 
 
 const roomDetails = {
@@ -1302,6 +1287,8 @@ function loginUser(){
         phone;
 
 
+    updateAdminVisibility();
+
     updateWallet();
 
     createTournamentList();
@@ -1319,6 +1306,27 @@ function loginUser(){
     );
 
     console.error(error);
+
+  }
+
+}
+
+
+function updateAdminVisibility(){
+
+  const adminMenu =
+    document.getElementById("adminWalletMenu");
+
+  if(!adminMenu) return;
+
+
+  if(currentPhone === ADMIN_ID){
+
+    adminMenu.classList.remove("hidden");
+
+  }else{
+
+    adminMenu.classList.add("hidden");
 
   }
 
@@ -1346,6 +1354,9 @@ function logoutUser(){
   document
     .getElementById("password")
     .value = "";
+
+
+  updateAdminVisibility();
 
 }
 
@@ -1436,6 +1447,8 @@ function showPage(page){
     document
       .getElementById("navProfile")
       .classList.add("active");
+
+    updateAdminVisibility();
 
   }
 
@@ -1615,10 +1628,7 @@ function formatTime(time){
 
   return hour + ":" + minute + " " + suffix;
 
-}
-
-
-function openJoin(time){
+}function openJoin(time){
 
   if(!currentPhone){
 
@@ -2001,12 +2011,27 @@ function submitWithdraw(){
     .getElementById("withdrawNumber")
     .value = "";
 
-}/* =========================
+}
+
+
+/* =========================
    ADMIN WALLET SYSTEM
+   सिर्फ 3333333333
    ========================= */
 
 
 function openAdminWallet(){
+
+  if(currentPhone !== ADMIN_ID){
+
+    alert(
+      "❌ Admin access केवल Admin account के लिए है।"
+    );
+
+    return;
+
+  }
+
 
   document
     .getElementById("adminModal")
@@ -2025,6 +2050,19 @@ function closeAdminWallet(){
 
 
 function sendWalletToUser(){
+
+  if(currentPhone !== ADMIN_ID){
+
+    alert(
+      "❌ आपको Admin Wallet इस्तेमाल करने की अनुमति नहीं है।"
+    );
+
+    closeAdminWallet();
+
+    return;
+
+  }
+
 
   const userId =
     document
