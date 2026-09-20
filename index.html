@@ -444,6 +444,37 @@ button{
   font-size:25px;
 }
 
+.adminBox{
+  background:#111827;
+  border:1px solid #334155;
+  border-radius:18px;
+  padding:20px;
+  margin-top:20px;
+}
+
+.adminTitle{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.adminSub{
+  color:#9ca3af;
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+.adminBtn{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  background:#16a34a;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:12px;
+}
+
 @media(max-width:400px){
   .logoTitle{font-size:25px;}
   .banner h1{font-size:24px;}
@@ -700,10 +731,7 @@ button{
 
     </div>
 
-  </div>
-
-
-  <div id="profilePage" class="page hidden">
+  </div><div id="profilePage" class="page hidden">
 
     <div class="profileCard">
 
@@ -723,6 +751,7 @@ button{
 
     </div>
 
+
     <div class="menuItem">
 
       <span>💜 Wallet Balance</span>
@@ -733,6 +762,7 @@ button{
 
     </div>
 
+
     <div
       class="menuItem"
       onclick="showPage('tournament')"
@@ -742,6 +772,18 @@ button{
       <span>›</span>
 
     </div>
+
+
+    <div
+      class="menuItem"
+      onclick="openAdminWallet()"
+      style="cursor:pointer">
+
+      <span>🔐 Admin Wallet</span>
+      <span>›</span>
+
+    </div>
+
 
     <button
       type="button"
@@ -874,6 +916,57 @@ button{
       onclick="confirmJoin()">
 
       ₹20 देकर Join करें
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<div id="adminModal" class="modal hidden">
+
+  <div class="modalBox">
+
+    <button
+      class="close"
+      onclick="closeAdminWallet()">
+
+      ×
+
+    </button>
+
+    <h2>🔐 Admin Wallet</h2>
+
+    <br>
+
+    <p style="color:#9ca3af;font-size:14px">
+
+      जिस User ID में Wallet जोड़ना है,
+      उसकी 10 digit ID डालें।
+
+    </p>
+
+    <input
+      id="adminUserId"
+      class="walletInput"
+      type="tel"
+      inputmode="numeric"
+      maxlength="10"
+      placeholder="User ID / Mobile Number">
+
+    <input
+      id="adminAmount"
+      class="walletInput"
+      type="number"
+      min="1"
+      placeholder="Wallet Amount">
+
+    <button
+      class="adminBtn"
+      onclick="sendWalletToUser()">
+
+      💰 Wallet में जोड़ें
 
     </button>
 
@@ -1346,7 +1439,10 @@ function showPage(page){
 
   }
 
-}function updateWallet(){
+}
+
+
+function updateWallet(){
 
   const top =
     document.getElementById("topBalance");
@@ -1905,6 +2001,139 @@ function submitWithdraw(){
     .getElementById("withdrawNumber")
     .value = "";
 
+}/* =========================
+   ADMIN WALLET SYSTEM
+   ========================= */
+
+
+function openAdminWallet(){
+
+  document
+    .getElementById("adminModal")
+    .classList.remove("hidden");
+
+}
+
+
+function closeAdminWallet(){
+
+  document
+    .getElementById("adminModal")
+    .classList.add("hidden");
+
+}
+
+
+function sendWalletToUser(){
+
+  const userId =
+    document
+      .getElementById("adminUserId")
+      .value
+      .replace(/\D/g,"")
+      .trim();
+
+
+  const amount =
+    Number(
+      document
+        .getElementById("adminAmount")
+        .value
+    );
+
+
+  if(!/^\d{10}$/.test(userId)){
+
+    alert(
+      "कृपया 10 अंकों की User ID डालें।"
+    );
+
+    return;
+
+  }
+
+
+  if(!amount || amount <= 0){
+
+    alert(
+      "कृपया सही Wallet Amount डालें।"
+    );
+
+    return;
+
+  }
+
+
+  const key =
+    getUserKey(userId);
+
+
+  const saved =
+    localStorage.getItem(key);
+
+
+  if(!saved){
+
+    alert(
+      "❌ इस ID का account नहीं मिला।\n\n" +
+      "पहले उस ID से account बनना चाहिए।"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const user =
+      JSON.parse(saved);
+
+
+    const oldBalance =
+      Number(user.walletBalance || 0);
+
+
+    const newBalance =
+      oldBalance + amount;
+
+
+    user.walletBalance =
+      newBalance;
+
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(user)
+    );
+
+
+    alert(
+      "✅ Wallet में Amount जोड़ दिया गया!\n\n" +
+      "User ID: " + userId + "\n" +
+      "Added: ₹" + amount + "\n" +
+      "Old Balance: ₹" + oldBalance + "\n" +
+      "New Balance: ₹" + newBalance
+    );
+
+
+    document
+      .getElementById("adminUserId")
+      .value = "";
+
+    document
+      .getElementById("adminAmount")
+      .value = "";
+
+
+  }catch(error){
+
+    alert(
+      "❌ User account का data सही नहीं है।"
+    );
+
+  }
+
 }
 
 
@@ -1923,5 +2152,3 @@ window.addEventListener(
 
 </body>
 </html>
-
-
