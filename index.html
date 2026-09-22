@@ -376,6 +376,36 @@ padding:10px;
 border-radius:10px;
 }
 
+.historyItem{
+background:#0b1220;
+border:1px solid #1e293b;
+border-radius:10px;
+padding:11px;
+margin-top:8px;
+font-size:13px;
+line-height:1.7;
+}
+
+.historyTitle{
+font-weight:bold;
+color:#60a5fa;
+}
+
+.historyDate{
+font-size:11px;
+color:#64748b;
+}
+
+.adminContact{
+background:#0b1220;
+border:1px solid #1e293b;
+border-radius:10px;
+padding:12px;
+margin-top:10px;
+font-size:13px;
+line-height:1.7;
+}
+
 .profileCard{
 background:#111827;
 border-radius:16px;
@@ -721,7 +751,6 @@ placeholder="Transaction ID">
 Submit Deposit
 </button>
 
-
 <div class="contactNotice">
 📞 Deposit करने के बाद <b>9297566392</b> पर Contact करें।<br>
 अपनी ID में Token/Coin Credit करवाने के लिए Contact करें।
@@ -749,10 +778,24 @@ placeholder="UPI ID">
 Request Withdraw
 </button>
 
-
 <div class="contactNotice">
 📞 Withdraw करने के बाद <b>9297566392</b> पर Contact करें।
 </div>
+
+</div>
+
+
+<!-- ================= HISTORY ================= -->
+
+<div class="walletInfo">
+
+<h3>📜 Joining History</h3>
+
+<p class="notice">
+आपकी अपनी Tournament Joining History.
+</p>
+
+<div id="historyList"></div>
 
 </div>
 
@@ -933,6 +976,14 @@ onclick="adminRemoveMoney()">
 ➖ Minus Money
 </button>
 
+
+<!-- ADMIN ONLY CONTACT LIST -->
+
+<div
+id="adminContacts"
+style="margin-top:15px;">
+</div>
+
 </div>
 </div>
 
@@ -1081,6 +1132,343 @@ return h+":"+m+" "+ap;
 }
 
 
+/* =========================
+   UID FORMAT
+========================= */
+
+function formatUID(uid){
+
+uid=String(uid||"").replace(/\D/g,"");
+
+if(uid.length===10){
+
+return uid.slice(0,3)+"-"+uid.slice(3,6)+"-"+uid.slice(6,10);
+
+}
+
+return uid;
+
+}
+
+
+/* =========================
+   HISTORY SYSTEM
+   MAXIMUM 20
+========================= */
+
+function getUserHistory(){
+
+if(!currentPhone){
+
+return [];
+
+}
+
+const key=getUserKey(currentPhone);
+
+let data={};
+
+try{
+
+data=
+JSON.parse(
+localStorage.getItem(key)
+)||{};
+
+}
+catch(e){
+
+data={};
+
+}
+
+return Array.isArray(data.history)
+?data.history
+:[];
+
+}
+
+
+function saveUserHistory(history){
+
+if(!currentPhone){
+
+return;
+
+}
+
+if(!Array.isArray(history)){
+
+history=[];
+
+}
+
+
+/*
+सबसे ज्यादा 20 History
+*/
+
+history=
+history.slice(0,20);
+
+
+const key=getUserKey(currentPhone);
+
+let data={};
+
+try{
+
+data=
+JSON.parse(
+localStorage.getItem(key)
+)||{};
+
+}
+catch(e){
+
+data={};
+
+}
+
+
+data.history=history;
+
+localStorage.setItem(
+key,
+JSON.stringify(data)
+);
+
+}
+
+
+/*
+नई History हमेशा सबसे ऊपर जाएगी.
+21वीं आने पर सबसे पुरानी हटेगी.
+*/
+
+function addJoiningHistory(tournament){
+
+if(!currentPhone){
+
+return;
+
+}
+
+
+const history=
+getUserHistory();
+
+
+const callNumber=
+document.getElementById(
+"joinCall"
+).value
+.replace(/\D/g,"");
+
+
+const uid=
+document.getElementById(
+"joinUid"
+).value
+.trim();
+
+
+const gameID=
+document.getElementById(
+"joinGameId"
+).value
+.trim();
+
+
+history.unshift({
+
+type:"joining",
+
+title:"⚔️ Tournament JOIN",
+
+name:tournament.name,
+
+date:tournament.date,
+
+time:tournament.time,
+
+uid:uid,
+
+gameID:gameID,
+
+callNumber:callNumber,
+
+entry:tournament.entry,
+
+prize:tournament.prize,
+
+createdAt:Date.now(),
+
+historyDate:new Date().toLocaleDateString("en-GB"),
+
+historyTime:new Date().toLocaleTimeString(
+"en-IN",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+)
+
+});
+
+
+/*
+सिर्फ latest 20
+*/
+
+if(history.length>20){
+
+history.splice(20);
+
+}
+
+
+saveUserHistory(history);
+
+renderHistory();
+
+}
+
+
+/* =========================
+   RENDER HISTORY
+========================= */
+
+function renderHistory(){
+
+const box=
+document.getElementById(
+"historyList"
+);
+
+
+if(!box){
+
+return;
+
+}
+
+
+const history=
+getUserHistory();
+
+
+if(history.length===0){
+
+box.innerHTML=`
+
+<div style="
+text-align:center;
+color:#64748b;
+padding:15px 5px;
+">
+
+अभी कोई Joining History नहीं है।
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+let html="";
+
+
+history.forEach(
+function(h,index){
+
+html+=`
+
+<div class="historyItem">
+
+<div class="historyTitle">
+
+${h.title || "⚔️ Tournament JOIN"}
+
+</div>
+
+<div>
+
+⚔️ ${h.name || "1v1 Custom"}
+
+</div>
+
+<div>
+
+📅 ${h.date || "-"}
+
+&nbsp; | &nbsp;
+
+🕐 ${formatTime(h.time || "00:00")}
+
+</div>
+
+<div>
+
+🎮 UID:
+<b style="color:#93c5fd;">
+${formatUID(h.uid || "N/A")}
+</b>
+
+</div>
+
+<div>
+
+🆔 Game ID:
+${h.gameID || "N/A"}
+
+</div>
+
+<div>
+
+📞 Your Call Number:
+<b style="color:#60a5fa;">
+${h.callNumber || "N/A"}
+</b>
+
+</div>
+
+<div>
+
+💰 Entry: ₹${h.entry || 20}
+
+&nbsp; | &nbsp;
+
+🏆 Prize: ₹${h.prize || 36}
+
+</div>
+
+<div class="historyDate">
+
+${h.historyDate || ""} ${h.historyTime || ""}
+
+</div>
+
+</div>
+
+`;
+
+}
+);
+
+
+box.innerHTML=html;
+
+}
+
+
+/* =========================
+   SAVE USER
+========================= */
+
 function saveUser(){
 
 if(!currentPhone)return;
@@ -1104,6 +1492,16 @@ old={};
 }
 
 
+/*
+पुरानी History को भी सुरक्षित रखें.
+*/
+
+const history=
+Array.isArray(old.history)
+?old.history.slice(0,20)
+:[];
+
+
 localStorage.setItem(
 key,
 JSON.stringify({
@@ -1114,13 +1512,19 @@ password:old.password || "",
 
 walletBalance:walletBalance,
 
-joinedBattles:joinedBattles
+joinedBattles:joinedBattles,
+
+history:history
 
 })
 );
 
 }
 
+
+/* =========================
+   LOGIN
+========================= */
 
 function loginUser(){
 
@@ -1187,7 +1591,9 @@ password:password,
 
 walletBalance:0,
 
-joinedBattles:[]
+joinedBattles:[],
+
+history:[]
 
 };
 
@@ -1269,10 +1675,13 @@ createTournamentList();
 
 showBattle();
 
+renderHistory();
+
 showPage("home");
 
-}
-
+}/* =========================
+   REMEMBER LOGIN
+========================= */
 
 window.addEventListener(
 "load",
@@ -1315,6 +1724,10 @@ catch(e){}
 );
 
 
+/* =========================
+   WALLET
+========================= */
+
 function updateWallet(){
 
 document.getElementById(
@@ -1334,7 +1747,10 @@ document.getElementById(
 ).innerText=
 walletBalance;
 
-}function showDeposit(){
+}
+
+
+function showDeposit(){
 
 document.getElementById(
 "depositBox"
@@ -1468,6 +1884,10 @@ alert(
 }
 
 
+/* =========================
+   ADMIN
+========================= */
+
 function updateAdminVisibility(){
 
 const menu=
@@ -1506,6 +1926,222 @@ return;
 document.getElementById(
 "adminModal"
 ).style.display="flex";
+
+
+renderAdminContacts();
+
+}
+
+
+/* =========================
+   ALL JOINED PLAYERS
+   ADMIN ONLY DATA
+========================= */
+
+function getAllJoinedPlayers(){
+
+const allUsers=[];
+
+
+for(
+let i=0;
+i<localStorage.length;
+i++
+){
+
+const key=
+localStorage.key(i);
+
+
+if(
+!key ||
+key.indexOf("prince_user_")!==0
+){
+
+continue;
+
+}
+
+
+try{
+
+const user=
+JSON.parse(
+localStorage.getItem(key)
+);
+
+
+if(
+!user ||
+!Array.isArray(
+user.joinedBattles
+)
+){
+
+continue;
+
+}
+
+
+user.joinedBattles.forEach(
+function(b){
+
+if(!b)return;
+
+if(isBattleExpired(b))return;
+
+allUsers.push({
+
+phone:user.phone || "",
+
+uid:b.uid || "",
+
+gameID:b.gameID || "",
+
+callNumber:b.callNumber || "",
+
+date:b.date || "",
+
+time:b.time || "",
+
+name:b.name || ""
+
+});
+
+}
+
+);
+
+}
+catch(e){}
+
+}
+
+
+return allUsers;
+
+}
+
+
+/* =========================
+   ADMIN CONTACT LIST
+========================= */
+
+function renderAdminContacts(){
+
+if(currentPhone!==ADMIN_ID){
+
+return;
+
+}
+
+
+const box=
+document.getElementById(
+"adminContacts"
+);
+
+
+if(!box){
+
+return;
+
+}
+
+
+const players=
+getAllJoinedPlayers();
+
+
+if(players.length===0){
+
+box.innerHTML=`
+
+<div class="roomBox"
+style="
+color:#94a3b8;
+text-align:center;
+">
+
+अभी कोई Active Joining नहीं है।
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+let html=`
+
+<div class="roomBox">
+
+<b>👑 Joined Players Contact</b>
+
+`;
+
+
+players.forEach(
+function(player,index){
+
+html+=`
+
+<div class="adminContact">
+
+<b>Player ${index+1}</b>
+
+<br>
+
+📱 User Mobile:
+<b style="color:#60a5fa;">
+${player.phone || "N/A"}
+</b>
+
+<br>
+
+🎮 UID:
+<b style="color:#60a5fa;">
+${formatUID(player.uid)}
+</b>
+
+<br>
+
+🆔 Game ID:
+${player.gameID || "N/A"}
+
+<br>
+
+📞 Contact Number:
+<b style="color:#60a5fa;">
+${player.callNumber || "N/A"}
+</b>
+
+<br>
+
+🕐 ${formatTime(player.time)}
+
+&nbsp; | &nbsp;
+
+📅 ${player.date}
+
+</div>
+
+`;
+
+}
+);
+
+
+html+=`
+
+</div>
+
+`;
+
+
+box.innerHTML=html;
 
 }
 
@@ -1763,6 +2399,10 @@ document.getElementById(
 }
 
 
+/* =========================
+   PAGE SYSTEM
+========================= */
+
 function showPage(page){
 
 document.getElementById(
@@ -1853,6 +2493,8 @@ document.getElementById(
 
 updateWallet();
 
+renderHistory();
+
 }
 
 
@@ -1875,7 +2517,10 @@ updateWallet();
 }
 
 
-/* सभी users की joining */
+/* =========================
+   ALL USERS JOINING
+   CALL NUMBER INTERNAL ONLY
+========================= */
 
 function getTournamentPlayers(time,date){
 
@@ -1959,6 +2604,10 @@ return allUsers;
 }
 
 
+/* =========================
+   JOIN CHECK
+========================= */
+
 function isBattleJoined(time,date){
 
 const checkDate=
@@ -1978,11 +2627,9 @@ b.time===time;
 }
 
 
-/*
-Joined Battle पुराने दिन का हो तो हटेगा.
-आज का Battle अपने समय के बाद हटेगा.
-कल का Battle active रहेगा.
-*/
+/* =========================
+   EXPIRED BATTLE
+========================= */
 
 function isBattleExpired(b){
 
@@ -2017,11 +2664,6 @@ return false;
 
 }
 
-
-/*
-जब अगला समय आ जाता है,
-पिछला Tournament/Battle हट जाएगा.
-*/
 
 return
 timeToMinutes(b.time)<now;
@@ -2062,26 +2704,9 @@ saveUser();
 
 }
 
-  }/*
-HOME TOURNAMENT SYSTEM
-
-Example:
-
-11:59 पर:
-11:45 नहीं दिखेगा
-12:00 और उसके बाद के Tournament दिखेंगे.
-
-12:00 पर:
-12:00 और उसके बाद के Tournament दिखेंगे.
-11:45 वाला हट जाएगा.
-
-12:15 पर:
-12:00 वाला हट जाएगा.
-12:15 और उसके बाद के Tournament दिखेंगे.
-
-आज के सारे Tournament निकल जाने के बाद
-कल का 09:00 AM सबसे ऊपर आएगा.
-*/
+   }/* =========================
+   TOURNAMENT LIST
+========================= */
 
 function createTournamentList(){
 
@@ -2109,21 +2734,6 @@ let displayDate=
 getTodayKey();
 
 
-/*
-सिर्फ वही Tournament दिखेंगे
-जिनका समय अभी आया नहीं है
-या जो इसी समय चल रहा है.
-
-जैसे:
-
-11:59 -> 12:00 दिखेगा
-12:00 -> 12:00 दिखेगा
-12:15 -> 12:15 दिखेगा
-
-इससे पिछला Tournament
-अगले Tournament के शुरू होते ही हट जाएगा.
-*/
-
 let availableTimes=
 times.filter(
 function(time){
@@ -2133,11 +2743,6 @@ return timeToMinutes(time)>=now;
 }
 );
 
-
-/*
-अगर आज के सभी Tournament निकल गए,
-तो कल के Tournament दिखाओ.
-*/
 
 if(
 availableTimes.length===0
@@ -2274,6 +2879,12 @@ players
 .map(
 function(player,index){
 
+/*
+IMPORTANT:
+Normal users को सिर्फ UID दिखेगा.
+Call Number यहाँ जानबूझकर नहीं दिखाया गया.
+*/
+
 return `
 
 <div class="playerRow">
@@ -2283,7 +2894,7 @@ Player ${index+1}
 </span>
 
 <span class="playerUid">
-UID: ${player.uid || "N/A"}
+UID: ${formatUID(player.uid)}
 </span>
 
 </div>
@@ -2365,6 +2976,10 @@ html;
 }
 
 
+/* =========================
+   OPEN JOIN
+========================= */
+
 function openJoin(time,date){
 
 const players=
@@ -2400,12 +3015,6 @@ return;
 
 }
 
-
-/*
-Past Tournament में JOIN नहीं कर सकते.
-Current Tournament और future Tournament
-में JOIN किया जा सकता है.
-*/
 
 if(
 date===getTodayKey() &&
@@ -2493,6 +3102,10 @@ document.getElementById(
 }
 
 
+/* =========================
+   CONFIRM JOIN
+========================= */
+
 function confirmJoin(){
 
 if(!selectedTournament){
@@ -2509,10 +3122,6 @@ selectedTournament.time;
 const date=
 selectedTournament.date;
 
-
-/*
-Past Tournament में JOIN बंद.
-*/
 
 if(
 date===getTodayKey() &&
@@ -2684,6 +3293,18 @@ callNumber:callNumber
 
 saveUser();
 
+
+/*
+JOINING HISTORY
+सिर्फ इसी logged-in user की History में जाएगा.
+दूसरे users का Call Number यहाँ नहीं दिखेगा.
+*/
+
+addJoiningHistory(
+selectedTournament
+);
+
+
 updateWallet();
 
 closeModal();
@@ -2715,6 +3336,10 @@ date
 }
 
 
+/* =========================
+   CLOSE JOIN
+========================= */
+
 function closeModal(){
 
 document.getElementById(
@@ -2724,7 +3349,15 @@ document.getElementById(
 
 selectedTournament=null;
 
-  }function showBattle(){
+}
+
+
+/* =========================
+   MY BATTLE
+   ONLY CURRENT USER DATA
+========================= */
+
+function showBattle(){
 
 removeExpiredBattles();
 
@@ -2762,12 +3395,6 @@ return false;
 
 }
 
-
-/*
-Current time आने तक Battle दिखेगा.
-अगला Tournament शुरू होते ही
-पिछला Battle हट जाएगा.
-*/
 
 return
 timeToMinutes(b.time)>=
@@ -2845,7 +3472,7 @@ html+=`
 <p>
 🎮 Your UID:
 <b style="color:#60a5fa;">
-${b.uid}
+${formatUID(b.uid)}
 </b>
 </p>
 
@@ -2855,7 +3482,7 @@ ${b.gameID}
 </p>
 
 <p>
-📞 Call Number:
+📞 Your Call Number:
 ${b.callNumber}
 </p>
 
@@ -2927,8 +3554,9 @@ Room ID / Password अभी उपलब्ध नहीं
 box.innerHTML=
 html;
 
-}
-
+   }/* =========================
+   LOGOUT
+========================= */
 
 function logoutUser(){
 
@@ -2958,6 +3586,10 @@ document.getElementById(
 }
 
 
+/* =========================
+   AUTO REFRESH
+========================= */
+
 setInterval(
 function(){
 
@@ -2973,6 +3605,17 @@ removeExpiredBattles();
 createTournamentList();
 
 showBattle();
+
+if(
+currentPhone===ADMIN_ID &&
+document.getElementById(
+"adminModal"
+).style.display==="flex"
+){
+
+renderAdminContacts();
+
+}
 
 },
 1000
