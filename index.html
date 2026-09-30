@@ -770,7 +770,48 @@ placeholder="Amount ₹">
 📞 Payment करने के बाद <b>9297566392</b> पर Contact करें।
 </div>
 
-</div><div id="profilePage" class="page" style="display:none;">
+</div>
+
+
+<div id="withdrawBox" class="walletInfo" style="display:none;">
+
+<h3>💸 Withdraw</h3>
+
+<input
+class="walletInput"
+id="withdrawAmount"
+type="number"
+placeholder="Amount ₹">
+
+<input
+class="walletInput"
+id="withdrawUpi"
+placeholder="UPI ID">
+
+<button class="confirmBtn" onclick="submitWithdraw()">
+Request Withdraw
+</button>
+
+<div class="contactNotice">
+📞 Withdraw करने के बाद <b>9297566392</b> पर Contact करें।
+</div>
+
+</div>
+
+
+<div class="walletInfo">
+
+<h3>📜 Joining History</h3>
+
+<p class="notice">
+आपकी अपनी Tournament Joining History.
+</p>
+
+<div id="historyList"></div>
+
+</div>
+
+     </div><div id="profilePage" class="page" style="display:none;">
 
 <div class="pageTitle">
 👤 Profile
@@ -1400,9 +1441,81 @@ function(h,index){
 
 html+=`
 
-<div class="historyItem/div>
+<div class="historyItem">
 
-   </div>/* SAVE USER */
+<div class="historyTitle">
+
+${h.title || "⚔️ Tournament JOIN"}
+
+</div>
+
+<div>
+
+⚔️ ${h.name || "1v1 Custom"}
+
+</div>
+
+<div>
+
+📅 ${h.date || "-"}
+
+&nbsp; | &nbsp;
+
+🕐 ${formatTime(h.time || "00:00")}
+
+</div>
+
+<div>
+
+🎮 UID:
+<b style="color:#93c5fd;">
+${formatUID(h.uid || "N/A")}
+</b>
+
+</div>
+
+<div>
+
+🆔 Game ID:
+${h.gameID || "N/A"}
+
+</div>
+
+<div>
+
+📞 Your Call Number:
+<b style="color:#60a5fa;">
+${h.callNumber || "N/A"}
+</b>
+
+</div>
+
+<div>
+
+💰 Entry: ₹${h.entry || 20}
+
+&nbsp; | &nbsp;
+
+🏆 Prize: ₹${h.prize || 36}
+
+</div>
+
+<div class="historyDate">
+
+${h.historyDate || ""} ${h.historyTime || ""}
+
+</div>
+
+</div>
+
+`;
+
+}
+);
+
+box.innerHTML=html;
+
+}/* SAVE USER */
 
 function saveUser(){
 
@@ -2430,7 +2543,7 @@ updateWallet();
 
 }
 
-   }/* ALL USERS JOINING */
+     }/* ALL USERS JOINING */
 
 function getTournamentPlayers(time,date){
 
@@ -2998,7 +3111,7 @@ document.getElementById(
 "joinModal"
 ).style.display="flex";
 
-   }/* CONFIRM JOIN */
+     }/* CONFIRM JOIN */
 
 function confirmJoin(){
 
@@ -3467,7 +3580,7 @@ document.getElementById(
 "password"
 ).value="";
 
-   }/* AUTO REFRESH */
+     }/* AUTO REFRESH */
 
 setInterval(
 function(){
