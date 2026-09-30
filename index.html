@@ -569,6 +569,26 @@ border-radius:10px;
 font-weight:bold;
 }
 
+.qrImage{
+width:100%;
+max-width:350px;
+display:block;
+margin:15px auto;
+border-radius:12px;
+background:white;
+padding:5px;
+}
+
+.upiBox{
+background:#0b1220;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+text-align:center;
+font-size:14px;
+line-height:1.7;
+}
+
 @media(max-width:400px){
 
 .page{
@@ -693,7 +713,10 @@ Available Tournaments
 
 <div id="myBattle"></div>
 
-</div><div id="walletPage" class="page" style="display:none;">
+</div>
+
+
+<div id="walletPage" class="page" style="display:none;">
 
 <div class="pageTitle">
 💰 My Wallet
@@ -729,80 +752,25 @@ Available Balance
 <h3>➕ Deposit</h3>
 
 <p class="notice">
-नीचे दिए नंबर पर Payment करें और Transaction ID भेजें।
+नीचे Amount डालें और Deposit करें।
 </p>
-
-<div class="paymentNumber">
-9241771196
-</div>
 
 <input
 class="walletInput"
 id="depositAmount"
 type="number"
+min="1"
 placeholder="Amount ₹">
-
-<input
-class="walletInput"
-id="transactionId"
-placeholder="Transaction ID">
 
 <button class="confirmBtn" onclick="submitDeposit()">
-Submit Deposit
+💰 Deposit करें
 </button>
 
 <div class="contactNotice">
-📞 Deposit करने के बाद <b>9297566392</b> पर Contact करें।<br>
-अपनी ID में Token/Coin Credit करवाने के लिए Contact करें।
+📞 Payment करने के बाद <b>9297566392</b> पर Contact करें।
 </div>
 
-</div>
-
-
-<div id="withdrawBox" class="walletInfo" style="display:none;">
-
-<h3>💸 Withdraw</h3>
-
-<input
-class="walletInput"
-id="withdrawAmount"
-type="number"
-placeholder="Amount ₹">
-
-<input
-class="walletInput"
-id="withdrawUpi"
-placeholder="UPI ID">
-
-<button class="confirmBtn" onclick="submitWithdraw()">
-Request Withdraw
-</button>
-
-<div class="contactNotice">
-📞 Withdraw करने के बाद <b>9297566392</b> पर Contact करें।
-</div>
-
-</div>
-
-
-<!-- ================= HISTORY ================= -->
-
-<div class="walletInfo">
-
-<h3>📜 Joining History</h3>
-
-<p class="notice">
-आपकी अपनी Tournament Joining History.
-</p>
-
-<div id="historyList"></div>
-
-</div>
-
-</div>
-
-
-<div id="profilePage" class="page" style="display:none;">
+</div><div id="profilePage" class="page" style="display:none;">
 
 <div class="pageTitle">
 👤 Profile
@@ -927,6 +895,85 @@ onclick="confirmJoin()">
 </div>
 
 
+<!-- =========================
+     DEPOSIT QR MODAL
+========================= -->
+
+<div id="qrModal" class="modal">
+
+<div class="modalBox">
+
+<span
+class="close"
+onclick="closeQR()">
+×
+</span>
+
+<h2>💰 Deposit Payment</h2>
+
+<div style="
+text-align:center;
+margin-top:15px;
+">
+
+<p style="
+color:#cbd5e1;
+margin-top:10px;
+">
+
+Payment Amount:
+<b style="color:#60a5fa;">
+₹<span id="qrAmount">0</span>
+</b>
+
+</p>
+
+
+<img
+src="qr-code.jpg"
+alt="Payment QR Code"
+class="qrImage">
+
+
+<div class="upiBox">
+
+<b>UPI ID</b><br>
+
+<span style="color:#60a5fa;font-weight:bold;">
+9241771196@ybl
+</span>
+
+</div>
+
+
+<div class="contactNotice">
+
+✅ ऊपर दिए QR Code से
+<b>₹<span id="qrAmount2">0</span></b>
+Payment करें।<br><br>
+
+📞 Payment करने के बाद
+<b>9297566392</b>
+पर Contact करें।
+
+</div>
+
+
+<button
+class="confirmBtn"
+onclick="closeQR()">
+
+✅ Payment कर दिया
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
 <div id="adminModal" class="modal">
 
 <div class="modalBox">
@@ -976,9 +1023,6 @@ onclick="adminRemoveMoney()">
 ➖ Minus Money
 </button>
 
-
-<!-- ADMIN ONLY CONTACT LIST -->
-
 <div
 id="adminContacts"
 style="margin-top:15px;">
@@ -1019,7 +1063,6 @@ password:"PRINCE0930"
 roomId:"12345681",
 password:"PRINCE0945"
 }
-
 };
 
 
@@ -1132,9 +1175,7 @@ return h+":"+m+" "+ap;
 }
 
 
-/* =========================
-   UID FORMAT
-========================= */
+/* UID FORMAT */
 
 function formatUID(uid){
 
@@ -1151,10 +1192,7 @@ return uid;
 }
 
 
-/* =========================
-   HISTORY SYSTEM
-   MAXIMUM 20
-========================= */
+/* HISTORY */
 
 function getUserHistory(){
 
@@ -1203,14 +1241,7 @@ history=[];
 
 }
 
-
-/*
-सबसे ज्यादा 20 History
-*/
-
-history=
-history.slice(0,20);
-
+history=history.slice(0,20);
 
 const key=getUserKey(currentPhone);
 
@@ -1230,7 +1261,6 @@ data={};
 
 }
 
-
 data.history=history;
 
 localStorage.setItem(
@@ -1241,11 +1271,6 @@ JSON.stringify(data)
 }
 
 
-/*
-नई History हमेशा सबसे ऊपर जाएगी.
-21वीं आने पर सबसे पुरानी हटेगी.
-*/
-
 function addJoiningHistory(tournament){
 
 if(!currentPhone){
@@ -1253,7 +1278,6 @@ if(!currentPhone){
 return;
 
 }
-
 
 const history=
 getUserHistory();
@@ -1317,10 +1341,6 @@ minute:"2-digit"
 });
 
 
-/*
-सिर्फ latest 20
-*/
-
 if(history.length>20){
 
 history.splice(20);
@@ -1335,9 +1355,7 @@ renderHistory();
 }
 
 
-/* =========================
-   RENDER HISTORY
-========================= */
+/* RENDER HISTORY */
 
 function renderHistory(){
 
@@ -1346,17 +1364,14 @@ document.getElementById(
 "historyList"
 );
 
-
 if(!box){
 
 return;
 
 }
 
-
 const history=
 getUserHistory();
-
 
 if(history.length===0){
 
@@ -1378,96 +1393,16 @@ return;
 
 }
 
-
 let html="";
-
 
 history.forEach(
 function(h,index){
 
 html+=`
 
-<div class="historyItem">
+<div class="historyItem/div>
 
-<div class="historyTitle">
-
-${h.title || "⚔️ Tournament JOIN"}
-
-</div>
-
-<div>
-
-⚔️ ${h.name || "1v1 Custom"}
-
-</div>
-
-<div>
-
-📅 ${h.date || "-"}
-
-&nbsp; | &nbsp;
-
-🕐 ${formatTime(h.time || "00:00")}
-
-</div>
-
-<div>
-
-🎮 UID:
-<b style="color:#93c5fd;">
-${formatUID(h.uid || "N/A")}
-</b>
-
-</div>
-
-<div>
-
-🆔 Game ID:
-${h.gameID || "N/A"}
-
-</div>
-
-<div>
-
-📞 Your Call Number:
-<b style="color:#60a5fa;">
-${h.callNumber || "N/A"}
-</b>
-
-</div>
-
-<div>
-
-💰 Entry: ₹${h.entry || 20}
-
-&nbsp; | &nbsp;
-
-🏆 Prize: ₹${h.prize || 36}
-
-</div>
-
-<div class="historyDate">
-
-${h.historyDate || ""} ${h.historyTime || ""}
-
-</div>
-
-</div>
-
-`;
-
-}
-);
-
-
-box.innerHTML=html;
-
-}
-
-
-/* =========================
-   SAVE USER
-========================= */
+   </div>/* SAVE USER */
 
 function saveUser(){
 
@@ -1491,16 +1426,10 @@ old={};
 
 }
 
-
-/*
-पुरानी History को भी सुरक्षित रखें.
-*/
-
 const history=
 Array.isArray(old.history)
 ?old.history.slice(0,20)
 :[];
-
 
 localStorage.setItem(
 key,
@@ -1522,9 +1451,7 @@ history:history
 }
 
 
-/* =========================
-   LOGIN
-========================= */
+/* LOGIN */
 
 function loginUser(){
 
@@ -1679,9 +1606,10 @@ renderHistory();
 
 showPage("home");
 
-}/* =========================
-   REMEMBER LOGIN
-========================= */
+}
+
+
+/* REMEMBER LOGIN */
 
 window.addEventListener(
 "load",
@@ -1724,9 +1652,7 @@ catch(e){}
 );
 
 
-/* =========================
-   WALLET
-========================= */
+/* WALLET */
 
 function updateWallet(){
 
@@ -1778,6 +1704,10 @@ document.getElementById(
 }
 
 
+/* =========================
+   DEPOSIT QR
+========================= */
+
 function submitDeposit(){
 
 const amount=
@@ -1788,16 +1718,10 @@ document.getElementById(
 );
 
 
-const tx=
-document.getElementById(
-"transactionId"
-).value.trim();
-
-
 if(!amount || amount<=0){
 
 alert(
-"Amount डालें"
+"पहले Deposit Amount डालें"
 );
 
 return;
@@ -1805,28 +1729,33 @@ return;
 }
 
 
-if(!tx){
+document.getElementById(
+"qrAmount"
+).innerText=amount;
 
-alert(
-"Transaction ID डालें"
-);
 
-return;
+document.getElementById(
+"qrAmount2"
+).innerText=amount;
+
+
+document.getElementById(
+"qrModal"
+).style.display="flex";
+
+}
+
+
+function closeQR(){
+
+document.getElementById(
+"qrModal"
+).style.display="none";
 
 }
 
 
-alert(
-
-"✅ Payment Submit हो गया है।\n\n"+
-"9241771196 पर Payment करने के बाद\n"+
-"9297566392 पर Contact करें।\n\n"+
-"अपनी ID में Token/Coin Credit करवाने के लिए Contact करें।"
-
-);
-
-}
-
+/* WITHDRAW */
 
 function submitWithdraw(){
 
@@ -1884,9 +1813,7 @@ alert(
 }
 
 
-/* =========================
-   ADMIN
-========================= */
+/* ADMIN */
 
 function updateAdminVisibility(){
 
@@ -1933,10 +1860,7 @@ renderAdminContacts();
 }
 
 
-/* =========================
-   ALL JOINED PLAYERS
-   ADMIN ONLY DATA
-========================= */
+/* ALL JOINED PLAYERS */
 
 function getAllJoinedPlayers(){
 
@@ -2023,9 +1947,7 @@ return allUsers;
 }
 
 
-/* =========================
-   ADMIN CONTACT LIST
-========================= */
+/* ADMIN CONTACT LIST */
 
 function renderAdminContacts(){
 
@@ -2146,9 +2068,7 @@ box.innerHTML=html;
 }
 
 
-/* =========================
-   ADMIN ADD MONEY
-========================= */
+/* ADMIN ADD MONEY */
 
 function adminAddMoney(){
 
@@ -2266,9 +2186,7 @@ document.getElementById(
 }
 
 
-/* =========================
-   ADMIN MINUS MONEY
-========================= */
+/* ADMIN MINUS MONEY */
 
 function adminRemoveMoney(){
 
@@ -2399,9 +2317,7 @@ document.getElementById(
 }
 
 
-/* =========================
-   PAGE SYSTEM
-========================= */
+/* PAGE SYSTEM */
 
 function showPage(page){
 
@@ -2514,13 +2430,7 @@ updateWallet();
 
 }
 
-}
-
-
-/* =========================
-   ALL USERS JOINING
-   CALL NUMBER INTERNAL ONLY
-========================= */
+   }/* ALL USERS JOINING */
 
 function getTournamentPlayers(time,date){
 
@@ -2604,9 +2514,7 @@ return allUsers;
 }
 
 
-/* =========================
-   JOIN CHECK
-========================= */
+/* JOIN CHECK */
 
 function isBattleJoined(time,date){
 
@@ -2627,9 +2535,7 @@ b.time===time;
 }
 
 
-/* =========================
-   EXPIRED BATTLE
-========================= */
+/* EXPIRED BATTLE */
 
 function isBattleExpired(b){
 
@@ -2704,9 +2610,10 @@ saveUser();
 
 }
 
-   }/* =========================
-   TOURNAMENT LIST
-========================= */
+}
+
+
+/* TOURNAMENT LIST */
 
 function createTournamentList(){
 
@@ -2879,12 +2786,6 @@ players
 .map(
 function(player,index){
 
-/*
-IMPORTANT:
-Normal users को सिर्फ UID दिखेगा.
-Call Number यहाँ जानबूझकर नहीं दिखाया गया.
-*/
-
 return `
 
 <div class="playerRow">
@@ -2976,9 +2877,7 @@ html;
 }
 
 
-/* =========================
-   OPEN JOIN
-========================= */
+/* OPEN JOIN */
 
 function openJoin(time,date){
 
@@ -3099,12 +2998,7 @@ document.getElementById(
 "joinModal"
 ).style.display="flex";
 
-}
-
-
-/* =========================
-   CONFIRM JOIN
-========================= */
+   }/* CONFIRM JOIN */
 
 function confirmJoin(){
 
@@ -3294,12 +3188,6 @@ callNumber:callNumber
 saveUser();
 
 
-/*
-JOINING HISTORY
-सिर्फ इसी logged-in user की History में जाएगा.
-दूसरे users का Call Number यहाँ नहीं दिखेगा.
-*/
-
 addJoiningHistory(
 selectedTournament
 );
@@ -3336,9 +3224,7 @@ date
 }
 
 
-/* =========================
-   CLOSE JOIN
-========================= */
+/* CLOSE JOIN */
 
 function closeModal(){
 
@@ -3352,10 +3238,7 @@ selectedTournament=null;
 }
 
 
-/* =========================
-   MY BATTLE
-   ONLY CURRENT USER DATA
-========================= */
+/* MY BATTLE */
 
 function showBattle(){
 
@@ -3554,9 +3437,10 @@ Room ID / Password अभी उपलब्ध नहीं
 box.innerHTML=
 html;
 
-   }/* =========================
-   LOGOUT
-========================= */
+}
+
+
+/* LOGOUT */
 
 function logoutUser(){
 
@@ -3583,12 +3467,7 @@ document.getElementById(
 "password"
 ).value="";
 
-}
-
-
-/* =========================
-   AUTO REFRESH
-========================= */
+   }/* AUTO REFRESH */
 
 setInterval(
 function(){
