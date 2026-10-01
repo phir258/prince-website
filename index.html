@@ -1,12 +1,699 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-...
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>Prince Battle Ground</title>
+
 <style>
-...
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+html,body{
+width:100%;
+min-height:100%;
+overflow-x:hidden;
+}
+
+body{
+background:#080b14;
+color:white;
+min-height:100vh;
+}
+
+button,input{
+font-size:16px;
+}
+
+button{
+border:0;
+cursor:pointer;
+}
+
+.loginPage{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:radial-gradient(circle at top,#172554,#080b14 60%);
+}
+
+.loginBox{
+width:100%;
+max-width:420px;
+background:#111827;
+padding:25px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.5);
+text-align:center;
+}
+
+.logo{
+width:100px;
+height:100px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #2563eb;
+margin-bottom:12px;
+}
+
+.logoTitle{
+font-size:30px;
+font-weight:bold;
+color:#60a5fa;
+}
+
+.sub{
+color:#9ca3af;
+margin:5px 0 25px;
+}
+
+.loginBox input{
+width:100%;
+padding:14px;
+margin:7px 0;
+border-radius:10px;
+border:1px solid #374151;
+background:#0b1220;
+color:white;
+outline:none;
+}
+
+.rememberBox{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:14px;
+color:#cbd5e1;
+margin:10px 0;
+}
+
+.rememberBox input{
+width:auto;
+margin:0;
+}
+
+.mainBtn{
+width:100%;
+padding:14px;
+border-radius:10px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+margin-top:8px;
+}
+
+#app{
+display:none;
+min-height:100vh;
+padding-bottom:75px;
+}
+
+.topbar{
+position:sticky;
+top:0;
+z-index:20;
+height:60px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 15px;
+background:#0f172a;
+border-bottom:1px solid #1e293b;
+}
+
+.brand{
+font-size:18px;
+font-weight:bold;
+color:#60a5fa;
+}
+
+.walletTop{
+background:#7c3aed;
+padding:8px 12px;
+border-radius:20px;
+font-weight:bold;
+}
+
+.page{
+width:100%;
+max-width:650px;
+margin:auto;
+padding:15px;
+}
+
+.pageTitle{
+font-size:22px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.banner{
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+border-radius:18px;
+padding:20px;
+margin-bottom:18px;
+}
+
+.banner h2{
+font-size:24px;
+margin-bottom:5px;
+}
+
+.banner p{
+color:#e0e7ff;
+font-size:14px;
+}
+
+.gameCard{
+background:#111827;
+border:1px solid #1f2937;
+border-radius:16px;
+padding:15px;
+margin-bottom:14px;
+}
+
+.gameTop{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:12px;
+}
+
+.gameName{
+font-size:18px;
+font-weight:bold;
+}
+
+.badge{
+padding:5px 9px;
+border-radius:15px;
+font-size:12px;
+font-weight:bold;
+background:#16a34a;
+}
+
+.badge.full{
+background:#dc2626;
+}
+
+.infoGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-bottom:12px;
+}
+
+.info{
+background:#0b1220;
+padding:10px;
+border-radius:9px;
+font-size:13px;
+color:#cbd5e1;
+}
+
+.info b{
+display:block;
+color:white;
+margin-top:3px;
+}
+
+.playerBox{
+background:#0b1220;
+border:1px solid #1e293b;
+border-radius:12px;
+padding:12px;
+margin:10px 0;
+}
+
+.playerCount{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:8px;
+}
+
+.playerCount strong{
+font-size:16px;
+}
+
+.playerCount span{
+font-weight:bold;
+color:#60a5fa;
+}
+
+.playerList{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.playerRow{
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#111827;
+border-radius:8px;
+padding:9px 10px;
+font-size:13px;
+}
+
+.playerRow.empty{
+color:#64748b;
+justify-content:center;
+border:1px dashed #334155;
+}
+
+.playerUid{
+color:#93c5fd;
+font-weight:bold;
+}
+
+.joinBtn{
+width:100%;
+padding:13px;
+border-radius:10px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+margin-top:5px;
+}
+
+.joinBtn:disabled{
+background:#374151;
+color:#9ca3af;
+cursor:not-allowed;
+}
+
+.timer{
+text-align:center;
+color:#fbbf24;
+font-size:13px;
+margin-top:8px;
+}
+
+.walletCard{
+background:linear-gradient(135deg,#581c87,#7c3aed);
+border-radius:18px;
+padding:20px;
+margin-bottom:15px;
+}
+
+.walletLabel{
+color:#ddd6fe;
+font-size:14px;
+}
+
+.walletAmount{
+font-size:32px;
+font-weight:bold;
+margin:5px 0 15px;
+}
+
+.walletButtons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.walletBtn{
+padding:12px;
+border-radius:10px;
+background:white;
+color:#111827;
+font-weight:bold;
+}
+
+.walletInfo{
+background:#111827;
+border-radius:14px;
+padding:15px;
+margin-top:15px;
+}
+
+.walletInput{
+width:100%;
+padding:13px;
+background:#0b1220;
+border:1px solid #374151;
+border-radius:10px;
+color:white;
+outline:none;
+margin-top:8px;
+}
+
+.paymentNumber{
+background:#0b1220;
+padding:12px;
+border-radius:10px;
+margin-top:8px;
+color:#93c5fd;
+font-weight:bold;
+}
+
+.notice{
+font-size:12px;
+color:#9ca3af;
+margin-top:10px;
+line-height:1.5;
+}
+
+.contactNotice{
+font-size:13px;
+color:#cbd5e1;
+margin-top:12px;
+line-height:1.6;
+background:#0b1220;
+padding:10px;
+border-radius:10px;
+}
+
+.historyItem{
+background:#0b1220;
+border:1px solid #1e293b;
+border-radius:10px;
+padding:11px;
+margin-top:8px;
+font-size:13px;
+line-height:1.7;
+}
+
+.historyTitle{
+font-weight:bold;
+color:#60a5fa;
+}
+
+.historyDate{
+font-size:11px;
+color:#64748b;
+}
+
+.adminContact{
+background:#0b1220;
+border:1px solid #1e293b;
+border-radius:10px;
+padding:12px;
+margin-top:10px;
+font-size:13px;
+line-height:1.7;
+}
+
+.profileCard{
+background:#111827;
+border-radius:16px;
+padding:20px;
+text-align:center;
+}
+
+.profileImg{
+width:85px;
+height:85px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #2563eb;
+}
+
+.profilePhone{
+margin-top:10px;
+font-size:17px;
+font-weight:bold;
+}
+
+.menuItem{
+background:#0b1220;
+padding:14px;
+border-radius:10px;
+margin-top:10px;
+text-align:left;
+cursor:pointer;
+}
+
+.battleItem{
+background:#111827;
+border-radius:15px;
+padding:15px;
+margin-bottom:12px;
+border:1px solid #1f2937;
+}
+
+.battleItem h3{
+margin-bottom:8px;
+}
+
+.battleItem p{
+font-size:13px;
+color:#cbd5e1;
+margin:5px 0;
+}
+
+.roomBox{
+background:#111827;
+border-radius:15px;
+padding:15px;
+margin-top:12px;
+}
+
+.roomRow{
+display:flex;
+justify-content:space-between;
+background:#0b1220;
+padding:11px;
+border-radius:8px;
+margin-top:7px;
+}
+
+.roomLabel{
+color:#9ca3af;
+}
+
+.roomValue{
+color:#60a5fa;
+font-weight:bold;
+}
+
+.bottomNav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:65px;
+background:#0f172a;
+border-top:1px solid #1e293b;
+display:flex;
+z-index:30;
+}
+
+.navBtn{
+flex:1;
+background:none;
+color:#94a3b8;
+font-size:12px;
+}
+
+.navBtn.active{
+color:#60a5fa;
+font-weight:bold;
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+z-index:100;
+align-items:center;
+justify-content:center;
+padding:15px;
+}
+
+.modalBox{
+width:100%;
+max-width:430px;
+background:#111827;
+border-radius:18px;
+padding:20px;
+max-height:90vh;
+overflow-y:auto;
+}
+
+.close{
+float:right;
+font-size:25px;
+color:#94a3b8;
+cursor:pointer;
+}
+
+.joinLabel{
+display:block;
+font-size:13px;
+color:#cbd5e1;
+margin-top:12px;
+}
+
+.joinInput{
+width:100%;
+padding:13px;
+margin-top:6px;
+background:#0b1220;
+border:1px solid #374151;
+border-radius:9px;
+color:white;
+outline:none;
+}
+
+.confirmBtn{
+width:100%;
+padding:13px;
+margin-top:15px;
+background:#16a34a;
+color:white;
+border-radius:10px;
+font-weight:bold;
+}
+
+.adminBtn{
+width:100%;
+padding:13px;
+margin-top:10px;
+background:#7c3aed;
+color:white;
+border-radius:10px;
+font-weight:bold;
+}
+
+@media(max-width:400px){
+
+.page{
+padding:12px;
+}
+
+.banner{
+padding:16px;
+}
+
+.banner h2{
+font-size:21px;
+}
+
+.gameCard{
+padding:12px;
+}
+
+.walletAmount{
+font-size:28px;
+}
+
+}
 </style>
 </head>
-<body><div id="walletPage" class="page" style="display:none;">
+
+<body>
+
+<div id="loginPage" class="loginPage">
+
+<div class="loginBox">
+
+<img src="IMG-20260902-WA0000.jpg" class="logo">
+
+<div class="logoTitle">PRINCE</div>
+
+<div class="sub">BATTLE GROUND</div>
+
+<input
+type="tel"
+id="phone"
+placeholder="10 Digit Mobile Number"
+maxlength="10"
+inputmode="numeric">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<label class="rememberBox">
+<input type="checkbox" id="remember">
+Number & Password याद रखें
+</label>
+
+<button class="mainBtn" onclick="loginUser()">
+LOGIN
+</button>
+
+<p style="font-size:12px;color:#9ca3af;margin-top:12px;">
+Free Coins से खेलें
+</p>
+
+</div>
+</div>
+
+
+<div id="app">
+
+<div class="topbar">
+
+<div class="brand">
+🎮 Prince Battle Ground
+</div>
+
+<div class="walletTop">
+₹<span id="topCoins">0</span>
+</div>
+
+</div>
+
+
+<div id="homePage" class="page">
+
+<div class="banner">
+<h2>🔥 1v1 Battle</h2>
+<p>हर 15 मिनट में नया Tournament</p>
+</div>
+
+
+<div style="
+margin-top:-8px;
+margin-bottom:15px;
+padding:10px;
+background:rgba(0,0,0,.25);
+border-radius:10px;
+font-size:13px;
+line-height:1.5;
+">
+
+⚠️ किसी भी तरह की Problem हो तो Contact करें
+<br>
+📞 <b>9297566392</b>
+
+</div>
+
+
+<div class="pageTitle">
+Available Tournaments
+</div>
+
+<div id="tournamentList"></div>
+
+</div>
+
+
+<div id="battlePage" class="page" style="display:none;">
+
+<div class="pageTitle">
+⚔️ My Battles
+</div>
+
+<div id="myBattle"></div>
+
+   </div><div id="walletPage" class="page" style="display:none;">
 
 <div class="pageTitle">
 💰 My Wallet
@@ -2017,7 +2704,7 @@ saveUser();
 
 }
 
-     }/* =========================
+   }/* =========================
    TOURNAMENT LIST
 ========================= */
 
@@ -2867,7 +3554,7 @@ Room ID / Password अभी उपलब्ध नहीं
 box.innerHTML=
 html;
 
-     }/* =========================
+   }/* =========================
    LOGOUT
 ========================= */
 
